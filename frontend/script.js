@@ -1,35 +1,10 @@
 const API_URL = "https://flightprice-sghf.onrender.com";
 
-// --- Theme Toggle Persistence ---
-const themeBtn = document.getElementById('theme-btn');
-const rootElement = document.documentElement;
-let currentTheme = localStorage.getItem('theme') || 'dark';
-
-function applyTheme(theme) {
-    if (theme === 'dark') {
-        rootElement.setAttribute('data-theme', 'dark');
-        themeBtn.innerHTML = '☀️ Light Mode';
-    } else {
-        rootElement.setAttribute('data-theme', 'light');
-        themeBtn.innerHTML = '🌙 Dark Mode';
-    }
-    localStorage.setItem('theme', theme);
-}
-applyTheme(currentTheme);
-
-if(themeBtn) {
-    themeBtn.addEventListener('click', () => {
-        currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        applyTheme(currentTheme);
-    });
-}
-
-// --- Exponential Fetch Handler (Resilient Networking) ---
 async function fetchWithRetry(url, options, retries = 5, onRetryClick) {
     let delay = 5000;
     for (let i = 0; i <= retries; i++) {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s absolute kill limit
+        const timeoutId = setTimeout(() => controller.abort(), 15000); 
 
         try {
             options.signal = controller.signal;
@@ -49,18 +24,13 @@ async function fetchWithRetry(url, options, retries = 5, onRetryClick) {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Initial Warm-up
-    fetch(`${API_URL}/test`, { method: "GET" }).catch(() => console.log("Warm-up ping active."));
-
-    // Pre-fill fields beautifully
     const dateInput = document.getElementById('date');
     if (dateInput) {
         const today = new Date();
         dateInput.value = today.toISOString().split('T')[0];
-        dateInput.min = today.toISOString().split('T')[0]; // Disable past dates natively
+        dateInput.min = today.toISOString().split('T')[0]; 
     }
 
-    // --- Complex ML Features & Prediction Block ---
     const form = document.getElementById('flight-form');
     if (form) {
         form.addEventListener('submit', async (e) => {
@@ -71,13 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const btnText = document.getElementById('btn-text');
             const resultContainer = document.getElementById('prediction-result');
             
-            // Nodes
             const priceDisplay = document.getElementById('price-display');
             const recDisplay = document.getElementById('recommendation-display');
-            const confNumber = document.getElementById('conf-number');
-            const confFillBar = document.getElementById('conf-fill-bar');
 
-            // Extraction & Hidden Auto-Calculation 
             const travelDate = new Date(document.getElementById('date').value);
             const todayDate = new Date();
             
@@ -105,21 +71,19 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             if(payload.source === payload.destination) {
-                alert("Source and Destination cannot be the same!");
+                alert("Source and Destination cannot be the same.");
                 return;
             }
 
-            // Lock UI
             btn.disabled = true;
             btnText.style.display = 'none';
-            loader.style.display = 'block';
+            if (loader) loader.style.display = 'block';
             resultContainer.style.display = 'none'; 
-            confFillBar.style.width = '0%'; // Reset
 
             const updateUIForRetry = (attempt, currentDelay, maxRetries) => {
                 btnText.style.display = 'block';
-                loader.style.display = 'none';
-                btnText.innerHTML = `Waking up server... (${attempt}/${maxRetries})`;
+                if (loader) loader.style.display = 'none';
+                btnText.innerHTML = `Connecting... (${attempt}/${maxRetries})`;
             };
 
             try {
@@ -129,43 +93,35 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(payload)
                 }, 5, updateUIForRetry);
                 
-                // Print UI Success
                 priceDisplay.textContent = data.predicted_price.toLocaleString('en-IN');
                 
                 recDisplay.textContent = data.recommendation;
-                recDisplay.className = 'badge';
-                if (data.recommendation.toLowerCase().includes("good")) recDisplay.classList.add('good');
-                else recDisplay.classList.add('wait');
+                recDisplay.className = 'insight';
+                if (data.recommendation.toLowerCase().includes("good")) recDisplay.classList.add('insight-good');
+                else recDisplay.classList.add('insight-wait');
 
-                // Animate Confidence Bar
-                const confidence = data.confidence || 0;
-                confNumber.textContent = confidence;
-                resultContainer.style.display = 'flex';
-                
-                // Allow exact reflow before animation slides it naturally
-                setTimeout(() => { confFillBar.style.width = `${confidence}%`; }, 100);
+                resultContainer.style.display = 'block';
 
             } catch (error) {
                 console.error("Prediction Failed:", error);
-                alert("Server is unconditionally unreachable at this exact moment.");
+                alert("System offline. Please try again later.");
             } finally {
                 btn.disabled = false;
-                loader.style.display = 'none';
+                if (loader) loader.style.display = 'none';
                 btnText.style.display = 'block';
-                btnText.innerHTML = `Predict Now`;
+                btnText.innerHTML = `Predict Price`;
             }
         });
     }
 
-    // --- Chatbot Hooking ---
     const chatWindow = document.getElementById('chat-window');
     const chatInput = document.getElementById('chat-input');
     const sendChatBtn = document.getElementById('send-chat');
 
     function addMessage(msg, type) {
         const wrapper = document.createElement('div');
-        wrapper.className = `chat-message ${type}`;
-        wrapper.innerHTML = `<div class="msg-bubble">${msg}</div>`; 
+        wrapper.className = `chat-bubble ${type}`;
+        wrapper.innerHTML = msg; 
         chatWindow.appendChild(wrapper);
         chatWindow.scrollTop = chatWindow.scrollHeight;
         return wrapper;
@@ -179,19 +135,18 @@ document.addEventListener('DOMContentLoaded', () => {
         chatInput.value = '';
         sendChatBtn.disabled = true;
 
-        const tempBubbleWrapper = addMessage('<i>typing...</i>', 'bot');
-        const bubbleText = tempBubbleWrapper.querySelector('.msg-bubble');
+        const tempBubble = addMessage('...', 'bot');
 
         try {
             const data = await fetchWithRetry(`${API_URL}/chat`, {
                 method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: msg })
-            }, 5, (a, d, m) => { bubbleText.innerHTML = `<i>Server waking... (${a}/${m})</i>`; });
+            }, 5, (a, d, m) => { tempBubble.innerHTML = `Connecting (${a}/${m})...`; });
             
-            tempBubbleWrapper.remove();
+            tempBubble.remove();
             addMessage(data.reply, 'bot');
         } catch (err) {
-            tempBubbleWrapper.remove();
-            addMessage("⚠️ Server offline.", 'bot');
+            tempBubble.remove();
+            addMessage("Unable to process request.", 'bot');
         } finally {
             sendChatBtn.disabled = false;
         }
