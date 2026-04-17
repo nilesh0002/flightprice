@@ -25,7 +25,7 @@ const SendIcon = () => (
 );
 
 export default function App() {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
   const [formData, setFormData] = useState({
     origin: 'Delhi',
     destination: 'Mumbai',
@@ -45,7 +45,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [chatMessage, setChatMessage] = useState('');
   const [messages, setMessages] = useState([
-    { role: 'ai', text: 'Intelligence initialized. State travel parameters for a predictive market analysis.' }
+    { role: 'ai', text: 'Intelligence initialized. Explore the market trends in a clean, high-clarity environment.' }
   ]);
 
   const cities = ['Delhi', 'Mumbai', 'Bangalore', 'Kolkata', 'Chennai', 'Hyderabad', 'Ahmedabad', 'Pune', 'Goa', 'Jaipur'];
