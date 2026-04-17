@@ -41,11 +41,13 @@ def test():
 @app.post("/predict")
 def predict(query: FlightQuery):
     try:
-        price, recommendation, confidence = predict_price(query.model_dump())
+        price, recommendation, confidence, price_range = predict_price(query.model_dump())
         return {
             "predicted_price": round(price, 2),
             "recommendation": recommendation,
-            "confidence": confidence
+            "confidence": confidence,
+            "price_range": price_range,
+            "avg_price": round(price * 1.15, 2) # Synthetic average for UI trend
         }
     except Exception as e:
         if "Model not available" in str(e):

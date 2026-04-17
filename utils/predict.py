@@ -56,11 +56,19 @@ def predict_price(flight_data: dict):
         confidence = max(0, min(100, 100 - (std_dev / price * 200)))
         
         average_price = 3000 + (flight_data['total_stops'] * 1500) + (flight_data['duration_minutes'] * 5)
+        
+        if price < 5000:
+            price_range = "Low"
+        elif price < 10000:
+            price_range = "Medium"
+        else:
+            price_range = "High"
+
         if price <= average_price + 200 or flight_data['days_left'] < 5:
             recommendation = "Good time to book! 🚀 Avoid surge pricing."
         else:
             recommendation = "Prices may increase. Wait for dynamic pricing drops."
             
-        return price, recommendation, round(confidence, 1)
+        return price, recommendation, round(confidence, 1), price_range
     except Exception as e:
         raise RuntimeError(f"Prediction error: {str(e)}")
