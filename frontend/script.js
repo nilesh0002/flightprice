@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 destination: document.getElementById('destination').value,
                 date: document.getElementById('date').value,
                 airline: document.getElementById('airline').value,
-                stops: parseInt(document.getElementById('stops').value),
-                duration: parseInt(document.getElementById('duration').value)
+                total_stops: parseInt(document.getElementById('total_stops').value),
+                duration_minutes: parseInt(document.getElementById('duration_minutes').value)
             };
 
             if(payload.source === payload.destination) {

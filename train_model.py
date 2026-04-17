@@ -1,78 +1,67 @@
 import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import joblib
 import random
 from datetime import datetime, timedelta
+import os
 
-print("Generating synthetic dataset...")
-np.random.seed(42)
-n_samples = 2000
+def generate_and_train():
+    print("Generating synthetic dataset (flight_data.csv)...")
+    np.random.seed(42)
+    n_samples = 1500
 
-airlines = ['IndiGo', 'Air India', 'Vistara', 'SpiceJet']
-sources = ['Delhi', 'Mumbai', 'Bangalore', 'Kolkata', 'Chennai']
-destinations = ['Mumbai', 'Delhi', 'Bangalore', 'Chennai', 'Kolkata']
+    airlines = ['IndiGo', 'Air India', 'Vistara', 'SpiceJet', 'Jet Airways']
+    sources = ['Delhi', 'Mumbai', 'Bangalore', 'Kolkata', 'Chennai']
+    destinations = ['Mumbai', 'Delhi', 'Bangalore', 'Chennai', 'Kolkata']
 
-# Ensure source and destination are not identical
-routes = []
-for _ in range(n_samples):
-    s = np.random.choice(sources)
-    d = np.random.choice(destinations)
-    while s == d:
-         d = np.random.choice(destinations)
-    routes.append((s, d))
+    routes = []
+    for _ in range(n_samples):
+        s = np.random.choice(sources)
+        d = np.random.choice(destinations)
+        while s == d:
+             d = np.random.choice(destinations)
+        routes.append((s, d))
 
-start_date = datetime(2024, 1, 1)
-dates = [(start_date + timedelta(days=random.randint(0, 365))).strftime('%Y-%m-%d') for _ in range(n_samples)]
+    start_date = datetime(2024, 1, 1)
+    dates = [(start_date + timedelta(days=random.randint(0, 365))) for _ in range(n_samples)]
 
-data = {
-    'Airline': np.random.choice(airlines, n_samples),
-    'Source': [r[0] for r in routes],
-    'Destination': [r[1] for r in routes],
-    'Date': dates,
-    'Total_Stops': np.random.choice([0, 1, 2], n_samples),
-    'Duration': np.random.randint(120, 800, n_samples)
-}
+    data = {
+        'airline': np.random.choice(airlines, n_samples),
+        'source': [r[0] for r in routes],
+        'destination': [r[1] for r in routes],
+        'total_stops': np.random.choice([0, 1, 2], n_samples),
+        'journey_day': [d.day for d in dates],
+        'journey_month': [d.month for d in dates],
+        'duration_minutes': np.random.randint(60, 800, n_samples)
+    }
 
-df = pd.DataFrame(data)
+    df = pd.DataFrame(data)
 
-# Preprocessing to match the API logic
-df['Day'] = pd.to_datetime(df['Date']).dt.day
-df['Month'] = pd.to_datetime(df['Date']).dt.month
-df.drop(['Date'], axis=1, inplace=True)
+    # Realistic price = base + stops*1500 + duration*5 + noise
+    df['price'] = 3000 + df['total_stops']*1500 + df['duration_minutes']*5 + np.random.normal(0, 500, n_samples)
+    df['price'] = np.where(df['price'] < 2000, 2000, df['price']) # Price floor
+    
+    # Save the required CSV
+    df.to_csv('flight_data.csv', index=False)
+    print("dataset saved to flight_data.csv")
 
-df = pd.get_dummies(df, columns=['Airline', 'Source', 'Destination'], drop_first=True)
+    df_encoded = pd.get_dummies(df, columns=['airline', 'source', 'destination'], drop_first=True)
 
-# Generate realistic prices based on features roughly
-# Base fare + Stops cost + Duration cost + Noise
-df['Price'] = 3000 + df['Total_Stops']*1500 + df['Duration']*3 + np.random.normal(0, 800, n_samples)
-df['Price'] = np.where(df['Price'] < 2000, 2000, df['Price'])
+    X = df_encoded.drop('price', axis=1)
+    y = df_encoded['price']
 
-X = df.drop('Price', axis=1)
-y = df['Price']
+    print("Training Random Forest Regressor...")
+    model = RandomForestRegressor(n_estimators=50, random_state=42)
+    model.fit(X, y)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    # Save model and feature columns
+    model_data = {
+        'model': model,
+        'columns': X.columns.tolist()
+    }
+    joblib.dump(model_data, 'model.pkl')
+    print("Model saved to model.pkl successfully.")
 
-print("Training Random Forest Regressor...")
-model = RandomForestRegressor(n_estimators=100, random_state=42)
-model.fit(X_train, y_train)
-
-y_pred = model.predict(X_test)
-mae = mean_absolute_error(y_test, y_pred)
-rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-r2 = r2_score(y_test, y_pred)
-
-print(f"\nModel Evaluation Metrics:")
-print(f"MAE: ₹{mae:.2f}")
-print(f"RMSE: ₹{rmse:.2f}")
-print(f"R²: {r2:.3f}\n")
-
-# Save the model and columns expected
-model_data = {
-    'model': model,
-    'columns': X_train.columns.tolist()
-}
-joblib.dump(model_data, 'model.pkl')
-print("Model strictly saved as 'model.pkl'")
+if __name__ == "__main__":
+    generate_and_train()

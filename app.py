@@ -6,7 +6,6 @@ from chatbot.rule_bot import get_chat_response
 
 app = FastAPI(title="AI Flight Predictor & Chat")
 
-# Configure CORS for all origins, required since frontend may run from Vercel or locally
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -20,8 +19,8 @@ class FlightQuery(BaseModel):
     destination: str
     date: str
     airline: str
-    stops: int
-    duration: int = 120
+    total_stops: int
+    duration_minutes: int = 120
 
 class ChatQuery(BaseModel):
     message: str
@@ -29,6 +28,10 @@ class ChatQuery(BaseModel):
 @app.get("/")
 def root():
     return {"message": "AI Flight Predictor API is running."}
+
+@app.get("/test")
+def test_route():
+    return {"message": "Backend working"}
 
 @app.post("/predict")
 def predict(query: FlightQuery):

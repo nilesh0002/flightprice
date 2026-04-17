@@ -33,18 +33,15 @@ def get_chat_response(message: str) -> str:
                     "destination": destination,
                     "date": date,
                     "airline": "IndiGo",
-                    "stops": 0,
-                    "duration": 150
+                    "total_stops": 0,
+                    "duration_minutes": 150
                 }
                 
                 try:
                     price, rec = predict_price(flight_data)
-                    if price > 0:
-                        return f"Found flights from {source} to {destination} on {date}. Predicted price is starting at ₹{round(price, 2)}. {rec}"
-                    else:
-                        return "I see you're looking for flights, but our model is currently not trained. Please run 'train_model.py'."
+                    return f"Found flights from {source} to {destination} on {date}. Predicted price is starting at ₹{round(price, 2)}. {rec}"
                 except Exception as e:
-                    return f"Sorry, I couldn't get a price for that route. Please try using the detailed form above."
+                    return f"Sorry, I couldn't get a price for that route. Please try using the detailed form above. Error: {str(e)}"
     
     if "book tickets" in msg or "book a flight" in msg or "should i book" in msg:
         return "I suggest you enter your exact travel details in the prediction form above to see if it's a good time to book based on our latest price projections."

@@ -2,14 +2,12 @@ import pandas as pd
 
 def preprocess_input(data: dict, model_columns: list) -> pd.DataFrame:
     dt = pd.to_datetime(data['date'])
-    day = dt.day
-    month = dt.month
     
     input_data = {
-        'Total_Stops': [data['stops']],
-        'Duration': [data['duration']],
-        'Day': [day],
-        'Month': [month]
+        'total_stops': [data['total_stops']],
+        'journey_day': [dt.day],
+        'journey_month': [dt.month],
+        'duration_minutes': [data['duration_minutes']]
     }
     
     df = pd.DataFrame(input_data)
@@ -18,14 +16,15 @@ def preprocess_input(data: dict, model_columns: list) -> pd.DataFrame:
         if col not in df.columns:
             df[col] = 0
             
-    airline_col = f"Airline_{data['airline']}"
-    source_col = f"Source_{data['source']}"
-    dest_col = f"Destination_{data['destination']}"
+    airline_col = f"airline_{data['airline']}"
+    source_col = f"source_{data['source']}"
+    dest_col = f"destination_{data['destination']}"
     
     if airline_col in df.columns: df[airline_col] = 1
     if source_col in df.columns: df[source_col] = 1
     if dest_col in df.columns: df[dest_col] = 1
     
+    # Ensure correct column order
     df = df[model_columns]
     
     return df
