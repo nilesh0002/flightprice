@@ -278,7 +278,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function addMessage(msg, type) {
         const wrapper = document.createElement('div');
         wrapper.className = `chat-bubble ${type}`;
-        wrapper.innerHTML = msg; 
+        wrapper.innerHTML = msg;
+        chatWindow.appendChild(wrapper);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+        return wrapper;
+    }
+
+    function addLoadingBubble() {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'chat-bubble bot loading';
+        wrapper.innerHTML = '<span class="loader"></span> Typing...';
         chatWindow.appendChild(wrapper);
         chatWindow.scrollTop = chatWindow.scrollHeight;
         return wrapper;
@@ -292,13 +301,12 @@ document.addEventListener('DOMContentLoaded', () => {
         chatInput.value = '';
         sendChatBtn.disabled = true;
 
-        const tempBubble = addMessage('...', 'bot');
+        const tempBubble = addLoadingBubble();
 
         try {
             const data = await fetchWithRetry(`${API_URL}/chat`, {
                 method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: msg })
-            }, 5, (a, d, m) => { tempBubble.innerHTML = `Connecting (${a}/${m})...`; });
-            
+            }, 5, (a, d, m) => { tempBubble.innerHTML = `<span class="loader"></span> Connecting (${a}/${m})...`; });
             tempBubble.remove();
             addMessage(data.reply, 'bot');
         } catch (err) {
