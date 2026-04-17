@@ -3,6 +3,30 @@
 // For Render deployment, change this to your render URL and redeploy Vercel.
 const API_URL = "https://flightprice-api.onrender.com";
 
+// Helper function to handle fetch with retries for Render cold starts
+async function fetchWithRetry(url, options, retries = 3, delay = 5000) {
+    for (let i = 0; i <= retries; i++) {
+        try {
+            console.log(`[Frontend Debug] Sending request to: ${url}`);
+            const response = await fetch(url, options);
+            console.log(`[Frontend Debug] Received response status: ${response.status}`);
+            
+            if (!response.ok) {
+                throw new Error(`Server returned ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log(`[Frontend Debug] Response payload:`, data);
+            return data;
+        } catch (error) {
+            console.error(`[Frontend Debug] Attempt ${i + 1} failed:`, error);
+            if (i === retries) throw error;
+            console.log(`[Frontend Debug] Waiting ${delay}ms before retrying (handling potential cold start)...`);
+            await new Promise(res => setTimeout(res, delay));
+        }
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize Date input to today
@@ -47,17 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
             resultContainer.style.display = 'none'; // hide previous results
 
             try {
-                const response = await fetch(`${API_URL}/predict`, {
+                // Using retry mechanism
+                const data = await fetchWithRetry(`${API_URL}/predict`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-
-                if (!response.ok) {
-                    throw new Error(`Server returned ${response.status}`);
-                }
-                
-                const data = await response.json();
                 
                 // Construct result
                 priceDisplay.textContent = data.predicted_price.toLocaleString('en-IN');
@@ -75,8 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 resultContainer.style.display = 'block';
 
             } catch (error) {
-                console.error("Fetch Error:", error);
-                alert("Could not connect to the backend. Please ensure the FastAPI server is running.");
+                console.error("Fetch Error Final:", error);
+                alert("Could not connect to the backend. The server might be waking up from sleep. Please try again in 30 seconds.");
             } finally {
                 // Reset Output State
                 btn.disabled = false;
@@ -116,24 +135,33 @@ document.addEventListener('DOMContentLoaded', () => {
         addMessage(msg, 'user');
         chatInput.value = '';
 
-        // Optional: show a typing indicator
-        
         try {
-            const response = await fetch(`${API_URL}/chat`, {
+            // Include visual waiting queue if retrying long
+            const tempBubble = document.createElement('div');
+            tempBubble.className = 'chat-message bot temp-loader';
+            tempBubble.innerHTML = '<div class="msg-bubble"><i>...thinking... (might take up to 50s to wake up if Render is sleeping)</i></div>';
+            chatWindow.appendChild(tempBubble);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+            
+            const data = await fetchWithRetry(`${API_URL}/chat`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: msg })
             });
             
-            if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
-            
-            const data = await response.json();
+            // Remove Temp loader
+            const loaders = document.querySelectorAll('.temp-loader');
+            loaders.forEach(l => l.remove());
             
             // Output Bot message
             addMessage(data.reply, 'bot');
         } catch (err) {
             console.error("Chat Error:", err);
-            addMessage("⚠️ Sorry, I'm having trouble connecting to my brain server right now. Is the backend running?", 'bot');
+            // Remove Temp loader
+            const loaders = document.querySelectorAll('.temp-loader');
+            loaders.forEach(l => l.remove());
+            
+            addMessage("⚠️ Sorry, I could not connect to my brain server. If the server is waking up from a cold start, please wait 30-50 seconds and try again.", 'bot');
         }
     }
 
