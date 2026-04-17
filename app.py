@@ -21,9 +21,14 @@ app.add_middleware(
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     logger.info(f"Incoming request: {request.method} {request.url}")
-    response = await call_next(request)
-    logger.info(f"Response status: {response.status_code}")
-    return response
+    try:
+        response = await call_next(request)
+        logger.info(f"Response status: {response.status_code}")
+        return response
+    except Exception as e:
+        logger.error(f"Error handling request: {e}")
+        from fastapi.responses import JSONResponse
+        return JSONResponse(status_code=500, content={"error": "Internal Server Error", "details": str(e)})
 
 class FlightQuery(BaseModel):
     source: str
@@ -46,13 +51,21 @@ def test_route():
 
 @app.post("/predict")
 def predict(query: FlightQuery):
-    price, recommendation = predict_price(query.model_dump())
-    return {
-        "predicted_price": round(price, 2),
-        "recommendation": recommendation
-    }
+    try:
+        price, recommendation = predict_price(query.model_dump())
+        return {
+            "predicted_price": round(price, 2),
+            "recommendation": recommendation
+        }
+    except Exception as e:
+        if "Model not available" in str(e):
+            return {"error": "Model not available"}
+        return {"error": str(e)}
 
 @app.post("/chat")
 def chat(query: ChatQuery):
-    reply = get_chat_response(query.message)
-    return {"reply": reply}
+    try:
+        reply = get_chat_response(query.message)
+        return {"reply": reply}
+    except Exception as e:
+        return {"error": str(e)}
