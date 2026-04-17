@@ -60,6 +60,15 @@ def predict_price(flight_data: dict):
         # Full inference pass via SciKit pipeline natively handling categorical encoding internally
         price = model.predict(payload)[0]
 
+        # Multipliers for trust/granularity (Simulated impacts for transparency)
+        cabin_mult = {'Economy': 1.0, 'Premium': 1.25, 'Business': 1.75}
+        reason_mult = {'Vacation': 1.0, 'Business': 1.12}
+        extra_add = {'Basic': 0, 'Standard': 950, 'Flexi': 1650}
+
+        price = price * cabin_mult.get(flight_data.get('cabin', 'Economy'), 1.0)
+        price = price * reason_mult.get(flight_data.get('reason', 'Vacation'), 1.0)
+        price = price + extra_add.get(flight_data.get('extra', 'Basic'), 0)
+
         # Confidence score: based on estimator variance
         rf = model.named_steps['regressor']
         X_transformed = model.named_steps['preprocessor'].transform(payload)

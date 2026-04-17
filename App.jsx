@@ -85,7 +85,10 @@ export default function App() {
         day_of_week: day_of_week,
         month: month,
         is_weekend: is_weekend,
-        days_left: days_left || 1
+        days_left: days_left || 1,
+        cabin: formData.cabin || 'Economy',
+        reason: formData.reason || 'Vacation',
+        extra: formData.extra || 'Basic'
     };
 
     try {
@@ -195,16 +198,40 @@ export default function App() {
                   />
                 </div>
                 <div className="input-group">
-                  <label>Service Class</label>
+                  <label>Airline</label>
                   <select 
                     value={formData.airline}
                     onChange={(e) => setFormData({...formData, airline: e.target.value})}
                   >
-                    <option value="Vistara">Vistara (Premium)</option>
+                    <option value="Vistara">Vistara</option>
                     <option value="Air India">Air India</option>
                     <option value="IndiGo">IndiGo</option>
                     <option value="SpiceJet">SpiceJet</option>
                     <option value="AirAsia">AirAsia</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="input-group">
+                  <label>Cabin Class</label>
+                  <select 
+                    value={formData.cabin || 'Economy'}
+                    onChange={(e) => setFormData({...formData, cabin: e.target.value})}
+                  >
+                    <option value="Economy">Economy</option>
+                    <option value="Premium">Premium Economy (+15%)</option>
+                    <option value="Business">Business Class (+40%)</option>
+                  </select>
+                </div>
+                <div className="input-group">
+                  <label>Travel Reason</label>
+                  <select 
+                    value={formData.reason || 'Vacation'}
+                    onChange={(e) => setFormData({...formData, reason: e.target.value})}
+                  >
+                    <option value="Vacation">Vacation / Casual</option>
+                    <option value="Business">Business (Priority Scan)</option>
                   </select>
                 </div>
               </div>
@@ -222,12 +249,15 @@ export default function App() {
                   </select>
                 </div>
                 <div className="input-group">
-                  <label>Duration (mins)</label>
-                  <input
-                    type="number"
-                    value={formData.duration}
-                    onChange={(e) => setFormData({...formData, duration: e.target.value})}
-                  />
+                  <label>Meals & Luggage</label>
+                  <select 
+                    value={formData.extra || 'Basic'}
+                    onChange={(e) => setFormData({...formData, extra: e.target.value})}
+                  >
+                    <option value="Basic">Basic (No Meals)</option>
+                    <option value="Standard">Standard (Meals Included)</option>
+                    <option value="Flexi">Flexi (Meal + Baggage)</option>
+                  </select>
                 </div>
               </div>
 
