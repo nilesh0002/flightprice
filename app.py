@@ -32,7 +32,14 @@ class FlightQuery(BaseModel):
     month: int
     is_weekend: int
     days_left: int
-    date: str = "" # Fallback
+    date: str = ""
+    # New trust parameters
+    cabin: str = "Economy"
+    reason: str = "Vacation"
+    extra: str = "Basic"
+    departureWindow: str = "Morning"
+    isFestival: str = "No"
+    membership: str = "Guest"
 
 class ChatQuery(BaseModel):
     message: str
