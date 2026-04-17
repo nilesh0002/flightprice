@@ -263,6 +263,21 @@ export default function App() {
               {prediction.metrics && (
                 <div style={{ 
                   marginTop: '0.75rem', 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  fontSize: '0.65rem', 
+                  color: 'var(--text-dim)',
+                  opacity: 0.6
+                }}>
+                  <span>Method: {prediction.metrics.method}</span>
+                  <span>F1-Approx: {prediction.metrics.f1_approx}</span>
+                  <span>Split: {prediction.metrics.training_split}</span>
+                </div>
+              )}
+
+              {prediction.metrics && (
+                <div style={{ 
+                  marginTop: '0.75rem', 
                   fontSize: '0.65rem', 
                   color: 'var(--text-dim)', 
                   fontStyle: 'italic',
