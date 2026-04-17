@@ -7,19 +7,44 @@ def call_llm_api(message):
     """
     Hits a free LLM endpoint using text.pollinations.ai to act like a real AI (ChatGPT).
     Uses urllib directly to avoid any CA certificate bundle issues on the local system.
+    Implements role-based context to mimic ChatGPT.
     """
     try:
         import urllib.request
-        import urllib.parse
+        import json
+        import ssl
         
-        # We append a small system prompt to tell it to act as an assistant
-        prompt = "You are a helpful travel and general assistant AI. Keep your answer brief. User says: " + message
-        encoded_prompt = urllib.parse.quote(prompt)
+        # Bypass SSL verification to avoid local CA bundle issues
+        ctx = ssl._create_unverified_context()
         
-        url = f"https://text.pollinations.ai/{encoded_prompt}"
-        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        response = urllib.request.urlopen(req, timeout=8)
+        url = "https://text.pollinations.ai/"
         
+        # Implementing role-based context to act exactly like ChatGPT
+        payload = {
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "You are ChatGPT, a large language model trained by OpenAI. You are integrated into a flight prediction application as a helpful AI assistant. Answer the user's question clearly, conversationally, and concisely."
+                },
+                {
+                    "role": "user",
+                    "content": message
+                }
+            ],
+            "model": "openai"
+        }
+        
+        data = json.dumps(payload).encode('utf-8')
+        req = urllib.request.Request(
+            url, 
+            data=data, 
+            headers={
+                'Content-Type': 'application/json',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+            }
+        )
+        
+        response = urllib.request.urlopen(req, timeout=15, context=ctx)
         return response.read().decode('utf-8')
     except Exception as e:
         print(f"LLM API Error: {e}")
