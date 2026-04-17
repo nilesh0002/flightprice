@@ -1,5 +1,5 @@
 // Configuration - Update API_URL for deployment
-const API_URL = "https://flightprice-api.onrender.com";
+const API_URL = "https://flightprice-sghf.onrender.com";
 
 // Advanced fetch logic with exponentially increasing backoff
 async function fetchWithRetry(url, options, retries = 5, onRetryClick) {
