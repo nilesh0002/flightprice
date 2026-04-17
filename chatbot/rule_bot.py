@@ -24,20 +24,24 @@ def fallback_general_qa(message):
     without "I don't understand" responses.
     """
     msg = message.lower()
-    
-    if any(greet in msg for greet in ["hello", "hi", "hey"]):
+
+    greetings = ["hello", "hi", "hey", "greetings", "good morning", "good evening"]
+    if any(greet in msg for greet in greetings):
         return "Hello! I am your AI flight assistant. How can I help you today?"
-    if "who are you" in msg:
+    if "who are you" in msg or "your name" in msg:
         return "I am AeroInsight Pro, a hybrid ML agent created to predict flight pricing using advanced regression models."
     if "pm of india" in msg or "prime minister" in msg:
         return "The Prime Minister of India is Narendra Modi."
-    if "today" in msg and "what" in msg:
+    if ("today" in msg and "what" in msg) or ("day" in msg and "today" in msg):
         td = datetime.datetime.now().strftime("%A, %B %d, %Y")
         return f"Today is {td}."
-    if "book now" in msg or "should i book" in msg:
-        return "It completely depends on the route! Try phrasing your query like: 'Predict flight from Delhi to Mumbai tomorrow'."
-    
-    return "I am highly trained in aviation dynamics! Tell me your departure and destination cities to initiate a real-time ML prediction."
+    if "book now" in msg or "should i book" in msg or ("buy" in msg and "ticket" in msg):
+        return "It depends on your route and timing! Try: 'Predict flight from Delhi to Mumbai tomorrow'."
+    if "help" in msg or "support" in msg:
+        return "You can ask me about flight prices, booking tips, or general questions like 'Who are you?'."
+
+    # Fallback: encourage flight prediction
+    return "I'm here to help with flight price predictions and travel queries! Tell me your departure and destination cities to get started."
 
 def extract_flight_info(message):
     cities = ["delhi", "mumbai", "bangalore", "kolkata", "chennai"]
@@ -62,10 +66,14 @@ def get_chat_response(message: str) -> str:
     msg_low = message.lower()
     
     # 1. Intent Route Detection
-    flight_keywords = ["flight", "from", "to", "ticket", "travel", "delhi", "mumbai", "bangalore", "kolkata", "chennai", "book"]
-    
+    # Expanded keyword set for better intent detection
+    flight_keywords = [
+        "flight", "from", "to", "ticket", "travel", "delhi", "mumbai", "bangalore", "kolkata", "chennai", "book",
+        "airline", "fare", "price", "cost", "journey", "trip", "departure", "arrival", "stop", "stops"
+    ]
+
     is_flight_intent = False
-    if any(keyword in msg_low for keyword in flight_keywords):
+    if any(re.search(rf"\b{re.escape(keyword)}\b", msg_low) for keyword in flight_keywords):
         src, dest = extract_flight_info(message)
         if src and dest:
             is_flight_intent = True
