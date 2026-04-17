@@ -18,6 +18,7 @@ async function fetchWithRetry(url, options, retries = 5, onRetryClick) {
             delay = 5000 + (i * 5000);
             if (onRetryClick) onRetryClick(i + 1, delay, retries);
             await new Promise(res => setTimeout(res, delay));
+        let trendChart = null;
         }
     }
 }
@@ -212,15 +213,51 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 }, 5, updateUIForRetry);
-                
+
                 priceDisplay.textContent = data.predicted_price.toLocaleString('en-IN');
-                
                 recDisplay.textContent = data.recommendation;
                 recDisplay.className = 'insight';
                 if (data.recommendation.toLowerCase().includes("good")) recDisplay.classList.add('insight-good');
                 else recDisplay.classList.add('insight-wait');
-
                 resultContainer.style.display = 'block';
+
+                // --- Prediction Trend Feature ---
+                if (typeof data.predicted_price === 'number' && typeof data.avg_price === 'number') {
+                    const trendCard = document.getElementById('trend-card');
+                    const trendLabel = document.getElementById('trend-label');
+                    trendCard.style.display = 'block';
+                    // Destroy previous chart if exists
+                    if (trendChart) { trendChart.destroy(); }
+                    const ctxTrend = document.getElementById('chart-trend').getContext('2d');
+                    trendChart = new Chart(ctxTrend, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Predicted', 'Average'],
+                            datasets: [{
+                                label: 'Price',
+                                data: [data.predicted_price, data.avg_price],
+                                backgroundColor: [
+                                    data.predicted_price <= data.avg_price ? 'rgba(34,197,94,0.8)' : 'rgba(239,68,68,0.8)',
+                                    'rgba(99,102,241,0.7)'
+                                ],
+                                borderRadius: 8
+                            }]
+                        },
+                        options: {
+                            plugins: { legend: { display: false } },
+                            scales: { y: { beginAtZero: true } }
+                        }
+                    });
+                    // Highlight label
+                    if (data.predicted_price <= data.avg_price) {
+                        trendLabel.textContent = 'This prediction is cheaper than average!';
+                        trendLabel.className = 'cheap';
+                    } else {
+                        trendLabel.textContent = 'This prediction is more expensive than average.';
+                        trendLabel.className = 'expensive';
+                    }
+                }
+                // --- End Prediction Trend Feature ---
 
             } catch (error) {
                 console.error("Prediction Failed:", error);
