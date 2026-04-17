@@ -174,34 +174,6 @@ export default function App() {
               
               <div className="form-row">
                 <div className="input-group">
-                  <label>Departure Window</label>
-                  <select value={formData.departureWindow} onChange={(e) => setFormData({...formData, departureWindow: e.target.value})}>
-                    <option value="Early Morning">Early Morning (3am - 6am)</option>
-                    <option value="Morning">Morning (6am - 12pm)</option>
-                    <option value="Afternoon">Afternoon (12pm - 5pm)</option>
-                    <option value="Evening">Evening (5pm - 9pm)</option>
-                    <option value="Night">Night (9pm - 3am)</option>
-                  </select>
-                </div>
-                <div className="input-group">
-                  <label>Peak / Festival Cycle</label>
-                  <select value={formData.isFestival} onChange={(e) => setFormData({...formData, isFestival: e.target.value})}>
-                    <option value="No">Off-Peak (Standard)</option>
-                    <option value="Yes">Peak Cycle (+30% Forecast)</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="form-row">
-                <div className="input-group">
-                  <label>Identity / Membership</label>
-                  <select value={formData.membership} onChange={(e) => setFormData({...formData, membership: e.target.value})}>
-                    <option value="Guest">Guest User</option>
-                    <option value="Silver">Silver Member (-5%)</option>
-                    <option value="Gold">Gold Member (-12%)</option>
-                  </select>
-                </div>
-                <div className="input-group">
                   <label>Service Carrier</label>
                   <select value={formData.airline} onChange={(e) => setFormData({...formData, airline: e.target.value})}>
                     <option value="Vistara">Vistara</option>
@@ -209,6 +181,10 @@ export default function App() {
                     <option value="IndiGo">IndiGo</option>
                     <option value="SpiceJet">SpiceJet</option>
                   </select>
+                </div>
+                <div className="input-group">
+                  <label>Date of Departure</label>
+                  <input type="date" value={formData.date} onChange={(e) => setFormData({...formData, date: e.target.value})} required />
                 </div>
               </div>
 
@@ -222,8 +198,11 @@ export default function App() {
                   </select>
                 </div>
                 <div className="input-group">
-                  <label>Date of Departure</label>
-                  <input type="date" value={formData.date} onChange={(e) => setFormData({...formData, date: e.target.value})} required />
+                  <label>Peak / Festival Cycle</label>
+                  <select value={formData.isFestival} onChange={(e) => setFormData({...formData, isFestival: e.target.value})}>
+                    <option value="No">Off-Peak (Standard)</option>
+                    <option value="Yes">Peak Cycle (+30% Forecast)</option>
+                  </select>
                 </div>
               </div>
 
@@ -278,6 +257,18 @@ export default function App() {
                     <div style={{ fontWeight: 700, color: 'var(--text-main)' }}>Sample</div>
                     <div>{prediction.metrics.sample_size}</div>
                   </div>
+                </div>
+              )}
+
+              {prediction.metrics && (
+                <div style={{ 
+                  marginTop: '0.75rem', 
+                  fontSize: '0.65rem', 
+                  color: 'var(--text-dim)', 
+                  fontStyle: 'italic',
+                  opacity: 0.7 
+                }}>
+                  Hidden Intelligence Active: Optimal Window (Morning) & Standard Membership factor applied.
                 </div>
               )}
             </section>
