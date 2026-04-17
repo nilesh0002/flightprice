@@ -24,6 +24,23 @@ async function fetchWithRetry(url, options, retries = 5, onRetryClick) {
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    // Fetch and display ML metrics
+    async function loadMetrics() {
+        try {
+            const res = await fetch(`${API_URL}/metrics`);
+            if (!res.ok) throw new Error('Failed to fetch metrics');
+            const metrics = await res.json();
+            document.getElementById('mae-value').textContent = metrics.mae?.toFixed(2) ?? '--';
+            document.getElementById('rmse-value').textContent = metrics.rmse?.toFixed(2) ?? '--';
+            document.getElementById('r2-value').textContent = metrics.r2?.toFixed(3) ?? '--';
+        } catch {
+            document.getElementById('mae-value').textContent = '--';
+            document.getElementById('rmse-value').textContent = '--';
+            document.getElementById('r2-value').textContent = '--';
+        }
+    }
+    loadMetrics();
+
     // Theme toggle logic
     const themeToggle = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
