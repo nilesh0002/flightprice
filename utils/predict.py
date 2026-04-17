@@ -33,15 +33,21 @@ def predict_price(flight_data: dict):
     try:
         model = model_data['model']
 
-        # Consistent preprocessing (if needed, call preprocess_input here)
-        # If your model expects preprocessed input, uncomment below:
-        # from utils.preprocess import preprocess_input
-        # payload = preprocess_input(flight_data, model_data['columns'])
+        # Category mapping for new locations/airlines not in training set
+        city_map = {
+            'Hyderabad': 'Bangalore', 'Ahmedabad': 'Mumbai', 
+            'Pune': 'Mumbai', 'Goa': 'Mumbai', 'Jaipur': 'Delhi'
+        }
+        airline_map = {'AirAsia': 'SpiceJet'}
+
+        source = city_map.get(flight_data['source'], flight_data['source'])
+        destination = city_map.get(flight_data['destination'], flight_data['destination'])
+        airline = airline_map.get(flight_data['airline'], flight_data['airline'])
 
         payload = pd.DataFrame([{
-            'Airline': flight_data['airline'],
-            'Source': flight_data['source'],
-            'Destination': flight_data['destination'],
+            'Airline': airline,
+            'Source': source,
+            'Destination': destination,
             'Total_Stops': flight_data['total_stops'],
             'Duration_minutes': flight_data['duration_minutes'],
             'departure_hour': flight_data['departure_hour'],

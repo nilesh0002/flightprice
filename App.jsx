@@ -241,6 +241,17 @@ export default function App() {
             <section className="floating-card result-card">
               <div className="result-label">Forecasted Fare</div>
               <div className="result-price">₹{prediction.predicted_price.toLocaleString('en-IN')}</div>
+              
+              <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', marginBottom: '1.5rem', overflow: 'hidden' }}>
+                <div style={{ 
+                  width: `${prediction.confidence}%`, 
+                  height: '100%', 
+                  background: 'var(--accent-color)',
+                  boxShadow: '0 0 10px var(--accent-glow)',
+                  transition: 'width 1s ease-out'
+                }} />
+              </div>
+
               <p className="result-desc">{prediction.recommendation}</p>
               <div className="result-meta">
                 <span>Model Confidence: {prediction.confidence}%</span>
