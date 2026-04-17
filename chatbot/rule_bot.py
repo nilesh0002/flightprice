@@ -15,33 +15,48 @@ def get_chat_response(message: str) -> str:
     if "prime minister of india" in msg:
         return "The Prime Minister of India is Narendra Modi."
         
-    if " to " in msg:
+    # Enhanced Regex NLP Extraction
+    match_from_to = re.search(r'from\s+([a-zA-Z]+)\s+to\s+([a-zA-Z]+)', msg)
+    match_to_from = re.search(r'to\s+([a-zA-Z]+)\s+from\s+([a-zA-Z]+)', msg)
+    
+    source = None
+    destination = None
+    
+    if match_from_to:
+        source, destination = match_from_to.groups()
+    elif match_to_from:
+        destination, source = match_to_from.groups()
+    elif " to " in msg:
         words = msg.split()
         if "to" in words:
             to_idx = words.index("to")
             if to_idx > 0 and to_idx < len(words) - 1:
-                source = words[to_idx - 1].capitalize()
-                destination = words[to_idx + 1].capitalize()
+                source = words[to_idx - 1]
+                destination = words[to_idx + 1]
                 
-                date = datetime.now().strftime('%Y-%m-%d')
-                if "tomorrow" in msg:
-                    from datetime import timedelta
-                    date = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
-                
-                flight_data = {
-                    "source": source,
-                    "destination": destination,
-                    "date": date,
-                    "airline": "IndiGo",
-                    "total_stops": 0,
-                    "duration_minutes": 150
-                }
-                
-                try:
-                    price, rec = predict_price(flight_data)
-                    return f"Found flights from {source} to {destination} on {date}. Predicted price is starting at ₹{round(price, 2)}. {rec}"
-                except Exception as e:
-                    return f"Sorry, I couldn't get a price for that route. Please try using the detailed form above. Error: {str(e)}"
+    if source and destination:
+        source = source.capitalize()
+        destination = destination.capitalize()
+        
+        date = datetime.now().strftime('%Y-%m-%d')
+        if "tomorrow" in msg:
+            from datetime import timedelta
+            date = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
+        
+        flight_data = {
+            "source": source,
+            "destination": destination,
+            "date": date,
+            "airline": "IndiGo",
+            "total_stops": 0,
+            "duration_minutes": 150
+        }
+        
+        try:
+            price, rec = predict_price(flight_data)
+            return f"Found flights from {source} to {destination} on {date}. Predicted price is starting at ₹{round(price, 2)}. {rec}"
+        except Exception as e:
+            return f"Sorry, I couldn't get a price for that route. Please try using the detailed form above. Error: {str(e)}"
     
     if "book tickets" in msg or "book a flight" in msg or "should i book" in msg:
         return "I suggest you enter your exact travel details in the prediction form above to see if it's a good time to book based on our latest price projections."
