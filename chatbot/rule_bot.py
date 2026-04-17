@@ -19,12 +19,12 @@ def call_llm_api(message):
         
         url = "https://text.pollinations.ai/"
         
-        # Implementing role-based context to act exactly like ChatGPT
+        # Implementing role-based context to act exactly like Omni-bot
         payload = {
             "messages": [
                 {
                     "role": "system",
-                    "content": "You are ChatGPT, a large language model trained by OpenAI. You are integrated into a flight prediction application as a helpful AI assistant. Answer the user's question clearly, conversationally, and concisely."
+                    "content": "You are Omniscient AI, an all-knowing assistant integrated into a flight prediction application. You analyze global market trends and historical data. If asked about your name, explain that 'Omniscient' means all-knowing or having infinite awareness. Be helpful, concise, and professional."
                 },
                 {
                     "role": "user",
@@ -59,9 +59,11 @@ def fallback_general_qa(message):
 
     greetings = ["hello", "hi", "hey", "greetings", "good morning", "good evening"]
     if any(greet in msg for greet in greetings):
-        return "Hello! I am your AI flight assistant. How can I help you today?"
+        return "Hello! I am Omniscient AI. How can I guide your journey today?"
     if "who are you" in msg or "your name" in msg:
-        return "I am AeroInsight Pro, a hybrid ML agent created to predict flight pricing using advanced regression models."
+        return "I am Omniscient AI, an all-knowing market predictor that analyzes massive flight datasets to forecast pricing."
+    if "meaning" in msg and ("name" in msg or "omniscient" in msg):
+        return "The term 'Omniscient' is derived from Latin, meaning 'all-knowing.' It represents my ability to process and analyze vast streams of historical flight data simultaneously."
     if "pm of india" in msg or "prime minister" in msg:
         return "The Prime Minister of India is Narendra Modi."
     if ("today" in msg and "what" in msg) or ("day" in msg and "today" in msg):
