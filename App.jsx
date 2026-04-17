@@ -1,4 +1,290 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Bar, Line } from "react-chartjs-2";
+import { Chart, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Tooltip, Legend } from "chart.js";
+Chart.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Tooltip, Legend);
+
+const icons = {
+  source: <svg width="20" height="20" fill="none"><path d="M10 2a6 6 0 016 6c0 4.418-6 10-6 10S4 12.418 4 8a6 6 0 016-6zm0 8a2 2 0 100-4 2 2 0 000 4z" stroke="#64748b" strokeWidth="1.5"/></svg>,
+  destination: <svg width="20" height="20" fill="none"><path d="M10 2a6 6 0 016 6c0 4.418-6 10-6 10S4 12.418 4 8a6 6 0 016-6zm0 8a2 2 0 100-4 2 2 0 000 4z" stroke="#64748b" strokeWidth="1.5"/></svg>,
+  date: <svg width="20" height="20" fill="none"><rect x="3" y="5" width="14" height="12" rx="2" stroke="#64748b" strokeWidth="1.5"/><path d="M7 3v2M13 3v2" stroke="#64748b" strokeWidth="1.5"/><path d="M3 9h14" stroke="#64748b" strokeWidth="1.5"/></svg>,
+  time: <svg width="20" height="20" fill="none"><circle cx="10" cy="10" r="8" stroke="#64748b" strokeWidth="1.5"/><path d="M10 6v4l2 2" stroke="#64748b" strokeWidth="1.5"/></svg>,
+  airline: <svg width="20" height="20" fill="none"><path d="M2 16l16-6-7-7-2 2 3 3-8 8z" stroke="#64748b" strokeWidth="1.5"/></svg>,
+  duration: <svg width="20" height="20" fill="none"><circle cx="10" cy="10" r="8" stroke="#64748b" strokeWidth="1.5"/><path d="M10 6v4l2 2" stroke="#64748b" strokeWidth="1.5"/></svg>,
+  stops: <svg width="20" height="20" fill="none"><circle cx="5" cy="10" r="2" stroke="#64748b" strokeWidth="1.5"/><circle cx="15" cy="10" r="2" stroke="#64748b" strokeWidth="1.5"/><path d="M7 10h6" stroke="#64748b" strokeWidth="1.5"/></svg>
+};
+
+const airlines = ["IndiGo", "Air India", "SpiceJet", "Vistara", "GoAir", "AirAsia"];
+const stopsOptions = ["Non-stop", "1 Stop", "2+ Stops"];
+
+const dummyDataset = [
+  { airline: "IndiGo", price: 4800, stops: 0, duration: 120 },
+  { airline: "Air India", price: 5200, stops: 1, duration: 150 },
+  { airline: "SpiceJet", price: 5000, stops: 2, duration: 180 },
+  { airline: "Vistara", price: 5400, stops: 0, duration: 110 },
+  { airline: "GoAir", price: 4700, stops: 1, duration: 140 },
+  { airline: "AirAsia", price: 5100, stops: 2, duration: 170 }
+];
+
+function getSystemTheme() {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+export default function App() {
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || getSystemTheme());
+  const [form, setForm] = useState({
+    source: "",
+    destination: "",
+    travelDate: "",
+    departureTime: "",
+    airline: "",
+    duration: "",
+    stops: ""
+  });
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState("");
+  const [recent, setRecent] = useState([]);
+  const [toast, setToast] = useState("");
+  const [chartData, setChartData] = useState(dummyDataset);
+  const [showChart, setShowChart] = useState("airline");
+  const [searches, setSearches] = useState([]);
+  const toastTimeout = useRef(null);
+
+  useEffect(() => {
+    document.body.classList.remove("dark", "light");
+    document.body.classList.add(theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
+    if (toast) {
+      clearTimeout(toastTimeout.current);
+      toastTimeout.current = setTimeout(() => setToast(""), 2500);
+    }
+  }, [toast]);
+
+  function handleThemeToggle() {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  }
+
+  function handleFormChange(e) {
+    const { name, value } = e.target;
+    setForm((f) => ({ ...f, [name]: value }));
+  }
+
+  function handleReset() {
+    setForm({
+      source: "",
+      destination: "",
+      travelDate: "",
+      departureTime: "",
+      airline: "",
+      duration: "",
+      stops: ""
+    });
+    setResult(null);
+    setError("");
+    setToast("Form reset");
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+    setResult(null);
+    setError("");
+    try {
+      const res = await fetch("/api/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form)
+      });
+      if (!res.ok) throw new Error("Prediction failed");
+      const data = await res.json();
+      setResult(data);
+      setSearches((s) => [{ ...form, ...data, ts: Date.now() }, ...s.slice(0, 4)]);
+      setToast("Prediction successful");
+    } catch {
+      setError("Could not fetch prediction. Please try again.");
+      setToast("Prediction failed");
+    }
+    setLoading(false);
+  }
+
+  function renderChart() {
+    if (!chartData || chartData.length === 0) {
+      return <div className="chart-placeholder">No data available</div>;
+    }
+    if (showChart === "airline") {
+      return (
+        <Bar
+          data={{
+            labels: chartData.map(d => d.airline),
+            datasets: [{
+              label: "Price",
+              data: chartData.map(d => d.price),
+              backgroundColor: "var(--accent)"
+            }]
+          }}
+          options={{
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { ticks: { color: "var(--muted)" } },
+              y: { ticks: { color: "var(--muted)" } }
+            }
+          }}
+        />
+      );
+    }
+    if (showChart === "stops") {
+      return (
+        <Bar
+          data={{
+            labels: chartData.map(d => d.stops + (d.stops === 0 ? " (Non-stop)" : "")),
+            datasets: [{
+              label: "Price",
+              data: chartData.map(d => d.price),
+              backgroundColor: "var(--accent)"
+            }]
+          }}
+          options={{
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { ticks: { color: "var(--muted)" } },
+              y: { ticks: { color: "var(--muted)" } }
+            }
+          }}
+        />
+      );
+    }
+    if (showChart === "duration") {
+      return (
+        <Line
+          data={{
+            labels: chartData.map(d => d.duration + " min"),
+            datasets: [{
+              label: "Price",
+              data: chartData.map(d => d.price),
+              borderColor: "var(--accent)",
+              backgroundColor: "rgba(99,102,241,0.15)",
+              tension: 0.4
+            }]
+          }}
+          options={{
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { ticks: { color: "var(--muted)" } },
+              y: { ticks: { color: "var(--muted)" } }
+            }
+          }}
+        />
+      );
+    }
+    return null;
+  }
+
+  return (
+    <div>
+      <nav className="navbar">
+        <div className="navbar-title">Flight Price Predictor</div>
+        <div className="navbar-subtitle">Get instant flight price predictions</div>
+        <button className="theme-toggle-btn" onClick={handleThemeToggle} aria-label="Toggle theme">
+          <span className="theme-toggle-thumb" />
+        </button>
+      </nav>
+      <main className="main-content">
+        <section className="card form-card">
+          <form className="predict-form" onSubmit={handleSubmit} autoComplete="off">
+            <div className="form-row">
+              <span className="input-icon">{icons.source}</span>
+              <input name="source" value={form.source} onChange={handleFormChange} placeholder="Source" required />
+            </div>
+            <div className="form-row">
+              <span className="input-icon">{icons.destination}</span>
+              <input name="destination" value={form.destination} onChange={handleFormChange} placeholder="Destination" required />
+            </div>
+            <div className="form-row">
+              <span className="input-icon">{icons.date}</span>
+              <input type="date" name="travelDate" value={form.travelDate} onChange={handleFormChange} required />
+            </div>
+            <div className="form-row">
+              <span className="input-icon">{icons.time}</span>
+              <input type="time" name="departureTime" value={form.departureTime} onChange={handleFormChange} required />
+            </div>
+            <div className="form-row">
+              <span className="input-icon">{icons.airline}</span>
+              <select name="airline" value={form.airline} onChange={handleFormChange} required>
+                <option value="">Airline</option>
+                {airlines.map((a) => (
+                  <option key={a} value={a}>{a}</option>
+                ))}
+              </select>
+            </div>
+            <div className="form-row">
+              <span className="input-icon">{icons.duration}</span>
+              <input name="duration" type="number" min="1" value={form.duration} onChange={handleFormChange} placeholder="Duration (min)" required />
+            </div>
+            <div className="form-row">
+              <span className="input-icon">{icons.stops}</span>
+              <select name="stops" value={form.stops} onChange={handleFormChange} required>
+                <option value="">Stops</option>
+                {stopsOptions.map((s) => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+            </div>
+            <div className="form-actions">
+              <button className="submit-btn" type="submit" disabled={loading}>
+                {loading ? <span className="spinner" /> : "Predict"}
+              </button>
+              <button className="reset-btn" type="button" onClick={handleReset} disabled={loading}>
+                Reset Form
+              </button>
+            </div>
+            {error && <div className="error-msg">{error}</div>}
+          </form>
+          <div className="result-section">
+            {loading && <div className="result-loading"><span className="spinner" /> Loading...</div>}
+            {result && (
+              <div className="result-content">
+                <div className="result-price">₹{result.price}</div>
+                <div className="result-metrics">
+                  <span>MAE: {result.mae}</span>
+                  <span>RMSE: {result.rmse}</span>
+                  <span>R²: {result.r2}</span>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+        <section className="card chart-card">
+          <div className="chart-tabs">
+            <button className={showChart === "airline" ? "active" : ""} onClick={() => setShowChart("airline")}>Price vs Airline</button>
+            <button className={showChart === "stops" ? "active" : ""} onClick={() => setShowChart("stops")}>Price vs Stops</button>
+            <button className={showChart === "duration" ? "active" : ""} onClick={() => setShowChart("duration")}>Price vs Duration</button>
+          </div>
+          <div className="chart-area">{renderChart()}</div>
+        </section>
+        <section className="card recent-card">
+          <div className="recent-title">Recent Searches</div>
+          <div className="recent-list">
+            {searches.length === 0 && <div className="recent-placeholder">No recent searches</div>}
+            {searches.map((s, i) => (
+              <div className="recent-item" key={i}>
+                <span>{s.source} → {s.destination}</span>
+                <span>₹{s.price}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      </main>
+      {toast && <div className="toast">{toast}</div>}
+    </div>
+  );
+}
+import React, { useState, useEffect, useRef } from "react";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar, CartesianGrid, Legend } from "recharts";
 
 const COLOR_PRIMARY = "#6366f1";
