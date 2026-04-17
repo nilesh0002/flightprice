@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Flight Price Predictor & Chat Assistant</title>
+    <!-- Modern Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-accents">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+    
+    <div class="app-container">
+        <header>
+            <div class="badge-tag">AI Powered</div>
+            <h1>AeroInsight <span class="gradient-text">Predictor</span></h1>
+            <p>Smart projections for finding the best time to fly</p>
+        </header>
+
+        <main class="main-content">
+            <!-- Prediction Form -->
+            <section class="predictor-card card">
+                <div class="card-header">
+                    <h2>Predict Flight Price</h2>
+                    <span class="icon">✈️</span>
+                </div>
+                
+                <form id="flight-form">
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="source">Source</label>
+                            <select id="source" required>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Mumbai">Mumbai</option>
+                                <option value="Bangalore">Bangalore</option>
+                                <option value="Chennai">Chennai</option>
+                                <option value="Kolkata">Kolkata</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="destination">Destination</label>
+                            <select id="destination" required>
+                                <option value="Mumbai">Mumbai</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Bangalore">Bangalore</option>
+                                <option value="Chennai">Chennai</option>
+                                <option value="Kolkata">Kolkata</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="date">Travel Date</label>
+                            <input type="date" id="date" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="airline">Airline</label>
+                            <select id="airline" required>
+                                <option value="IndiGo">IndiGo</option>
+                                <option value="Air India">Air India</option>
+                                <option value="Vistara">Vistara</option>
+                                <option value="SpiceJet">SpiceJet</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="stops">Stops</label>
+                            <input type="number" id="stops" min="0" max="4" value="0" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="duration">Duration (mins)</label>
+                            <input type="number" id="duration" min="30" max="1500" value="120" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn primary-btn submit-btn" id="predict-btn">
+                        <span id="btn-text">Predict Now</span>
+                        <div class="loader-container" id="pred-loader" style="display:none;">
+                            <div class="loader"></div>
+                        </div>
+                    </button>
+                </form>
+
+                <div class="result-container" id="prediction-result" style="display: none;">
+                    <h3>Estimated Price</h3>
+                    <div class="price-value">₹<span id="price-display">--</span></div>
+                    <p id="recommendation-display" class="recommendation badge">Waiting for input...</p>
+                </div>
+            </section>
+
+            <!-- Chatbot Card -->
+            <section class="chatbot-card card">
+                <div class="card-header">
+                    <h2>AI Assistant</h2>
+                    <span class="pulse-indicator"></span>
+                </div>
+                <div class="chat-window" id="chat-window">
+                    <div class="chat-message bot">
+                        <div class="msg-bubble">Hi there! 👋 I am your AI flight assistant. I can help you check flight prices or answer quick questions. Try asking: <br><strong>"Delhi to Mumbai tomorrow"</strong>.</div>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Ask me anything..." autocomplete="off" />
+                    <button id="send-chat" class="btn send-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <div class="metric-display">
+                <div class="metric-item"><strong>Model MAE:</strong> ₹394.50</div>
+                <div class="metric-item"><strong>RMSE:</strong> ₹489.12</div>
+                <div class="metric-item"><strong>R²:</strong> 0.88</div>
+            </div>
+            <p>&copy; 2024 AeroInsight. Built with FastAPI & Vanilla JS.</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
