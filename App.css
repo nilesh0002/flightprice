@@ -5,16 +5,17 @@
   /* LIGHT THEME (Default) - Sea Salt & Oyster Bay */
   --bg-color: #d6d9d2;
   --bg-gradient: linear-gradient(135deg, #eef0ed 0%, #d6d9d2 100%);
-  --card-bg: rgba(255, 255, 255, 0.9);
+  --forecast-bg: #ffffff;
+  --chat-bg: #f2f4f1; /* Softly tinted Oyster Bay substrate */
   --text-main: #3a3d3a;
   --text-dim: #68706a;
-  --border-color: rgba(0, 0, 0, 0.06);
+  --border-color: rgba(0, 0, 0, 0.05);
   --input-bg: #f8f9f7;
   --accent-color: #bfc5be; /* Oyster Bay */
   --accent-hover: #91968e; /* Evergreen Fog */
   --ai-bubble-bg: #e1e9e3; /* Healing Aloe (#7) */
   --ai-bubble-text: #3a3d3a;
-  --shadow: 0 10px 40px rgba(104, 112, 106, 0.12);
+  --shadow: 0 10px 40px rgba(104, 112, 106, 0.08);
   --glass-blur: blur(30px);
 }
 
@@ -22,7 +23,8 @@ body.dark-theme {
   /* DARK THEME - Millstone Gray & Deep Green */
   --bg-color: #1a1c1a;
   --bg-gradient: radial-gradient(circle at 0% 0%, #2a2e2a 0%, #1a1c1a 100%);
-  --card-bg: rgba(45, 48, 45, 0.75);
+  --forecast-bg: rgba(45, 48, 45, 0.85);
+  --chat-bg: rgba(35, 38, 35, 0.9); /* Differentiated darker depth */
   --text-main: #f1f3f1;
   --text-dim: #949c95;
   --border-color: rgba(255, 255, 255, 0.05);

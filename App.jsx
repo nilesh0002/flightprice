@@ -154,7 +154,7 @@ export default function App() {
 
       <main className="main-content">
         <div className="left-col">
-          <section className="floating-card">
+          <section className="floating-card forecast-card">
             <h2 className="card-title">Forecast Engine</h2>
             <form className="prediction-form" onSubmit={handlePredict}>
               <div className="form-row">
@@ -285,7 +285,7 @@ export default function App() {
         </div>
 
         <div className="right-col">
-          <section className="floating-card assistant-card">
+          <section className="floating-card chat-card assistant-card">
             <h2 className="card-title">Omniscient AI Hub</h2>
             <div className="chat-container">
               {messages.map((msg, i) => (
