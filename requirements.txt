@@ -7,3 +7,4 @@ joblib
 requests
 python-multipart
 pydantic
+httpx
