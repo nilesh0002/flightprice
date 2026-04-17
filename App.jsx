@@ -195,25 +195,33 @@ export default function App() {
               <div className="form-row">
                 <div className="input-group">
                   <label htmlFor="origin">Origin</label>
-                  <input 
-                    type="text" 
+                  <select 
                     id="origin"
-                    placeholder="e.g. NYC" 
                     value={formData.origin}
                     onChange={(e) => setFormData({...formData, origin: e.target.value})}
                     required
-                  />
+                  >
+                    <option value="Delhi">Delhi</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Bangalore">Bangalore</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Chennai">Chennai</option>
+                  </select>
                 </div>
                 <div className="input-group">
                   <label htmlFor="destination">Destination</label>
-                  <input 
-                    type="text" 
+                  <select 
                     id="destination"
-                    placeholder="e.g. LAX" 
                     value={formData.destination}
                     onChange={(e) => setFormData({...formData, destination: e.target.value})}
                     required
-                  />
+                  >
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Bangalore">Bangalore</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Chennai">Chennai</option>
+                  </select>
                 </div>
               </div>
               
@@ -238,10 +246,11 @@ export default function App() {
                     value={formData.airline}
                     onChange={(e) => setFormData({...formData, airline: e.target.value})}
                   >
-                    <option value="Vistara">Vistara</option>
-                    <option value="Air India">Air India</option>
                     <option value="IndiGo">IndiGo</option>
+                    <option value="Air India">Air India</option>
+                    <option value="Jet Airways">Jet Airways</option>
                     <option value="SpiceJet">SpiceJet</option>
+                    <option value="Vistara">Vistara</option>
                   </select>
                 </div>
                 <div className="input-group">
