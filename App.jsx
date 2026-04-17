@@ -32,16 +32,20 @@ const SendIcon = () => (
 export default function App() {
   const [isDark, setIsDark] = useState(false);
   const [formData, setFormData] = useState({
-    origin: '',
-    destination: '',
-    date: '',
-    passengers: '1'
+    origin: 'Delhi',
+    destination: 'Mumbai',
+    date: new Date().toISOString().split('T')[0],
+    passengers: '1',
+    airline: 'Vistara',
+    stops: '0'
   });
   const [prediction, setPrediction] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [chatMessage, setChatMessage] = useState('');
   const [messages, setMessages] = useState([
     { role: 'ai', text: 'Hi, ask me anything about your upcoming flight.' }
   ]);
+  const [chartData, setChartData] = useState([40, 65, 30, 85, 55, 90, 70]);
 
   useEffect(() => {
     // Check initial theme preference
@@ -52,6 +56,20 @@ export default function App() {
       setIsDark(true);
       document.body.classList.add('dark-mode');
     }
+
+    // Fetch initial charts if backend runs
+    fetch("http://localhost:8000/charts")
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.price_vs_stops && data.price_vs_stops.data) {
+           // Basic normalization to roughly 0-100 values for CSS charting
+           const maxVal = Math.max(...data.price_vs_stops.data, 10000);
+           const normalized = data.price_vs_stops.data.map(val => (val / maxVal) * 100);
+           // pad array slightly if too short
+           setChartData([...normalized, 80, 45, 90].slice(0, 7));
+        }
+      })
+      .catch(e => console.warn("Charts API fetch failed, using default data"));
   }, []);
 
   const toggleTheme = () => {
@@ -68,38 +86,94 @@ export default function App() {
     });
   };
 
-  const handlePredict = (e) => {
+  const handlePredict = async (e) => {
     e.preventDefault();
-    if (!formData.origin || !formData.destination) return;
+    if (!formData.origin || !formData.destination || !formData.date) return;
     
-    // Simulate API call and prediction setting
+    setIsLoading(true);
     setPrediction(null);
-    setTimeout(() => {
-      // Mock calculation for demonstration
-      const base = 199;
-      const pass = parseInt(formData.passengers) || 1;
-      setPrediction(base * pass + 86);
-    }, 400);
+
+    const travelDate = new Date(formData.date);
+    const today = new Date();
+    const diffTime = Math.max(0, travelDate.getTime() - today.getTime());
+    const days_left = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    const day_of_week = travelDate.getDay(); 
+    // 0 is Sunday. In sklearn, they might use 0=Monday depending on preprocess.
+    const is_weekend = (day_of_week === 0 || day_of_week === 6) ? 1 : 0;
+    const month = travelDate.getMonth() + 1;
+
+    const payload = {
+        source: formData.origin,
+        destination: formData.destination,
+        date: formData.date,
+        airline: formData.airline,
+        total_stops: parseInt(formData.stops, 10),
+        duration_minutes: 130, // generic duration
+        departure_hour: 10,   // morning departure
+        day_of_week: day_of_week,
+        month: month,
+        is_weekend: is_weekend,
+        days_left: days_left || 1
+    };
+
+    try {
+      const response = await fetch("http://localhost:8000/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const data = await response.json();
+      
+      if (!data.error) {
+         setPrediction(data);
+      } else {
+         console.error("Prediction Error:", data.error);
+         alert("Prediction failed: " + data.error);
+      }
+    } catch (err) {
+      console.error("API error", err);
+      // Fallback response for UI continuity when backend is completely MIA
+      setPrediction({
+        predicted_price: Math.floor(4000 + Math.random() * 5000),
+        recommendation: "API unavailable. Showing simulated estimate.",
+        confidence: 60,
+        price_range: "Low"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleSendChat = (e) => {
+  const handleSendChat = async (e) => {
     e.preventDefault();
     if (!chatMessage.trim()) return;
 
-    setMessages([...messages, { role: 'user', text: chatMessage }]);
+    const currentMsg = chatMessage;
+    setMessages([...messages, { role: 'user', text: currentMsg }]);
     setChatMessage('');
     
-    // Mock AI response
-    setTimeout(() => {
-      setMessages(prev => [...prev, { 
-        role: 'ai', 
-        text: 'I can help find the best times to book that route based on historical data.' 
-      }]);
-    }, 800);
+    try {
+       const response = await fetch("http://localhost:8000/chat", {
+         method: "POST",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify({ message: currentMsg })
+       });
+       const data = await response.json();
+       if (data.reply) {
+         setMessages(prev => [...prev, { role: 'ai', text: data.reply }]);
+       } else {
+         setMessages(prev => [...prev, { role: 'ai', text: "Sorry, I received an unknown error." }]);
+       }
+    } catch(err) {
+      setTimeout(() => {
+        setMessages(prev => [...prev, { 
+          role: 'ai', 
+          text: 'I cannot connect to the backend ML service right now. Please start `uvicorn app:app`.' 
+        }]);
+      }, 500);
+    }
   };
-
-  // Mock chart data
-  const chartData = [40, 65, 30, 85, 55, 90, 70];
 
   return (
     <div className="app-container">
@@ -151,37 +225,57 @@ export default function App() {
                     id="date"
                     value={formData.date}
                     onChange={(e) => setFormData({...formData, date: e.target.value})}
+                    required
                   />
                 </div>
+              </div>
+              
+              <div className="form-row">
                 <div className="input-group">
-                  <label htmlFor="passengers">Passengers</label>
+                  <label htmlFor="airline">Airline</label>
                   <select 
-                    id="passengers"
-                    value={formData.passengers}
-                    onChange={(e) => setFormData({...formData, passengers: e.target.value})}
+                    id="airline"
+                    value={formData.airline}
+                    onChange={(e) => setFormData({...formData, airline: e.target.value})}
                   >
-                    <option value="1">1 Passenger</option>
-                    <option value="2">2 Passengers</option>
-                    <option value="3">3 Passengers</option>
-                    <option value="4">4+ Passengers</option>
+                    <option value="Vistara">Vistara</option>
+                    <option value="Air India">Air India</option>
+                    <option value="IndiGo">IndiGo</option>
+                    <option value="SpiceJet">SpiceJet</option>
+                  </select>
+                </div>
+                <div className="input-group">
+                  <label htmlFor="stops">Stops</label>
+                  <select 
+                    id="stops"
+                    value={formData.stops}
+                    onChange={(e) => setFormData({...formData, stops: e.target.value})}
+                  >
+                    <option value="0">Non-stop</option>
+                    <option value="1">1 Stop</option>
+                    <option value="2">2+ Stops</option>
                   </select>
                 </div>
               </div>
 
-              <button type="submit" className="submit-btn" aria-label="Predict Price">
-                Predict Price
+              <button type="submit" className="submit-btn" aria-label="Predict Price" disabled={isLoading}>
+                {isLoading ? 'Analyzing...' : 'Predict Price'}
               </button>
             </form>
           </section>
 
-          {prediction !== null && (
+          {prediction && (
             <section className="floating-card result-card">
-              <div className="result-label">Estimated Price</div>
-              <div className="result-price">${prediction}</div>
-              <p className="result-desc">
-                High confidence based on recent market trends. 
-                Prices might increase closer to travel date.
+              <div className="result-label">Estimated Result</div>
+              <div className="result-price">₹{prediction.predicted_price.toLocaleString('en-IN')}</div>
+              <p className="result-desc" style={{ marginTop: '0.5rem', fontWeight: 500 }}>
+                {prediction.recommendation}
               </p>
+              {prediction.confidence && (
+                <p className="result-desc" style={{ fontSize: '0.8rem', marginTop: '0.5rem' }}>
+                  Model Confidence: {prediction.confidence}% &nbsp;|&nbsp; Range: {prediction.price_range}
+                </p>
+              )}
             </section>
           )}
         </div>
