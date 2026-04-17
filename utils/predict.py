@@ -69,6 +69,20 @@ def predict_price(flight_data: dict):
         price = price * reason_mult.get(flight_data.get('reason', 'Vacation'), 1.0)
         price = price + extra_add.get(flight_data.get('extra', 'Basic'), 0)
 
+        # New High-Trust Parameter Multipliers
+        membership_mult = {'Guest': 1.0, 'Silver': 0.95, 'Gold': 0.88}
+        festival_mult = {'Yes': 1.30, 'No': 1.0}
+        
+        # Departure Window heuristic (Simulated)
+        window_mult = 1.0
+        dpw = flight_data.get('departureWindow', 'Morning')
+        if dpw in ['Morning', 'Evening']: window_mult = 1.15
+        elif dpw in ['Night', 'Early Morning']: window_mult = 0.90
+
+        price = price * membership_mult.get(flight_data.get('membership', 'Guest'), 1.0)
+        price = price * festival_mult.get(flight_data.get('isFestival', 'No'), 1.0)
+        price = price * window_mult
+
         # Confidence score: based on estimator variance
         rf = model.named_steps['regressor']
         X_transformed = model.named_steps['preprocessor'].transform(payload)
