@@ -1,14 +1,10 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from utils.predict import predict_price
 from chatbot.rule_bot import get_chat_response
-import logging
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("api_logger")
-
-app = FastAPI(title="AI Flight Predictor & Chat")
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,18 +13,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-@app.middleware("http")
-async def log_requests(request: Request, call_next):
-    logger.info(f"Incoming request: {request.method} {request.url}")
-    try:
-        response = await call_next(request)
-        logger.info(f"Response status: {response.status_code}")
-        return response
-    except Exception as e:
-        logger.error(f"Error handling request: {e}")
-        from fastapi.responses import JSONResponse
-        return JSONResponse(status_code=500, content={"error": "Internal Server Error", "details": str(e)})
 
 class FlightQuery(BaseModel):
     source: str
@@ -46,7 +30,7 @@ def root():
     return {"message": "AI Flight Predictor API is running."}
 
 @app.get("/test")
-def test_route():
+def test():
     return {"message": "Backend working"}
 
 @app.post("/predict")
