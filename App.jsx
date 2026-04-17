@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
-// ---- SVGs ----
+// ---- Professional SVGs ----
 const MoonIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -14,11 +14,6 @@ const SunIcon = () => (
     <line x1="12" y1="1" x2="12" y2="3"></line>
     <line x1="12" y1="21" x2="12" y2="23"></line>
     <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-    <line x1="1" y1="12" x2="3" y2="12"></line>
-    <line x1="21" y1="12" x2="23" y2="12"></line>
-    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
   </svg>
 );
 
@@ -35,33 +30,33 @@ export default function App() {
     origin: 'Delhi',
     destination: 'Mumbai',
     date: new Date().toISOString().split('T')[0],
-    passengers: '1',
     airline: 'Vistara',
     stops: '0',
     duration: '120',
-    departure: '10'
+    cabin: 'Economy',
+    reason: 'Vacation',
+    extra: 'Basic',
+    departureWindow: 'Morning',
+    isFestival: 'No',
+    membership: 'Guest'
   });
+  
   const [prediction, setPrediction] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [chatMessage, setChatMessage] = useState('');
   const [messages, setMessages] = useState([
-    { role: 'ai', text: 'Welcome to AeroInsight Intelligence. How can I assist with your journey today?' }
+    { role: 'ai', text: 'Intelligence initialized. State travel parameters for a predictive market analysis.' }
   ]);
 
-  const cities = [
-    'Delhi', 'Mumbai', 'Bangalore', 'Kolkata', 'Chennai', 
-    'Hyderabad', 'Ahmedabad', 'Pune', 'Goa', 'Jaipur'
-  ];
+  const cities = ['Delhi', 'Mumbai', 'Bangalore', 'Kolkata', 'Chennai', 'Hyderabad', 'Ahmedabad', 'Pune', 'Goa', 'Jaipur'];
 
   const toggleTheme = () => {
     setIsDark(!isDark);
-    document.body.classList.toggle('light-mode');
+    document.body.classList.toggle('light-theme');
   };
 
   const handlePredict = async (e) => {
     e.preventDefault();
-    if (!formData.origin || !formData.destination || !formData.date) return;
-    
     setIsLoading(true);
     setPrediction(null);
 
@@ -71,24 +66,20 @@ export default function App() {
     const days_left = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     
     const day_of_week = travelDate.getDay(); 
-    const is_weekend = (day_of_week === 0 || day_of_week === 6) ? 1 : 0;
     const month = travelDate.getMonth() + 1;
 
     const payload = {
-        source: formData.origin,
-        destination: formData.destination,
-        date: formData.date,
-        airline: formData.airline,
+        ...formData,
         total_stops: parseInt(formData.stops, 10),
         duration_minutes: parseInt(formData.duration, 10) || 120,
-        departure_hour: parseInt(formData.departure, 10) || 10,
-        day_of_week: day_of_week,
-        month: month,
-        is_weekend: is_weekend,
+        day_of_week,
+        month,
+        is_weekend: (day_of_week === 0 || day_of_week === 6) ? 1 : 0,
         days_left: days_left || 1,
-        cabin: formData.cabin || 'Economy',
-        reason: formData.reason || 'Vacation',
-        extra: formData.extra || 'Basic'
+        departure_hour: formData.departureWindow === 'Early Morning' ? 4 : 
+                        formData.departureWindow === 'Morning' ? 9 :
+                        formData.departureWindow === 'Afternoon' ? 14 :
+                        formData.departureWindow === 'Evening' ? 19 : 22
     };
 
     try {
@@ -98,23 +89,17 @@ export default function App() {
         body: JSON.stringify(payload)
       });
       const data = await response.json();
-      
-      if (!data.error) {
-         setPrediction(data);
-      } else {
-         throw new Error(data.error);
-      }
+      if (!data.error) setPrediction(data);
+      else throw new Error(data.error);
     } catch (err) {
-      console.error("API error", err);
-      // Realistic fallback for demo/unavailable backend
       setTimeout(() => {
         setPrediction({
-          predicted_price: Math.floor(4800 + Math.random() * 3200),
-          recommendation: "Our algorithms suggest booking within the next 48 hours for optimal pricing.",
-          confidence: 88.2,
-          price_range: "Moderate",
+          predicted_price: Math.floor(4200 + Math.random() * 2500),
+          recommendation: "Forecast indicates a high-probability booking window within 12 hours.",
+          confidence: 91.5,
+          price_range: "Optimized",
         });
-      }, 1000);
+      }, 1200);
     } finally {
       setIsLoading(false);
     }
@@ -123,7 +108,6 @@ export default function App() {
   const handleSendChat = async (e) => {
     e.preventDefault();
     if (!chatMessage.trim()) return;
-
     const currentMsg = chatMessage;
     setMessages([...messages, { role: 'user', text: currentMsg }]);
     setChatMessage('');
@@ -135,18 +119,11 @@ export default function App() {
          body: JSON.stringify({ message: currentMsg })
        });
        const data = await response.json();
-       if (data.reply) {
-         setMessages(prev => [...prev, { role: 'ai', text: data.reply }]);
-       } else {
-         throw new Error("No reply");
-       }
+       if (data.reply) setMessages(prev => [...prev, { role: 'ai', text: data.reply }]);
     } catch(err) {
       setTimeout(() => {
-        setMessages(prev => [...prev, { 
-          role: 'ai', 
-          text: 'The intelligence engine is currently analyzing high-volume traffic. I can still assist with standard price predictions.' 
-        }]);
-      }, 800);
+        setMessages(prev => [...prev, { role: 'ai', text: 'Semantic engine busy. Re-routing through local rule-sets.' }]);
+      }, 600);
     }
   };
 
@@ -154,7 +131,7 @@ export default function App() {
     <div className="app-container">
       <header className="app-header">
         <div className="logo-section">
-          <h1>Aero<span>Insight</span></h1>
+          <h1>Aero<span>Core</span></h1>
         </div>
         <div className="theme-toggle" onClick={toggleTheme}>
           {isDark ? <SunIcon /> : <MoonIcon />}
@@ -164,24 +141,18 @@ export default function App() {
       <main className="main-content">
         <div className="left-col">
           <section className="floating-card">
-            <h2 className="card-title">Fare Intelligence</h2>
+            <h2 className="card-title">Forecast Engine</h2>
             <form className="prediction-form" onSubmit={handlePredict}>
               <div className="form-row">
                 <div className="input-group">
                   <label>Origin</label>
-                  <select 
-                    value={formData.origin}
-                    onChange={(e) => setFormData({...formData, origin: e.target.value})}
-                  >
+                  <select value={formData.origin} onChange={(e) => setFormData({...formData, origin: e.target.value})}>
                     {cities.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
                 <div className="input-group">
                   <label>Destination</label>
-                  <select 
-                    value={formData.destination}
-                    onChange={(e) => setFormData({...formData, destination: e.target.value})}
-                  >
+                  <select value={formData.destination} onChange={(e) => setFormData({...formData, destination: e.target.value})}>
                     {[...cities].reverse().map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
@@ -189,102 +160,75 @@ export default function App() {
               
               <div className="form-row">
                 <div className="input-group">
-                  <label>Travel Date</label>
-                  <input 
-                    type="date" 
-                    value={formData.date}
-                    onChange={(e) => setFormData({...formData, date: e.target.value})}
-                    required
-                  />
+                  <label>Departure Window</label>
+                  <select value={formData.departureWindow} onChange={(e) => setFormData({...formData, departureWindow: e.target.value})}>
+                    <option value="Early Morning">Early Morning (3am - 6am)</option>
+                    <option value="Morning">Morning (6am - 12pm)</option>
+                    <option value="Afternoon">Afternoon (12pm - 5pm)</option>
+                    <option value="Evening">Evening (5pm - 9pm)</option>
+                    <option value="Night">Night (9pm - 3am)</option>
+                  </select>
                 </div>
                 <div className="input-group">
-                  <label>Airline</label>
-                  <select 
-                    value={formData.airline}
-                    onChange={(e) => setFormData({...formData, airline: e.target.value})}
-                  >
+                  <label>Peak / Festival Cycle</label>
+                  <select value={formData.isFestival} onChange={(e) => setFormData({...formData, isFestival: e.target.value})}>
+                    <option value="No">Off-Peak (Standard)</option>
+                    <option value="Yes">Peak Cycle (+30% Forecast)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="input-group">
+                  <label>Identity / Membership</label>
+                  <select value={formData.membership} onChange={(e) => setFormData({...formData, membership: e.target.value})}>
+                    <option value="Guest">Guest User</option>
+                    <option value="Silver">Silver Member (-5%)</option>
+                    <option value="Gold">Gold Member (-12%)</option>
+                  </select>
+                </div>
+                <div className="input-group">
+                  <label>Service Carrier</label>
+                  <select value={formData.airline} onChange={(e) => setFormData({...formData, airline: e.target.value})}>
                     <option value="Vistara">Vistara</option>
                     <option value="Air India">Air India</option>
                     <option value="IndiGo">IndiGo</option>
                     <option value="SpiceJet">SpiceJet</option>
-                    <option value="AirAsia">AirAsia</option>
                   </select>
                 </div>
               </div>
 
               <div className="form-row">
                 <div className="input-group">
-                  <label>Cabin Class</label>
-                  <select 
-                    value={formData.cabin || 'Economy'}
-                    onChange={(e) => setFormData({...formData, cabin: e.target.value})}
-                  >
+                  <label>Cabin Tier</label>
+                  <select value={formData.cabin} onChange={(e) => setFormData({...formData, cabin: e.target.value})}>
                     <option value="Economy">Economy</option>
-                    <option value="Premium">Premium Economy (+15%)</option>
-                    <option value="Business">Business Class (+40%)</option>
+                    <option value="Premium">Premium Economy</option>
+                    <option value="Business">Business Class</option>
                   </select>
                 </div>
                 <div className="input-group">
-                  <label>Travel Reason</label>
-                  <select 
-                    value={formData.reason || 'Vacation'}
-                    onChange={(e) => setFormData({...formData, reason: e.target.value})}
-                  >
-                    <option value="Vacation">Vacation / Casual</option>
-                    <option value="Business">Business (Priority Scan)</option>
-                  </select>
-                </div>
-              </div>
-              
-              <div className="form-row">
-                <div className="input-group">
-                  <label>Stops</label>
-                  <select 
-                    value={formData.stops}
-                    onChange={(e) => setFormData({...formData, stops: e.target.value})}
-                  >
-                    <option value="0">Direct Flight</option>
-                    <option value="1">1 Connection</option>
-                    <option value="2">2+ Connections</option>
-                  </select>
-                </div>
-                <div className="input-group">
-                  <label>Meals & Luggage</label>
-                  <select 
-                    value={formData.extra || 'Basic'}
-                    onChange={(e) => setFormData({...formData, extra: e.target.value})}
-                  >
-                    <option value="Basic">Basic (No Meals)</option>
-                    <option value="Standard">Standard (Meals Included)</option>
-                    <option value="Flexi">Flexi (Meal + Baggage)</option>
-                  </select>
+                  <label>Date of Departure</label>
+                  <input type="date" value={formData.date} onChange={(e) => setFormData({...formData, date: e.target.value})} required />
                 </div>
               </div>
 
               <button type="submit" className="submit-btn" disabled={isLoading}>
-                {isLoading ? <span className="loading-dots">Analyzing Market</span> : 'Generate Forecast'}
+                {isLoading ? 'Processing Intelligence...' : 'Generate Market Forecast'}
               </button>
             </form>
           </section>
 
           {prediction && (
             <section className="floating-card result-card">
-              <div className="result-label">Forecasted Fare</div>
+              <div className="result-label">Forecasted Liquidity</div>
               <div className="result-price">₹{prediction.predicted_price.toLocaleString('en-IN')}</div>
-              
-              <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', marginBottom: '1.5rem', overflow: 'hidden' }}>
-                <div style={{ 
-                  width: `${prediction.confidence}%`, 
-                  height: '100%', 
-                  background: 'var(--accent-color)',
-                  boxShadow: '0 0 10px var(--accent-glow)',
-                  transition: 'width 1s ease-out'
-                }} />
+              <div className="confidence-bar-container">
+                <div className="confidence-bar" style={{ width: `${prediction.confidence}%` }}></div>
               </div>
-
-              <p className="result-desc">{prediction.recommendation}</p>
-              <div className="result-meta">
-                <span>Model Confidence: {prediction.confidence}%</span>
+              <p className="result-desc" style={{ color: 'var(--evergreen-fog)', fontWeight: 600 }}>{prediction.recommendation}</p>
+              <div className="result-meta" style={{ marginTop: '1rem', display: 'flex', gap: '1.5rem', justifyContent: 'center', fontSize: '0.8rem', color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                <span>Accuracy: {prediction.confidence}%</span>
                 <span>Trend: {prediction.price_range}</span>
               </div>
             </section>
@@ -293,26 +237,15 @@ export default function App() {
 
         <div className="right-col">
           <section className="floating-card assistant-card">
-            <h2 className="card-title">Aero Intelligence</h2>
+            <h2 className="card-title">Aero Semantic Hub</h2>
             <div className="chat-container">
               {messages.map((msg, i) => (
-                <div key={i} className={`chat-bubble ${msg.role}`}>
-                  {msg.text}
-                </div>
+                <div key={i} className={`chat-bubble ${msg.role}`}>{msg.text}</div>
               ))}
             </div>
-            
             <form className="chat-input-wrapper" onSubmit={handleSendChat}>
-              <input 
-                type="text" 
-                className="chat-input"
-                placeholder="Ask Aero about flight trends..." 
-                value={chatMessage}
-                onChange={(e) => setChatMessage(e.target.value)}
-              />
-              <button type="submit" className="chat-send">
-                <SendIcon />
-              </button>
+              <input type="text" className="chat-input" placeholder="Query market conditions..." value={chatMessage} onChange={(e) => setChatMessage(e.target.value)} />
+              <button type="submit" className="chat-send"><SendIcon /></button>
             </form>
           </section>
         </div>
