@@ -12,6 +12,8 @@
   --input-bg: #f8f9f7;
   --accent-color: #bfc5be; /* Oyster Bay */
   --accent-hover: #91968e; /* Evergreen Fog */
+  --ai-bubble-bg: #e1e9e3; /* Healing Aloe (#7) */
+  --ai-bubble-text: #3a3d3a;
   --shadow: 0 10px 40px rgba(104, 112, 106, 0.12);
   --glass-blur: blur(30px);
 }
@@ -27,6 +29,8 @@ body.dark-theme {
   --input-bg: rgba(10, 12, 10, 0.4);
   --accent-color: #91968e; /* Evergreen Fog */
   --accent-hover: #bfc5be; /* Oyster Bay */
+  --ai-bubble-bg: #2d332e; /* Dark Millstone Aloe */
+  --ai-bubble-text: #f1f3f1;
   --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
 }
 
@@ -250,8 +254,8 @@ body {
 }
 
 .chat-bubble.ai {
-  background: #e1e9e3; /* Healing Aloe (#7) */
-  color: var(--text-main);
+  background: var(--ai-bubble-bg);
+  color: var(--ai-bubble-text);
   align-self: flex-start;
   border-bottom-left-radius: 4px;
 }
