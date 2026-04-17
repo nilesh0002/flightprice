@@ -75,7 +75,7 @@ def get_chat_response(message: str) -> str:
         src, dest = extract_flight_info(message)
         if not src or not dest:
             return "I couldn't quite catch the structural context. Try stating valid routing paths like 'Delhi to Mumbai'."
-            
+
         # Explicit NLP Date Generation Framework
         days_left = 1
         if "tomorrow" in msg_low:
@@ -84,7 +84,7 @@ def get_chat_response(message: str) -> str:
             days_left = 7
         elif "today" in msg_low:
             days_left = 0
-            
+
         travel_date = datetime.datetime.now() + datetime.timedelta(days=days_left)
 
         payload = {
@@ -99,11 +99,16 @@ def get_chat_response(message: str) -> str:
             "is_weekend": 1 if travel_date.weekday() in [5, 6] else 0,
             "days_left": days_left
         }
-        
+
         try:
-            price, recommendation, conf = predict_price(payload)
+            price, recommendation, conf, price_range = predict_price(payload)
             target_date_str = travel_date.strftime("%B %d")
-            return f"✈️ Scanning flights from {src} to {dest} for {target_date_str}...\n\nMy underlying model predicts base-tier tickets at roughly **₹{price}** with an algorithmic confidence of {conf}%. {recommendation}"
+            return (
+                f"✈️ Scanning flights from {src} to {dest} for {target_date_str}...\n\n"
+                f"My underlying model predicts base-tier tickets at roughly **₹{price}** "
+                f"with an algorithmic confidence of {conf}%. "
+                f"Price range: {price_range}. {recommendation}"
+            )
         except Exception as e:
             return "Oops! My prediction engine encountered a fault while scaling the array inputs. Try again shortly."
 

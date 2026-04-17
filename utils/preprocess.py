@@ -19,6 +19,12 @@ def preprocess_input(data: dict, model_columns: list) -> pd.DataFrame:
     airline_col = f"airline_{data['airline']}"
     source_col = f"source_{data['source']}"
     dest_col = f"destination_{data['destination']}"
+            """
+            Preprocessing utility for flight price prediction.
+            Use this if your model requires manual feature engineering before prediction.
+            If your pipeline handles preprocessing, you may not need to call this directly.
+            Ensure the same logic is used during both training and prediction for consistency.
+            """
     
     if airline_col in df.columns: df[airline_col] = 1
     if source_col in df.columns: df[source_col] = 1
