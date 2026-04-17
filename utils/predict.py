@@ -27,11 +27,15 @@ def predict_price(flight_data: dict):
     global model_data
     if not model_data:
         raise RuntimeError("Model not available")
-            
+
     try:
         model = model_data['model']
-        
-        # Fast array injection into pandas matching generated schema
+
+        # Consistent preprocessing (if needed, call preprocess_input here)
+        # If your model expects preprocessed input, uncomment below:
+        # from utils.preprocess import preprocess_input
+        # payload = preprocess_input(flight_data, model_data['columns'])
+
         payload = pd.DataFrame([{
             'Airline': flight_data['airline'],
             'Source': flight_data['source'],
@@ -44,19 +48,20 @@ def predict_price(flight_data: dict):
             'is_weekend': flight_data['is_weekend'],
             'days_left': flight_data['days_left']
         }])
-        
+
         # Full inference pass via SciKit pipeline natively handling categorical encoding internally
         price = model.predict(payload)[0]
-        
-        # Calculate algorithmic confidence via Estimator Variance spread
+
+        # Confidence score: based on estimator variance
         rf = model.named_steps['regressor']
         X_transformed = model.named_steps['preprocessor'].transform(payload)
         preds = [tree.predict(X_transformed)[0] for tree in rf.estimators_]
         std_dev = np.std(preds)
         confidence = max(0, min(100, 100 - (std_dev / price * 200)))
-        
+
+        # Price range logic
         average_price = 3000 + (flight_data['total_stops'] * 1500) + (flight_data['duration_minutes'] * 5)
-        
+
         if price < 5000:
             price_range = "Low"
         elif price < 10000:
