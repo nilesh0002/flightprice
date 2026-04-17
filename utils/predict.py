@@ -10,12 +10,14 @@ print("Server started")
 def load_model():
     global model_data
     try:
-        if not os.path.exists('model.pkl'):
-            print("CRITICAL ERROR: model.pkl not found!")
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        model_path = os.path.join(base_dir, 'model.pkl')
+        if not os.path.exists(model_path):
+            print(f"CRITICAL ERROR: {model_path} not found!")
             return
         
         if not model_data:
-            model_data = joblib.load('model.pkl')
+            model_data = joblib.load(model_path)
             print("Model loaded successfully")
     except Exception as e:
         print(f"Error loading model: {e}")
