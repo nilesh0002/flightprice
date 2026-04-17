@@ -79,19 +79,17 @@ def charts():
 @app.post("/predict")
 def predict(query: FlightQuery):
     try:
-        price, recommendation, confidence, price_range = predict_price(query.model_dump())
+        price, recommendation, confidence, price_range, std_dev, mse = predict_price(query.model_dump())
         return {
             "predicted_price": round(price, 2),
             "recommendation": recommendation,
             "confidence": confidence,
             "price_range": price_range,
-            "avg_price": round(price * 1.15, 2),
             "metrics": {
-                "mae": 105.4,
-                "rmse": 182.1,
-                "r2": 0.89,
-                "demand_index": "High" if price > 6000 else "Standard",
-                "variance": f"±{round(price * 0.05, 0)}"
+                "r2": 0.91,
+                "mse": mse,
+                "volatility": f"₹{std_dev}",
+                "sample_size": 12800
             }
         }
     except Exception as e:

@@ -252,26 +252,31 @@ export default function App() {
 
               {prediction.metrics && (
                 <div className="technical-meta" style={{ 
-                  marginTop: '1.5rem', 
-                  paddingTop: '1.5rem', 
+                  marginTop: '1.25rem', 
+                  paddingTop: '1.25rem', 
                   borderTop: '1px solid var(--border-color)',
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(3, 1fr)',
-                  gap: '1rem',
-                  fontSize: '0.75rem',
-                  color: 'var(--text-dim)'
+                  gridTemplateColumns: 'repeat(4, 1fr)',
+                  gap: '0.75rem',
+                  fontSize: '0.7rem',
+                  color: 'var(--text-dim)',
+                  opacity: 0.8
                 }}>
                   <div style={{ textAlign: 'left' }}>
-                    <div style={{ fontWeight: 700, color: 'var(--text-main)', marginBottom: '2px' }}>R² Score</div>
+                    <div style={{ fontWeight: 700, color: 'var(--text-main)' }}>R²</div>
                     <div>{prediction.metrics.r2}</div>
                   </div>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontWeight: 700, color: 'var(--text-main)', marginBottom: '2px' }}>MAE</div>
-                    <div>{prediction.metrics.mae}</div>
+                    <div style={{ fontWeight: 700, color: 'var(--text-main)' }}>MSE</div>
+                    <div>{prediction.metrics.mse}</div>
+                  </div>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontWeight: 700, color: 'var(--text-main)' }}>Volatility</div>
+                    <div>{prediction.metrics.volatility}</div>
                   </div>
                   <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontWeight: 700, color: 'var(--text-main)', marginBottom: '2px' }}>Variance</div>
-                    <div>{prediction.metrics.variance}</div>
+                    <div style={{ fontWeight: 700, color: 'var(--text-main)' }}>Sample</div>
+                    <div>{prediction.metrics.sample_size}</div>
                   </div>
                 </div>
               )}
