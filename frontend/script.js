@@ -1,7 +1,7 @@
 // Configuration - Update API_URL for deployment
 // For local testing: const API_URL = "http://127.0.0.1:10000";
 // For Render deployment, change this to your render URL and redeploy Vercel.
-const API_URL = "http://127.0.0.1:10000";
+const API_URL = "https://flightprice-api.onrender.com";
 
 document.addEventListener('DOMContentLoaded', () => {
 
