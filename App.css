@@ -250,7 +250,7 @@ body {
 }
 
 .chat-bubble.ai {
-  background: var(--input-bg);
+  background: #e1e9e3; /* Healing Aloe (#7) */
   color: var(--text-main);
   align-self: flex-start;
   border-bottom-left-radius: 4px;
