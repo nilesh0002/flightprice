@@ -38,6 +38,30 @@ def root():
 def test():
     return {"message": "Backend working"}
 
+@app.get("/metrics")
+def metrics():
+    # Return dummy metrics for UI
+    return {"mae": 1500.25, "rmse": 2045.60, "r2": 0.89}
+
+@app.get("/charts")
+def charts():
+    return {
+        "price_vs_airline": {
+            "labels": ["IndiGo", "Air India", "Vistara", "SpiceJet"],
+            "data": [4200, 5600, 6500, 4100]
+        },
+        "price_vs_stops": {
+            "labels": ["0 Stops", "1 Stop", "2+ Stops"],
+            "data": [4800, 6800, 8500]
+        },
+        "duration_vs_price": [
+            {"x": 60, "y": 3000},
+            {"x": 120, "y": 4500},
+            {"x": 180, "y": 6000},
+            {"x": 240, "y": 7200}
+        ]
+    }
+
 @app.post("/predict")
 def predict(query: FlightQuery):
     try:
