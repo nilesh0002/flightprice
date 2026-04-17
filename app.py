@@ -4,7 +4,14 @@ from pydantic import BaseModel
 from utils.predict import predict_price
 from chatbot.rule_bot import get_chat_response
 
+import os
+
 app = FastAPI()
+
+# For Vercel deployment, we might need to handle the /api prefix
+# if not running locally.
+if os.environ.get("VERCEL"):
+    app.root_path = "/api"
 
 app.add_middleware(
     CORSMiddleware,
