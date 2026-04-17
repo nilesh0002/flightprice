@@ -28,8 +28,10 @@ def predict_price(flight_data: dict):
     model = model_data['model']
     columns = model_data['columns']
     
+    print(f"Prediction running for: {flight_data}")
     df = preprocess_input(flight_data, columns)
     price = model.predict(df)[0]
+    print(f"Predicted price: {price}")
     
     average_price = 3000 + (flight_data['total_stops'] * 1500) + (flight_data['duration_minutes'] * 5)
     if price <= average_price + 200:
