@@ -37,15 +37,16 @@ export default function App() {
     date: new Date().toISOString().split('T')[0],
     passengers: '1',
     airline: 'Vistara',
-    stops: '0'
+    stops: '0',
+    duration: '120',
+    departure: '10'
   });
   const [prediction, setPrediction] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [chatMessage, setChatMessage] = useState('');
   const [messages, setMessages] = useState([
-    { role: 'ai', text: 'Hi, ask me anything about your upcoming flight.' }
+    { role: 'ai', text: 'Hi, ask me anything about your upcoming flight or travel!' }
   ]);
-  const [chartData, setChartData] = useState([40, 65, 30, 85, 55, 90, 70]);
 
   useEffect(() => {
     // Check initial theme preference
@@ -56,20 +57,6 @@ export default function App() {
       setIsDark(true);
       document.body.classList.add('dark-mode');
     }
-
-    // Fetch initial charts if backend runs
-    fetch("http://localhost:8000/charts")
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.price_vs_stops && data.price_vs_stops.data) {
-           // Basic normalization to roughly 0-100 values for CSS charting
-           const maxVal = Math.max(...data.price_vs_stops.data, 10000);
-           const normalized = data.price_vs_stops.data.map(val => (val / maxVal) * 100);
-           // pad array slightly if too short
-           setChartData([...normalized, 80, 45, 90].slice(0, 7));
-        }
-      })
-      .catch(e => console.warn("Charts API fetch failed, using default data"));
   }, []);
 
   const toggleTheme = () => {
@@ -109,8 +96,8 @@ export default function App() {
         date: formData.date,
         airline: formData.airline,
         total_stops: parseInt(formData.stops, 10),
-        duration_minutes: 130, // generic duration
-        departure_hour: 10,   // morning departure
+        duration_minutes: parseInt(formData.duration, 10) || 120,
+        departure_hour: parseInt(formData.departure, 10) || 10,
         day_of_week: day_of_week,
         month: month,
         is_weekend: is_weekend,
@@ -267,6 +254,32 @@ export default function App() {
                 </div>
               </div>
 
+              <div className="form-row">
+                <div className="input-group">
+                  <label htmlFor="duration">Appx Duration (mins)</label>
+                  <input
+                    type="number"
+                    id="duration"
+                    value={formData.duration}
+                    onChange={(e) => setFormData({...formData, duration: e.target.value})}
+                    placeholder="e.g. 120"
+                    min="30"
+                  />
+                </div>
+                <div className="input-group">
+                  <label htmlFor="departure">Departure Hour (24H)</label>
+                  <input
+                    type="number"
+                    id="departure"
+                    value={formData.departure}
+                    onChange={(e) => setFormData({...formData, departure: e.target.value})}
+                    placeholder="e.g. 14 for 2 PM"
+                    min="0"
+                    max="23"
+                  />
+                </div>
+              </div>
+
               <button type="submit" className="submit-btn" aria-label="Predict Price" disabled={isLoading}>
                 {isLoading ? 'Analyzing...' : 'Predict Price'}
               </button>
@@ -289,21 +302,8 @@ export default function App() {
           )}
         </div>
 
-        {/* RIGHT COLUMN: Charts & Chat */}
+        {/* RIGHT COLUMN: Chat */}
         <div className="right-col">
-          <section className="floating-card">
-            <h2 className="card-title">Price Trends (30 Days)</h2>
-            <div className="chart-container">
-              {chartData.map((height, i) => (
-                <div 
-                  key={i} 
-                  className={`chart-bar ${i === 4 ? 'active' : ''}`}
-                  style={{ height: `${height}%` }}
-                ></div>
-              ))}
-            </div>
-          </section>
-
           <section className="floating-card assistant-card">
             <h2 className="card-title">AI Assistant</h2>
             <div className="chat-container">

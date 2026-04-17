@@ -5,18 +5,25 @@ from utils.predict import predict_price
 
 def call_llm_api(message):
     """
-    Attempts to hit a free Hugging Face API without authentication.
-    Fails exceptionally fast via timeout if ratelimits trigger.
+    Hits a free LLM endpoint using text.pollinations.ai to act like a real AI (ChatGPT).
+    Uses urllib directly to avoid any CA certificate bundle issues on the local system.
     """
     try:
-        API_URL = "https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill"
-        payload = {"inputs": message}
-        response = requests.post(API_URL, json=payload, timeout=2.5)
-        if response.status_code == 200:
-            return response.json()[0]['generated_text']
-    except Exception:
-        pass
-    return None
+        import urllib.request
+        import urllib.parse
+        
+        # We append a small system prompt to tell it to act as an assistant
+        prompt = "You are a helpful travel and general assistant AI. Keep your answer brief. User says: " + message
+        encoded_prompt = urllib.parse.quote(prompt)
+        
+        url = f"https://text.pollinations.ai/{encoded_prompt}"
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        response = urllib.request.urlopen(req, timeout=8)
+        
+        return response.read().decode('utf-8')
+    except Exception as e:
+        print(f"LLM API Error: {e}")
+        return None
 
 def fallback_general_qa(message):
     """
