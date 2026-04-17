@@ -18,6 +18,31 @@
             </header>
 
             <main>
+                <section class="card card-metrics" id="metrics-card">
+                    <h3 style="margin-bottom: 12px;">Model Metrics
+                        <span style="font-size: 1.1em; color: var(--primary-color); vertical-align: middle;">📊</span>
+                    </h3>
+                    <div class="metrics-row">
+                        <div class="metric-item">
+                            <span class="metric-label" data-tooltip="Mean Absolute Error: average error in price prediction">MAE
+                                <span class="metric-tooltip">Mean Absolute Error: average error in price prediction</span>
+                            </span>
+                            <span class="metric-value" id="mae-value">--</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label" data-tooltip="Root Mean Squared Error: penalizes larger errors">RMSE
+                                <span class="metric-tooltip">Root Mean Squared Error: penalizes larger errors</span>
+                            </span>
+                            <span class="metric-value" id="rmse-value">--</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label" data-tooltip="R² Score: accuracy of the model (closer to 1 is better)">R²
+                                <span class="metric-tooltip">R² Score: accuracy of the model (closer to 1 is better)</span>
+                            </span>
+                            <span class="metric-value" id="r2-value">--</span>
+                        </div>
+                    </div>
+                </section>
                 <section class="card card-form">
                     <form id="flight-form">
                         <div class="form-group row">
