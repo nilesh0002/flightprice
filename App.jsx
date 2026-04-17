@@ -1,3 +1,220 @@
+import React, { useState, useEffect, useRef } from "react";
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar, CartesianGrid, Legend } from "recharts";
+
+const COLOR_PRIMARY = "#6366f1";
+const COLOR_BG_LIGHT = "#f8fafc";
+const COLOR_BG_DARK = "#0f172a";
+const COLOR_CARD_LIGHT = "#ffffff";
+const COLOR_CARD_DARK = "#1e293b";
+const COLOR_BORDER = "#e5e7eb";
+
+const airlines = [
+  "IndiGo", "Air India", "SpiceJet", "Vistara", "GoAir", "AirAsia"
+];
+const stopsOptions = ["Non-stop", "1 Stop", "2+ Stops"];
+
+const chartSample = [
+  { airline: "IndiGo", price: 4800 },
+  { airline: "Air India", price: 5200 },
+  { airline: "SpiceJet", price: 5000 },
+  { airline: "Vistara", price: 5400 },
+  { airline: "GoAir", price: 4700 },
+  { airline: "AirAsia", price: 5100 }
+];
+
+function getSystemTheme() {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+export default function App() {
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || getSystemTheme());
+  const [form, setForm] = useState({
+    source: "",
+    destination: "",
+    travelDate: "",
+    departureTime: "",
+    airline: "",
+    duration: "",
+    stops: ""
+  });
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState("");
+  const [chat, setChat] = useState([{ type: "bot", text: "Ask me anything about flights." }]);
+  const [chatInput, setChatInput] = useState("");
+  const [chatLoading, setChatLoading] = useState(false);
+  const chatEndRef = useRef(null);
+
+  useEffect(() => {
+    document.body.className = theme === "dark" ? "dark" : "";
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
+    if (chatEndRef.current) chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [chat]);
+
+  function handleThemeToggle() {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  }
+
+  function handleFormChange(e) {
+    const { name, value } = e.target;
+    setForm((f) => ({ ...f, [name]: value }));
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+    setResult(null);
+    setError("");
+    try {
+      const res = await fetch("/api/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form)
+      });
+      if (!res.ok) throw new Error("Prediction failed");
+      const data = await res.json();
+      setResult(data);
+    } catch {
+      setError("Could not fetch prediction. Please try again.");
+    }
+    setLoading(false);
+  }
+
+  async function handleChatSend(e) {
+    e && e.preventDefault();
+    if (!chatInput.trim()) return;
+    setChat((c) => [...c, { type: "user", text: chatInput }]);
+    setChatLoading(true);
+    try {
+      const res = await fetch("/api/assistant", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: chatInput })
+      });
+      let data = { reply: "Sorry, I can only answer flight-related questions." };
+      if (res.ok) data = await res.json();
+      setChat((c) => [...c, { type: "bot", text: data.reply }]);
+    } catch {
+      setChat((c) => [...c, { type: "bot", text: "Sorry, something went wrong." }]);
+    }
+    setChatInput("");
+    setChatLoading(false);
+  }
+
+  const isMobile = window.innerWidth <= 600;
+
+  return (
+    <div className="app-root">
+      <div className="theme-toggle">
+        <button onClick={handleThemeToggle} aria-label="Toggle dark/light mode">
+          {theme === "dark" ? "Light" : "Dark"}
+        </button>
+      </div>
+      <div className={`main-container${isMobile ? " mobile" : ""}`}>
+        <div className="left-col">
+          <form className="predict-form" onSubmit={handleSubmit} autoComplete="off">
+            <div className="form-title">Flight Price Prediction</div>
+            <div className="form-row">
+              <label>Source</label>
+              <input name="source" value={form.source} onChange={handleFormChange} required />
+            </div>
+            <div className="form-row">
+              <label>Destination</label>
+              <input name="destination" value={form.destination} onChange={handleFormChange} required />
+            </div>
+            <div className="form-row">
+              <label>Travel Date</label>
+              <input type="date" name="travelDate" value={form.travelDate} onChange={handleFormChange} required />
+            </div>
+            <div className="form-row">
+              <label>Departure Time</label>
+              <input type="time" name="departureTime" value={form.departureTime} onChange={handleFormChange} required />
+            </div>
+            <div className="form-row">
+              <label>Airline</label>
+              <select name="airline" value={form.airline} onChange={handleFormChange} required>
+                <option value="">Select</option>
+                {airlines.map((a) => (
+                  <option key={a} value={a}>{a}</option>
+                ))}
+              </select>
+            </div>
+            <div className="form-row">
+              <label>Duration (mins)</label>
+              <input name="duration" type="number" min="1" value={form.duration} onChange={handleFormChange} required />
+            </div>
+            <div className="form-row">
+              <label>Stops</label>
+              <select name="stops" value={form.stops} onChange={handleFormChange} required>
+                <option value="">Select</option>
+                {stopsOptions.map((s) => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+            </div>
+            <button className="submit-btn" type="submit" disabled={loading}>
+              {loading ? "Predicting..." : "Predict"}
+            </button>
+            {error && <div className="error-msg">{error}</div>}
+          </form>
+          <div className="result-card">
+            {loading && <div className="result-loading">Loading...</div>}
+            {result && (
+              <div className="result-content">
+                <div className="result-price">₹{result.price}</div>
+                <div className="result-message">
+                  {result.recommendation === "good"
+                    ? "Good time to book"
+                    : "Prices may increase"}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="right-col">
+          <div className="chart-card">
+            <div className="chart-title">Price vs Airline</div>
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={chartSample}>
+                <CartesianGrid strokeDasharray="3 3" stroke={theme === "dark" ? "#334155" : "#e5e7eb"} />
+                <XAxis dataKey="airline" stroke={theme === "dark" ? "#cbd5e1" : "#334155"} />
+                <YAxis stroke={theme === "dark" ? "#cbd5e1" : "#334155"} />
+                <Tooltip contentStyle={{ background: theme === "dark" ? COLOR_CARD_DARK : COLOR_CARD_LIGHT, borderColor: COLOR_BORDER }} />
+                <Bar dataKey="price" fill={COLOR_PRIMARY} radius={[6, 6, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="chat-card">
+            <div className="chat-title">AI Assistant</div>
+            <div className="chat-window">
+              {chat.map((msg, i) => (
+                <div key={i} className={`chat-msg ${msg.type}`}>{msg.text}</div>
+              ))}
+              <div ref={chatEndRef} />
+              {chatLoading && <div className="chat-msg bot">...</div>}
+            </div>
+            <form className="chat-input-row" onSubmit={handleChatSend} autoComplete="off">
+              <input
+                className="chat-input"
+                value={chatInput}
+                onChange={e => setChatInput(e.target.value)}
+                placeholder="Ask about flights..."
+                disabled={chatLoading}
+                maxLength={300}
+              />
+              <button className="chat-send-btn" type="submit" disabled={chatLoading || !chatInput.trim()}>
+                Send
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Bar, 
