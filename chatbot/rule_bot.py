@@ -78,7 +78,7 @@ def fallback_general_qa(message):
     return "I'm here to help with flight price predictions and travel queries! Tell me your departure and destination cities to get started."
 
 def extract_flight_info(message):
-    cities = ["delhi", "mumbai", "bangalore", "kolkata", "chennai"]
+    cities = ["delhi", "mumbai", "bangalore", "kolkata", "chennai", "hyderabad", "ahmedabad", "pune", "goa", "jaipur"]
     
     # NLP Regex formatting capturing spatial orientation e.g. "from ... to ..."
     pattern = r"(?:from\s+)?([A-Za-z]+)\s+to\s+([A-Za-z]+)"
@@ -102,8 +102,8 @@ def get_chat_response(message: str) -> str:
     # 1. Intent Route Detection
     # Expanded keyword set for better intent detection
     flight_keywords = [
-        "flight", "from", "to", "ticket", "travel", "delhi", "mumbai", "bangalore", "kolkata", "chennai", "book",
-        "airline", "fare", "price", "cost", "journey", "trip", "departure", "arrival", "stop", "stops"
+        "flight", "from", "to", "ticket", "travel", "delhi", "mumbai", "bangalore", "kolkata", "chennai", 
+        "hyderabad", "ahmedabad", "pune", "goa", "jaipur", "book", "airline", "fare", "price"
     ]
 
     is_flight_intent = False
