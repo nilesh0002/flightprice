@@ -24,6 +24,33 @@ async function fetchWithRetry(url, options, retries = 5, onRetryClick) {
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    // Theme toggle logic
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const root = document.documentElement;
+
+    function setTheme(mode) {
+        if (mode === 'light') {
+            root.classList.add('light-mode');
+            themeIcon.textContent = '☀️';
+        } else {
+            root.classList.remove('light-mode');
+            themeIcon.textContent = '🌙';
+        }
+        localStorage.setItem('theme', mode);
+    }
+
+    // Load theme preference
+    const savedTheme = localStorage.getItem('theme');
+    setTheme(savedTheme === 'light' ? 'light' : 'dark');
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const isLight = root.classList.contains('light-mode');
+            setTheme(isLight ? 'dark' : 'light');
+        });
+    }
+
     const dateInput = document.getElementById('date');
     if (dateInput) {
         const today = new Date();
