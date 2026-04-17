@@ -1,5 +1,5 @@
 
-const API_URL = "https://flightprice-sghf.onrender.com";
+const API_URL = "http://127.0.0.1:8000"; // Originally: "https://flightprice-sghf.onrender.com"
 let trendChart = null;
 
 // --- API Calls ---
