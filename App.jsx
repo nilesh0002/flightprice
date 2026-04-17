@@ -105,7 +105,7 @@ export default function App() {
     };
 
     try {
-      const response = await fetch("https://flightprice-sghf.onrender.com/predict", {
+      const response = await fetch("/api/predict", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -141,7 +141,7 @@ export default function App() {
     setChatMessage('');
     
     try {
-       const response = await fetch("https://flightprice-sghf.onrender.com/chat", {
+       const response = await fetch("/api/chat", {
          method: "POST",
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify({ message: currentMsg })
@@ -156,7 +156,7 @@ export default function App() {
       setTimeout(() => {
         setMessages(prev => [...prev, { 
           role: 'ai', 
-          text: 'I cannot connect to the backend ML service right now. Please start `uvicorn app:app`.' 
+          text: 'I cannot connect to the backend ML service right now.' 
         }]);
       }, 500);
     }
