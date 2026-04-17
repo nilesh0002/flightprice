@@ -1,114 +1,102 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AeroInsight Pro</title>
+    <title>AeroInsight - Flight Price Prediction</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="background-accents">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-    </div>
-    
-    <div class="app-container">
-        <header>
-            <div class="logo">
-                <span class="icon" style="font-size:2rem;">✈️</span>
-                <h1>AeroInsight <span class="highlight">Pro</span></h1>
-            </div>
-            <button id="theme-btn" class="theme-toggle">☀️ Light Mode</button>
-        </header>
+    <div class="layout">
+        <div class="mobile-container">
+            <header class="header">
+                <h1>AeroInsight</h1>
+                <p>Flight Price Prediction</p>
+            </header>
 
-        <main class="main-content">
-            <!-- Machine Learning Dashboard Form -->
-            <section class="predictor-card card">
-                <div class="card-header">
-                    <h2>Flight Pricing Engine</h2>
-                </div>
-                
-                <form id="flight-form">
-                    <div class="input-group">
-                        <label for="source">Source 📍</label>
-                        <select id="source" required>
-                            <option value="Delhi">Delhi</option>
-                            <option value="Mumbai">Mumbai</option>
-                            <option value="Bangalore">Bangalore</option>
-                            <option value="Chennai">Chennai</option>
-                            <option value="Kolkata">Kolkata</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label for="destination">Destination 🛫</label>
-                        <select id="destination" required>
-                            <option value="Mumbai">Mumbai</option>
-                            <option value="Delhi">Delhi</option>
-                            <option value="Bangalore">Bangalore</option>
-                            <option value="Chennai">Chennai</option>
-                            <option value="Kolkata">Kolkata</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label for="date">Travel Date 📅</label>
-                        <input type="date" id="date" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="departure_time">Departure Time ⏰</label>
-                        <input type="time" id="departure_time" value="08:00" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="airline">Airline ✈️</label>
-                        <select id="airline" required>
-                            <option value="IndiGo">IndiGo</option>
-                            <option value="Air India">Air India</option>
-                            <option value="Vistara">Vistara</option>
-                            <option value="SpiceJet">SpiceJet</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label for="duration_minutes">Duration (mins) ⏳</label>
-                        <input type="number" id="duration_minutes" min="30" max="1500" value="120" required>
-                    </div>
-                    <div class="input-group full-span">
-                        <label for="total_stops">Total Stops 🛑</label>
-                        <input type="number" id="total_stops" min="0" max="4" value="0" required>
-                    </div>
-                    
-                    <button type="submit" class="btn primary-btn" id="predict-btn">
-                        <span id="btn-text">Predict Now</span>
-                        <div id="pred-loader" class="loader" style="display: none;"></div>
-                    </button>
-                </form>
+            <main>
+                <section class="card card-form">
+                    <form id="flight-form">
+                        <div class="form-group row">
+                            <div class="input-block">
+                                <label for="source">Source</label>
+                                <select id="source" required>
+                                    <option value="Delhi">Delhi</option>
+                                    <option value="Mumbai">Mumbai</option>
+                                    <option value="Bangalore">Bangalore</option>
+                                    <option value="Chennai">Chennai</option>
+                                    <option value="Kolkata">Kolkata</option>
+                                </select>
+                            </div>
+                            <div class="input-block">
+                                <label for="destination">Destination</label>
+                                <select id="destination" required>
+                                    <option value="Mumbai">Mumbai</option>
+                                    <option value="Delhi">Delhi</option>
+                                    <option value="Bangalore">Bangalore</option>
+                                    <option value="Chennai">Chennai</option>
+                                    <option value="Kolkata">Kolkata</option>
+                                </select>
+                            </div>
+                        </div>
 
-                <div class="result-container" id="prediction-result" style="display: none;">
-                    <h3>Estimated Price</h3>
-                    <div class="price-value">₹<span id="price-display">--</span></div>
-                    <div id="recommendation-display" class="badge">--</div>
-                    
-                    <div class="confidence-wrapper">
-                        <span class="conf-label">Model Confidence (<span id="conf-number">0</span>%)</span>
-                        <div class="conf-bar"><div class="conf-fill" id="conf-fill-bar" style="width: 0%;"></div></div>
-                    </div>
-                </div>
-            </section>
+                        <div class="form-group row">
+                            <div class="input-block">
+                                <label for="date">Travel Date</label>
+                                <input type="date" id="date" required>
+                            </div>
+                            <div class="input-block">
+                                <label for="departure_time">Departure Time</label>
+                                <input type="time" id="departure_time" value="08:00" required>
+                            </div>
+                        </div>
 
-            <!-- Agent Chat Panel -->
-            <section class="chatbot-card card">
-                <div class="card-header">
-                    <h2>AI Assistant</h2>
-                </div>
-                <div class="chat-window" id="chat-window">
-                    <div class="chat-message bot">
-                        <div class="msg-bubble">Hello! 👋 Ask me anything about routes like "Delhi to Mumbai tomorrow".</div>
+                        <div class="form-group">
+                            <label for="airline">Airline</label>
+                            <select id="airline" required>
+                                <option value="IndiGo">IndiGo</option>
+                                <option value="Air India">Air India</option>
+                                <option value="Vistara">Vistara</option>
+                                <option value="SpiceJet">SpiceJet</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="input-block">
+                                <label for="duration_minutes">Duration (mins)</label>
+                                <input type="number" id="duration_minutes" min="30" max="1500" value="120" required>
+                            </div>
+                            <div class="input-block">
+                                <label for="total_stops">Stops</label>
+                                <input type="number" id="total_stops" min="0" max="4" value="0" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="primary-btn" id="predict-btn">
+                            <span id="btn-text">Predict Price</span>
+                            <div id="pred-loader" class="loader" style="display: none;"></div>
+                        </button>
+                    </form>
+                </section>
+
+                <section class="card card-result" id="prediction-result" style="display: none;">
+                    <span class="result-label">Predicted Price</span>
+                    <h2>₹<span id="price-display">--</span></h2>
+                    <p id="recommendation-display" class="insight">Waiting...</p>
+                </section>
+
+                <section class="card card-chat">
+                    <h3>Support Assistant</h3>
+                    <div class="chat-window" id="chat-window">
+                        <div class="chat-bubble bot">How can I help you today?</div>
                     </div>
-                </div>
-                <div class="chat-input-area">
-                    <input type="text" id="chat-input" placeholder="Ask flight questions..." autocomplete="off">
-                    <button id="send-chat" class="btn send-btn">Send</button>
-                </div>
-            </section>
-        </main>
+                    <div class="chat-input-area">
+                        <input type="text" id="chat-input" placeholder="Ask a question..." autocomplete="off">
+                        <button id="send-chat">Send</button>
+                    </div>
+                </section>
+            </main>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
