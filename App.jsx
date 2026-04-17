@@ -45,7 +45,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [chatMessage, setChatMessage] = useState('');
   const [messages, setMessages] = useState([
-    { role: 'ai', text: 'Intelligence initialized. Explore the market trends in a clean, high-clarity environment.' }
+    { role: 'ai', text: 'I am Omniscient AI. My intelligence spans all historical market fluctuations. How may I guide your journey today?' }
   ]);
 
   const cities = ['Delhi', 'Mumbai', 'Bangalore', 'Kolkata', 'Chennai', 'Hyderabad', 'Ahmedabad', 'Pune', 'Goa', 'Jaipur'];
@@ -286,7 +286,7 @@ export default function App() {
 
         <div className="right-col">
           <section className="floating-card assistant-card">
-            <h2 className="card-title">Aero Semantic Hub</h2>
+            <h2 className="card-title">Omniscient AI Hub</h2>
             <div className="chat-container">
               {messages.map((msg, i) => (
                 <div key={i} className={`chat-bubble ${msg.role}`}>{msg.text}</div>
