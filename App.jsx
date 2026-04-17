@@ -105,7 +105,7 @@ export default function App() {
     };
 
     try {
-      const response = await fetch("http://localhost:8000/predict", {
+      const response = await fetch("https://flightprice-sghf.onrender.com/predict", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -141,7 +141,7 @@ export default function App() {
     setChatMessage('');
     
     try {
-       const response = await fetch("http://localhost:8000/chat", {
+       const response = await fetch("https://flightprice-sghf.onrender.com/chat", {
          method: "POST",
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify({ message: currentMsg })
