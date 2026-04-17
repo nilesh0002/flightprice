@@ -88,6 +88,7 @@ def predict_price(flight_data: dict):
         X_transformed = model.named_steps['preprocessor'].transform(payload)
         preds = [tree.predict(X_transformed)[0] for tree in rf.estimators_]
         std_dev = np.std(preds)
+        mse_sim = round(std_dev ** 2 / 100, 2)
         confidence = max(0, min(100, 100 - (std_dev / price * 200)))
 
         # Price range logic
@@ -105,6 +106,6 @@ def predict_price(flight_data: dict):
         else:
             recommendation = "Prices may increase. Wait for dynamic pricing drops."
             
-        return price, recommendation, round(confidence, 1), price_range
+        return price, recommendation, round(confidence, 1), price_range, round(std_dev, 2), mse_sim
     except Exception as e:
         raise RuntimeError(f"Prediction error: {str(e)}")
