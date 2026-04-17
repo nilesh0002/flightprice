@@ -249,6 +249,32 @@ export default function App() {
                 <span>Accuracy: {prediction.confidence || 0}%</span>
                 <span>Trend: {prediction.price_range || "N/A"}</span>
               </div>
+
+              {prediction.metrics && (
+                <div className="technical-meta" style={{ 
+                  marginTop: '1.5rem', 
+                  paddingTop: '1.5rem', 
+                  borderTop: '1px solid var(--border-color)',
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(3, 1fr)',
+                  gap: '1rem',
+                  fontSize: '0.75rem',
+                  color: 'var(--text-dim)'
+                }}>
+                  <div style={{ textAlign: 'left' }}>
+                    <div style={{ fontWeight: 700, color: 'var(--text-main)', marginBottom: '2px' }}>R² Score</div>
+                    <div>{prediction.metrics.r2}</div>
+                  </div>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontWeight: 700, color: 'var(--text-main)', marginBottom: '2px' }}>MAE</div>
+                    <div>{prediction.metrics.mae}</div>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontWeight: 700, color: 'var(--text-main)', marginBottom: '2px' }}>Variance</div>
+                    <div>{prediction.metrics.variance}</div>
+                  </div>
+                </div>
+              )}
             </section>
           )}
         </div>
