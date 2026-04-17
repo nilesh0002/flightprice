@@ -1,11 +1,13 @@
-const API_URL = "https://flightprice-sghf.onrender.com";
 
+const API_URL = "https://flightprice-sghf.onrender.com";
+let trendChart = null;
+
+// --- API Calls ---
 async function fetchWithRetry(url, options, retries = 5, onRetryClick) {
     let delay = 5000;
     for (let i = 0; i <= retries; i++) {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 15000); 
-
+        const timeoutId = setTimeout(() => controller.abort(), 15000);
         try {
             options.signal = controller.signal;
             const response = await fetch(url, options);
@@ -18,9 +20,116 @@ async function fetchWithRetry(url, options, retries = 5, onRetryClick) {
             delay = 5000 + (i * 5000);
             if (onRetryClick) onRetryClick(i + 1, delay, retries);
             await new Promise(res => setTimeout(res, delay));
-        let trendChart = null;
         }
     }
+}
+
+async function fetchMetrics() {
+    const res = await fetch(`${API_URL}/metrics`);
+    if (!res.ok) throw new Error('Failed to fetch metrics');
+    return await res.json();
+}
+
+async function fetchCharts() {
+    const res = await fetch(`${API_URL}/charts`);
+    if (!res.ok) throw new Error('Failed to fetch chart data');
+    return await res.json();
+}
+
+// --- UI Logic ---
+function setTheme(mode) {
+    const root = document.documentElement;
+    const themeIcon = document.getElementById('theme-icon');
+    if (mode === 'light') {
+        root.classList.add('light-mode');
+        themeIcon.textContent = '☀️';
+    } else {
+        root.classList.remove('light-mode');
+        themeIcon.textContent = '🌙';
+    }
+    localStorage.setItem('theme', mode);
+}
+
+function addMessage(msg, type) {
+    const chatWindow = document.getElementById('chat-window');
+    const wrapper = document.createElement('div');
+    wrapper.className = `chat-bubble ${type}`;
+    wrapper.innerHTML = msg;
+    chatWindow.appendChild(wrapper);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+    return wrapper;
+}
+
+function addLoadingBubble() {
+    const chatWindow = document.getElementById('chat-window');
+    const wrapper = document.createElement('div');
+    wrapper.className = 'chat-bubble bot loading';
+    wrapper.innerHTML = '<span class="loader"></span> Typing...';
+    chatWindow.appendChild(wrapper);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+    return wrapper;
+}
+
+// --- Chart Logic ---
+function renderAirlineChart(data) {
+    const ctx = document.getElementById('chart-airline').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: data.labels,
+            datasets: [{
+                label: 'Avg Price',
+                data: data.data,
+                backgroundColor: 'rgba(99,102,241,0.7)',
+                borderRadius: 8
+            }]
+        },
+        options: {
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+}
+
+function renderStopsChart(data) {
+    const ctx = document.getElementById('chart-stops').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: data.labels,
+            datasets: [{
+                label: 'Avg Price',
+                data: data.data,
+                backgroundColor: 'rgba(16,185,129,0.7)',
+                borderRadius: 8
+            }]
+        },
+        options: {
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+}
+
+function renderDurationChart(data) {
+    const ctx = document.getElementById('chart-duration').getContext('2d');
+    new Chart(ctx, {
+        type: 'scatter',
+        data: {
+            datasets: [{
+                label: 'Duration vs Price',
+                data: data,
+                backgroundColor: 'rgba(244,63,94,0.7)',
+            }]
+        },
+        options: {
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { title: { display: true, text: 'Duration (mins)' } },
+                y: { title: { display: true, text: 'Price' }, beginAtZero: true }
+            }
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
