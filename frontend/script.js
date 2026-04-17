@@ -24,6 +24,82 @@ async function fetchWithRetry(url, options, retries = 5, onRetryClick) {
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    // Chart.js Data Visualizations
+    async function loadCharts() {
+        try {
+            const res = await fetch(`${API_URL}/charts`);
+            if (!res.ok) throw new Error('Failed to fetch chart data');
+            const chartData = await res.json();
+
+            // Price vs Airline
+            if (chartData.price_vs_airline) {
+                const ctxAirline = document.getElementById('chart-airline').getContext('2d');
+                new Chart(ctxAirline, {
+                    type: 'bar',
+                    data: {
+                        labels: chartData.price_vs_airline.labels,
+                        datasets: [{
+                            label: 'Avg Price',
+                            data: chartData.price_vs_airline.data,
+                            backgroundColor: 'rgba(99,102,241,0.7)',
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true } }
+                    }
+                });
+            }
+
+            // Price vs Stops
+            if (chartData.price_vs_stops) {
+                const ctxStops = document.getElementById('chart-stops').getContext('2d');
+                new Chart(ctxStops, {
+                    type: 'bar',
+                    data: {
+                        labels: chartData.price_vs_stops.labels,
+                        datasets: [{
+                            label: 'Avg Price',
+                            data: chartData.price_vs_stops.data,
+                            backgroundColor: 'rgba(16,185,129,0.7)',
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true } }
+                    }
+                });
+            }
+
+            // Duration vs Price (Scatter)
+            if (chartData.duration_vs_price) {
+                const ctxDuration = document.getElementById('chart-duration').getContext('2d');
+                new Chart(ctxDuration, {
+                    type: 'scatter',
+                    data: {
+                        datasets: [{
+                            label: 'Duration vs Price',
+                            data: chartData.duration_vs_price,
+                            backgroundColor: 'rgba(244,63,94,0.7)',
+                        }]
+                    },
+                    options: {
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { title: { display: true, text: 'Duration (mins)' } },
+                            y: { title: { display: true, text: 'Price' }, beginAtZero: true }
+                        }
+                    }
+                });
+            }
+        } catch (e) {
+            // Optionally show error or fallback UI
+        }
+    }
+    loadCharts();
+
     // Fetch and display ML metrics
     async function loadMetrics() {
         try {
