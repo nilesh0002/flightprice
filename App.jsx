@@ -39,7 +39,7 @@ function App() {
       const data = await response.json();
       setMessages(prev => [...prev, { text: data.response, sender: 'bot' }]);
     } catch (error) {
-      setMessages(prev => [...prev, { text: 'Connection error. Please try again later.', sender: 'bot' }]);
+      setMessages(prev => [...prev, { text: 'Connection error.', sender: 'bot' }]);
     } finally {
       setIsLoading(false);
     }
@@ -47,54 +47,53 @@ function App() {
 
   return (
     <div className="app-container">
-      <header>
-        <h1>Flight Price Predictor</h1>
+      <nav className="navbar">
+        <span className="logo">AeroInsight</span>
         <button className="theme-toggle" onClick={toggleTheme}>
-          {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+          {theme === 'light' ? 'Dark' : 'Light'}
         </button>
-      </header>
+      </nav>
 
-      <main>
-        <section className="prediction-form">
-          <h2>Estimate Your Flight Price</h2>
-          <form onSubmit={(e) => e.preventDefault()}>
-            <div className="form-group">
+      <main className="content">
+        <section className="form-card">
+          <h2 className="section-title">Price Prediction</h2>
+          <div className="form-grid">
+            <div className="input-group">
               <label>Source</label>
-              <input type="text" placeholder="e.g. Delhi" />
+              <input type="text" placeholder="City" />
             </div>
-            <div className="form-group">
+            <div className="input-group">
               <label>Destination</label>
-              <input type="text" placeholder="e.g. Mumbai" />
+              <input type="text" placeholder="City" />
             </div>
-            <div className="form-group">
+            <div className="input-group">
               <label>Date</label>
               <input type="date" />
             </div>
-            <button type="submit" className="predict-btn">Check Price</button>
-          </form>
+          </div>
+          <button className="primary-button">Check Price</button>
         </section>
 
-        <section className="chatbot-section">
-          <div className="chat-window">
-            <div className="message-list">
-              {messages.map((msg, index) => (
-                <div key={index} className={`message-bubble ${msg.sender}`}>
-                  {msg.text}
-                </div>
-              ))}
-              {isLoading && <div className="message-bubble bot loading">Typing...</div>}
-              <div ref={chatEndRef} />
-            </div>
-            <form className="chat-input-area" onSubmit={handleSendMessage}>
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask something..."
-              />
-              <button type="submit" disabled={isLoading}>Send</button>
-            </form>
+        <section className="chat-card">
+          <div className="chat-header">Support Chat</div>
+          <div className="chat-body">
+            {messages.map((msg, i) => (
+              <div key={i} className={`chat-row ${msg.sender}`}>
+                <div className="bubble">{msg.text}</div>
+              </div>
+            ))}
+            {isLoading && <div className="chat-row bot"><div className="bubble typing">...</div></div>}
+            <div ref={chatEndRef} />
           </div>
+          <form className="chat-footer" onSubmit={handleSendMessage}>
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Message..."
+            />
+            <button type="submit" disabled={isLoading}>Send</button>
+          </form>
         </section>
       </main>
     </div>
