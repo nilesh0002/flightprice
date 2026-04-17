@@ -1,45 +1,47 @@
-// Configuration - Update API_URL for deployment
 const API_URL = "https://flightprice-sghf.onrender.com";
 
-// Advanced fetch logic with exponentially increasing backoff
-async function fetchWithRetry(url, options, retries = 5, onRetryClick) {
-    let delay = 5000; // Base delay
+// --- Theme Toggle Persistence ---
+const themeBtn = document.getElementById('theme-btn');
+const rootElement = document.documentElement;
+let currentTheme = localStorage.getItem('theme') || 'dark';
 
+function applyTheme(theme) {
+    if (theme === 'dark') {
+        rootElement.setAttribute('data-theme', 'dark');
+        themeBtn.innerHTML = '☀️ Light Mode';
+    } else {
+        rootElement.setAttribute('data-theme', 'light');
+        themeBtn.innerHTML = '🌙 Dark Mode';
+    }
+    localStorage.setItem('theme', theme);
+}
+applyTheme(currentTheme);
+
+if(themeBtn) {
+    themeBtn.addEventListener('click', () => {
+        currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(currentTheme);
+    });
+}
+
+// --- Exponential Fetch Handler (Resilient Networking) ---
+async function fetchWithRetry(url, options, retries = 5, onRetryClick) {
+    let delay = 5000;
     for (let i = 0; i <= retries; i++) {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second explicit timeout per request to catch stalled sleep instances
+        const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s absolute kill limit
 
         try {
-            console.log(`[Attempt ${i + 1}/${retries + 1}] Sending request to: ${url}`);
-            
             options.signal = controller.signal;
             const response = await fetch(url, options);
             clearTimeout(timeoutId);
-
-            if (!response.ok) {
-                throw new Error(`Server returned ${response.status}`);
-            }
-            
-            const data = await response.json();
-            return data;
+            if (!response.ok) throw new Error(`Status ${response.status}`);
+            return await response.json();
         } catch (error) {
             clearTimeout(timeoutId);
-            console.warn(`[Attempt ${i + 1} Failed]: ${error.message}`);
-            
-            if (i === retries) {
-                console.error("All retry attempts exhausted.");
-                throw error;
-            }
-
-            // Calculate next delay (Exponential-like backoff 5s -> 10s -> 15s)
+            if (i === retries) throw error;
             delay = 5000 + (i * 5000);
-            
-            // Trigger UI update callback if provided
-            if (onRetryClick) {
-                onRetryClick(i + 1, delay, retries);
-            }
-            
-            console.log(`Waiting ${delay}ms before next attempt to allow Render to wake up...`);
+            if (onRetryClick) onRetryClick(i + 1, delay, retries);
             await new Promise(res => setTimeout(res, delay));
         }
     }
@@ -47,40 +49,59 @@ async function fetchWithRetry(url, options, retries = 5, onRetryClick) {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // 1. Initial background warmup ping
-    // This calls the /test route immediately so the server starts booting up the moment the page loads
-    console.log("Sending initial background warm-up ping to Render backend...");
-    fetch(`${API_URL}/test`, { method: "GET" })
-        .then(res => console.log("Backend Warm-up Ping Response:", res.status))
-        .catch(err => console.log("Warm-up ping (server is likely asleep, waking process started)."));
+    // Initial Warm-up
+    fetch(`${API_URL}/test`, { method: "GET" }).catch(() => console.log("Warm-up ping active."));
 
-    // Initialize Date input to today
+    // Pre-fill fields beautifully
     const dateInput = document.getElementById('date');
     if (dateInput) {
-        dateInput.valueAsDate = new Date();
+        const today = new Date();
+        dateInput.value = today.toISOString().split('T')[0];
+        dateInput.min = today.toISOString().split('T')[0]; // Disable past dates natively
     }
 
-    // --- Prediction Form Logic ---
+    // --- Complex ML Features & Prediction Block ---
     const form = document.getElementById('flight-form');
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // UI Elements
             const btn = document.getElementById('predict-btn');
             const loader = document.getElementById('pred-loader');
             const btnText = document.getElementById('btn-text');
             const resultContainer = document.getElementById('prediction-result');
+            
+            // Nodes
             const priceDisplay = document.getElementById('price-display');
             const recDisplay = document.getElementById('recommendation-display');
+            const confNumber = document.getElementById('conf-number');
+            const confFillBar = document.getElementById('conf-fill-bar');
+
+            // Extraction & Hidden Auto-Calculation 
+            const travelDate = new Date(document.getElementById('date').value);
+            const todayDate = new Date();
+            
+            const diffTime = travelDate - todayDate;
+            const days_left = Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+            
+            const timeVal = document.getElementById('departure_time').value || "08:00";
+            const departure_hour = parseInt(timeVal.split(":")[0]);
+            
+            const day_of_week = travelDate.getDay();
+            const month = travelDate.getMonth() + 1;
+            const is_weekend = (day_of_week === 0 || day_of_week === 6) ? 1 : 0;
 
             const payload = {
                 source: document.getElementById('source').value,
                 destination: document.getElementById('destination').value,
-                date: document.getElementById('date').value,
                 airline: document.getElementById('airline').value,
                 total_stops: parseInt(document.getElementById('total_stops').value),
-                duration_minutes: parseInt(document.getElementById('duration_minutes').value)
+                duration_minutes: parseInt(document.getElementById('duration_minutes').value),
+                departure_hour,
+                day_of_week,
+                month,
+                is_weekend,
+                days_left
             };
 
             if(payload.source === payload.destination) {
@@ -88,16 +109,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Loading State Setup
+            // Lock UI
             btn.disabled = true;
+            btnText.style.display = 'none';
             loader.style.display = 'block';
             resultContainer.style.display = 'none'; 
-            
-            btnText.innerHTML = `Sending request...`;
+            confFillBar.style.width = '0%'; // Reset
 
-            // UI Retry Updater
             const updateUIForRetry = (attempt, currentDelay, maxRetries) => {
-                btnText.innerHTML = `Waking up server... attempt ${attempt + 1}/${maxRetries + 1} <br><small style="font-size: 0.7em;">(First request may take 30-50s)</small>`;
+                btnText.style.display = 'block';
+                loader.style.display = 'none';
+                btnText.innerHTML = `Waking up server... (${attempt}/${maxRetries})`;
             };
 
             try {
@@ -107,36 +129,35 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(payload)
                 }, 5, updateUIForRetry);
                 
-                // Success! Restore Button
-                btnText.innerHTML = `Predict Now`;
-                
+                // Print UI Success
                 priceDisplay.textContent = data.predicted_price.toLocaleString('en-IN');
-                recDisplay.textContent = data.recommendation;
                 
-                recDisplay.className = 'recommendation badge';
-                if (data.recommendation.toLowerCase().includes("good")) {
-                    recDisplay.classList.add('good');
-                } else if (data.recommendation.toLowerCase().includes("wait") || data.recommendation.toLowerCase().includes("high")) {
-                    recDisplay.classList.add('wait');
-                }
+                recDisplay.textContent = data.recommendation;
+                recDisplay.className = 'badge';
+                if (data.recommendation.toLowerCase().includes("good")) recDisplay.classList.add('good');
+                else recDisplay.classList.add('wait');
 
-                resultContainer.style.display = 'block';
+                // Animate Confidence Bar
+                const confidence = data.confidence || 0;
+                confNumber.textContent = confidence;
+                resultContainer.style.display = 'flex';
+                
+                // Allow exact reflow before animation slides it naturally
+                setTimeout(() => { confFillBar.style.width = `${confidence}%`; }, 100);
 
             } catch (error) {
-                console.error("Prediction Request Failed:", error);
-                btnText.innerHTML = `Prediction Failed`;
-                alert("Error: Render Backend is unreachable after 5 attempts. Please check if the web server is online.");
+                console.error("Prediction Failed:", error);
+                alert("Server is unconditionally unreachable at this exact moment.");
             } finally {
                 btn.disabled = false;
                 loader.style.display = 'none';
-                if (btnText.innerHTML === `Prediction Failed`) {
-                    setTimeout(() => { btnText.innerHTML = `Predict Now`; }, 3000);
-                }
+                btnText.style.display = 'block';
+                btnText.innerHTML = `Predict Now`;
             }
         });
     }
 
-    // --- Chatbot Logic ---
+    // --- Chatbot Hooking ---
     const chatWindow = document.getElementById('chat-window');
     const chatInput = document.getElementById('chat-input');
     const sendChatBtn = document.getElementById('send-chat');
@@ -144,15 +165,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function addMessage(msg, type) {
         const wrapper = document.createElement('div');
         wrapper.className = `chat-message ${type}`;
-        
-        const bubble = document.createElement('div');
-        bubble.className = 'msg-bubble';
-        bubble.innerHTML = msg; 
-        
-        wrapper.appendChild(bubble);
+        wrapper.innerHTML = `<div class="msg-bubble">${msg}</div>`; 
         chatWindow.appendChild(wrapper);
         chatWindow.scrollTop = chatWindow.scrollHeight;
-        return wrapper; // Return the DOM element so we can modify it later
+        return wrapper;
     }
 
     async function sendChatMessage() {
@@ -163,36 +179,26 @@ document.addEventListener('DOMContentLoaded', () => {
         chatInput.value = '';
         sendChatBtn.disabled = true;
 
-        // Temporary Loading Bubble
-        const tempBubbleWrapper = addMessage('<i>...thinking...</i>', 'bot');
+        const tempBubbleWrapper = addMessage('<i>typing...</i>', 'bot');
         const bubbleText = tempBubbleWrapper.querySelector('.msg-bubble');
-
-        const updateChatForRetry = (attempt, currentDelay, maxRetries) => {
-            bubbleText.innerHTML = `<i>Waking up server... (Attempt ${attempt + 1}/${maxRetries + 1}). Please wait roughly 30-50s.</i>`;
-        };
 
         try {
             const data = await fetchWithRetry(`${API_URL}/chat`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: msg })
-            }, 5, updateChatForRetry);
+                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: msg })
+            }, 5, (a, d, m) => { bubbleText.innerHTML = `<i>Server waking... (${a}/${m})</i>`; });
             
             tempBubbleWrapper.remove();
             addMessage(data.reply, 'bot');
         } catch (err) {
-            console.error("Chat Error:", err);
             tempBubbleWrapper.remove();
-            addMessage("⚠️ Sorry, the server is unreachable after all retries. Please verify your Render service is active.", 'bot');
+            addMessage("⚠️ Server offline.", 'bot');
         } finally {
             sendChatBtn.disabled = false;
         }
     }
 
-    if (sendChatBtn && chatInput) {
+    if (sendChatBtn) {
         sendChatBtn.addEventListener('click', sendChatMessage);
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendChatMessage();
-        });
+        chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendChatMessage(); });
     }
 });
