@@ -143,16 +143,18 @@ def get_chat_response(message: str) -> str:
         }
 
         try:
-            price, recommendation, conf, price_range = predict_price(payload)
+            price, recommendation, conf, price_range, std_dev, mse = predict_price(payload)
             target_date_str = travel_date.strftime("%B %d")
             return (
                 f"✈️ Scanning flights from {src} to {dest} for {target_date_str}...\n\n"
-                f"My underlying model predicts base-tier tickets at roughly **₹{price}** "
-                f"with an algorithmic confidence of {conf}%. "
-                f"Price range: {price_range}. {recommendation}"
+                f"Omniscient Intelligence predicts base-tier tickets at roughly **₹{price}** "
+                f"with a model confidence of {conf}%. \n\n"
+                f"**Market Analysis:** {recommendation}\n"
+                f"**Technical Metrics:** MSE: {mse} | Volatility: ₹{std_dev}"
             )
         except Exception as e:
-            return "Oops! My prediction engine encountered a fault while scaling the array inputs. Try again shortly."
+            print(f"Chat Predict Error: {e}")
+            return "Oops! My prediction engine encountered a synchronization fault while processing the market array. Try again shortly with 'Delhi to Mumbai tomorrow'."
 
     # 3. Hybrid AI NLP Conversational Fallback Sequence
     llm_resp = call_llm_api(message)
