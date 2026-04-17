@@ -17,10 +17,15 @@ app.add_middleware(
 class FlightQuery(BaseModel):
     source: str
     destination: str
-    date: str
     airline: str
     total_stops: int
-    duration_minutes: int = 120
+    duration_minutes: int
+    departure_hour: int
+    day_of_week: int
+    month: int
+    is_weekend: int
+    days_left: int
+    date: str = "" # Fallback
 
 class ChatQuery(BaseModel):
     message: str
@@ -36,10 +41,11 @@ def test():
 @app.post("/predict")
 def predict(query: FlightQuery):
     try:
-        price, recommendation = predict_price(query.model_dump())
+        price, recommendation, confidence = predict_price(query.model_dump())
         return {
             "predicted_price": round(price, 2),
-            "recommendation": recommendation
+            "recommendation": recommendation,
+            "confidence": confidence
         }
     except Exception as e:
         if "Model not available" in str(e):

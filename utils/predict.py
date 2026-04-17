@@ -1,6 +1,7 @@
 import joblib
 import os
-from utils.preprocess import preprocess_input
+import pandas as pd
+import numpy as np
 
 model_data = None
 
@@ -19,7 +20,7 @@ def load_model():
     except Exception as e:
         print(f"Error loading model: {e}")
 
-# Initialize immediately (NO auto-training)
+# Initialize immediately (NO auto-training block)
 load_model()
 
 def predict_price(flight_data: dict):
@@ -29,17 +30,37 @@ def predict_price(flight_data: dict):
             
     try:
         model = model_data['model']
-        columns = model_data['columns']
         
-        df = preprocess_input(flight_data, columns)
-        price = model.predict(df)[0]
+        # Fast array injection into pandas matching generated schema
+        payload = pd.DataFrame([{
+            'Airline': flight_data['airline'],
+            'Source': flight_data['source'],
+            'Destination': flight_data['destination'],
+            'Total_Stops': flight_data['total_stops'],
+            'Duration_minutes': flight_data['duration_minutes'],
+            'departure_hour': flight_data['departure_hour'],
+            'day_of_week': flight_data['day_of_week'],
+            'month': flight_data['month'],
+            'is_weekend': flight_data['is_weekend'],
+            'days_left': flight_data['days_left']
+        }])
+        
+        # Full inference pass via SciKit pipeline natively handling categorical encoding internally
+        price = model.predict(payload)[0]
+        
+        # Calculate algorithmic confidence via Estimator Variance spread
+        rf = model.named_steps['regressor']
+        X_transformed = model.named_steps['preprocessor'].transform(payload)
+        preds = [tree.predict(X_transformed)[0] for tree in rf.estimators_]
+        std_dev = np.std(preds)
+        confidence = max(0, min(100, 100 - (std_dev / price * 200)))
         
         average_price = 3000 + (flight_data['total_stops'] * 1500) + (flight_data['duration_minutes'] * 5)
-        if price <= average_price + 200:
-            recommendation = "Good time to book! The price is below or near average."
+        if price <= average_price + 200 or flight_data['days_left'] < 5:
+            recommendation = "Good time to book! 🚀 Avoid surge pricing."
         else:
-            recommendation = "Wait for better price. Current price is quite high."
+            recommendation = "Prices may increase. Wait for dynamic pricing drops."
             
-        return price, recommendation
+        return price, recommendation, round(confidence, 1)
     except Exception as e:
         raise RuntimeError(f"Prediction error: {str(e)}")
