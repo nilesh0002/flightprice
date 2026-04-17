@@ -51,8 +51,15 @@ export default function App() {
   const cities = ['Delhi', 'Mumbai', 'Bangalore', 'Kolkata', 'Chennai', 'Hyderabad', 'Ahmedabad', 'Pune', 'Goa', 'Jaipur'];
 
   const toggleTheme = () => {
-    setIsDark(!isDark);
-    document.body.classList.toggle('light-theme');
+    setIsDark((prev) => {
+      const newState = !prev;
+      if (newState) {
+        document.body.classList.add('dark-theme');
+      } else {
+        document.body.classList.remove('dark-theme');
+      }
+      return newState;
+    });
   };
 
   const handlePredict = async (e) => {
