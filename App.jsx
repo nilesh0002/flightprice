@@ -1,4 +1,348 @@
 import React, { useState, useEffect, useRef } from "react";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, LineChart, Line } from "recharts";
+
+const API_URL = "https://flightprice-sghf.onrender.com";
+
+const icons = {
+  source: <svg width="20" height="20" fill="none"><path d="M10 2a6 6 0 016 6c0 4.418-6 10-6 10S4 12.418 4 8a6 6 0 016-6zm0 8a2 2 0 100-4 2 2 0 000 4z" stroke="#64748b" strokeWidth="1.5"/></svg>,
+  destination: <svg width="20" height="20" fill="none"><path d="M10 2a6 6 0 016 6c0 4.418-6 10-6 10S4 12.418 4 8a6 6 0 016-6zm0 8a2 2 0 100-4 2 2 0 000 4z" stroke="#64748b" strokeWidth="1.5"/></svg>,
+  date: <svg width="20" height="20" fill="none"><rect x="3" y="5" width="14" height="12" rx="2" stroke="#64748b" strokeWidth="1.5"/><path d="M7 3v2M13 3v2" stroke="#64748b" strokeWidth="1.5"/><path d="M3 9h14" stroke="#64748b" strokeWidth="1.5"/></svg>,
+  time: <svg width="20" height="20" fill="none"><circle cx="10" cy="10" r="8" stroke="#64748b" strokeWidth="1.5"/><path d="M10 6v4l2 2" stroke="#64748b" strokeWidth="1.5"/></svg>,
+  airline: <svg width="20" height="20" fill="none"><path d="M2 16l16-6-7-7-2 2 3 3-8 8z" stroke="#64748b" strokeWidth="1.5"/></svg>,
+  duration: <svg width="20" height="20" fill="none"><circle cx="10" cy="10" r="8" stroke="#64748b" strokeWidth="1.5"/><path d="M10 6v4l2 2" stroke="#64748b" strokeWidth="1.5"/></svg>,
+  stops: <svg width="20" height="20" fill="none"><circle cx="5" cy="10" r="2" stroke="#64748b" strokeWidth="1.5"/><circle cx="15" cy="10" r="2" stroke="#64748b" strokeWidth="1.5"/><path d="M7 10h6" stroke="#64748b" strokeWidth="1.5"/></svg>
+};
+
+const airlines = ["IndiGo", "Air India", "SpiceJet", "Vistara", "GoAir", "AirAsia"];
+const stopsOptions = ["Non-stop", "1 Stop", "2+ Stops"];
+
+function getSystemTheme() {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+export default function App() {
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || getSystemTheme());
+  const [form, setForm] = useState({
+    source: "",
+    destination: "",
+    travelDate: "",
+    departureTime: "",
+    airline: "",
+    duration: "",
+    stops: ""
+  });
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState("");
+  const [metrics, setMetrics] = useState(null);
+  const [avgPrice, setAvgPrice] = useState(null);
+  const [chartData, setChartData] = useState({ airline: [], stops: [], duration: [] });
+  const [showChart, setShowChart] = useState("airline");
+  const [searches, setSearches] = useState([]);
+  const [toast, setToast] = useState("");
+  const [chat, setChat] = useState([{ type: "bot", text: "Ask me anything about flights." }]);
+  const [chatInput, setChatInput] = useState("");
+  const [chatLoading, setChatLoading] = useState(false);
+  const chatEndRef = useRef(null);
+  const toastTimeout = useRef(null);
+
+  useEffect(() => {
+    document.body.classList.remove("dark", "light");
+    document.body.classList.add(theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
+    if (toast) {
+      clearTimeout(toastTimeout.current);
+      toastTimeout.current = setTimeout(() => setToast(""), 2500);
+    }
+  }, [toast]);
+
+  useEffect(() => {
+    fetch(`${API_URL}/metrics`).then(r => r.json()).then(setMetrics);
+    fetch(`${API_URL}/charts`).then(r => r.json()).then(data => {
+      setChartData({
+        airline: data.price_vs_airline
+          ? data.price_vs_airline.labels.map((label, i) => ({
+              airline: label,
+              price: data.price_vs_airline.data[i]
+            }))
+          : [],
+        stops: data.price_vs_stops
+          ? data.price_vs_stops.labels.map((label, i) => ({
+              stops: label,
+              price: data.price_vs_stops.data[i]
+            }))
+          : [],
+        duration: data.duration_vs_price
+          ? data.duration_vs_price.map(d => ({
+              duration: d.x,
+              price: d.y
+            }))
+          : []
+      });
+      if (data.price_vs_airline && data.price_vs_airline.data.length > 0) {
+        const sum = data.price_vs_airline.data.reduce((a, b) => a + b, 0);
+        setAvgPrice(Math.round(sum / data.price_vs_airline.data.length));
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (chatEndRef.current) chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [chat]);
+
+  function handleThemeToggle() {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  }
+
+  function handleFormChange(e) {
+    const { name, value } = e.target;
+    setForm((f) => ({ ...f, [name]: value }));
+  }
+
+  function handleReset() {
+    setForm({
+      source: "",
+      destination: "",
+      travelDate: "",
+      departureTime: "",
+      airline: "",
+      duration: "",
+      stops: ""
+    });
+    setResult(null);
+    setError("");
+    setToast("Form reset");
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+    setResult(null);
+    setError("");
+    try {
+      const res = await fetch(`${API_URL}/predict`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form)
+      });
+      if (!res.ok) throw new Error("Prediction failed");
+      const data = await res.json();
+      setResult(data);
+      setSearches((s) => [{ ...form, ...data, ts: Date.now() }, ...s.slice(0, 4)]);
+      setToast("Prediction successful");
+    } catch {
+      setError("Could not fetch prediction. Please try again.");
+      setToast("Prediction failed");
+    }
+    setLoading(false);
+  }
+
+  function getRecommendation(price) {
+    if (!avgPrice) return "";
+    if (price <= avgPrice * 0.97) return "Good time to book";
+    if (price >= avgPrice * 1.05) return "Prices may increase";
+    return "Average price";
+  }
+
+  async function handleChatSend(e) {
+    e && e.preventDefault();
+    if (!chatInput.trim()) return;
+    setChat((c) => [...c, { type: "user", text: chatInput }]);
+    setChatLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: chatInput })
+      });
+      let data = { reply: "Sorry, I can only answer flight-related questions." };
+      if (res.ok) data = await res.json();
+      setChat((c) => [
+        ...c,
+        {
+          type: "bot",
+          text: data.reply && data.reply.toLowerCase().includes("flight")
+            ? data.reply
+            : "Sorry, I can only answer flight-related questions."
+        }
+      ]);
+    } catch {
+      setChat((c) => [...c, { type: "bot", text: "Sorry, something went wrong." }]);
+    }
+    setChatInput("");
+    setChatLoading(false);
+  }
+
+  function renderChart() {
+    if (showChart === "airline") {
+      return (
+        <ResponsiveContainer width="100%" height={220}>
+          <BarChart data={chartData.airline}>
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+            <XAxis dataKey="airline" stroke="var(--muted)" />
+            <YAxis stroke="var(--muted)" />
+            <Tooltip />
+            <Bar dataKey="price" fill="var(--accent)" radius={[6, 6, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      );
+    }
+    if (showChart === "stops") {
+      return (
+        <ResponsiveContainer width="100%" height={220}>
+          <BarChart data={chartData.stops}>
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+            <XAxis dataKey="stops" stroke="var(--muted)" />
+            <YAxis stroke="var(--muted)" />
+            <Tooltip />
+            <Bar dataKey="price" fill="var(--accent)" radius={[6, 6, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      );
+    }
+    if (showChart === "duration") {
+      return (
+        <ResponsiveContainer width="100%" height={220}>
+          <LineChart data={chartData.duration}>
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+            <XAxis dataKey="duration" stroke="var(--muted)" />
+            <YAxis stroke="var(--muted)" />
+            <Tooltip />
+            <Line type="monotone" dataKey="price" stroke="var(--accent)" strokeWidth={2.5} dot={false} />
+          </LineChart>
+        </ResponsiveContainer>
+      );
+    }
+    return null;
+  }
+
+  return (
+    <div>
+      <nav className="navbar">
+        <div className="navbar-title">Flight Price Predictor</div>
+        <div className="navbar-subtitle">Get instant flight price predictions</div>
+        <button className="theme-toggle-btn" onClick={handleThemeToggle} aria-label="Toggle theme">
+          <span className="theme-toggle-thumb" />
+        </button>
+      </nav>
+      <main className="main-content">
+        <section className="card form-card">
+          <form className="predict-form" onSubmit={handleSubmit} autoComplete="off">
+            <div className="form-row">
+              <span className="input-icon">{icons.source}</span>
+              <input name="source" value={form.source} onChange={handleFormChange} placeholder="Source" required />
+            </div>
+            <div className="form-row">
+              <span className="input-icon">{icons.destination}</span>
+              <input name="destination" value={form.destination} onChange={handleFormChange} placeholder="Destination" required />
+            </div>
+            <div className="form-row">
+              <span className="input-icon">{icons.date}</span>
+              <input type="date" name="travelDate" value={form.travelDate} onChange={handleFormChange} required />
+            </div>
+            <div className="form-row">
+              <span className="input-icon">{icons.time}</span>
+              <input type="time" name="departureTime" value={form.departureTime} onChange={handleFormChange} required />
+            </div>
+            <div className="form-row">
+              <span className="input-icon">{icons.airline}</span>
+              <select name="airline" value={form.airline} onChange={handleFormChange} required>
+                <option value="">Airline</option>
+                {airlines.map((a) => (
+                  <option key={a} value={a}>{a}</option>
+                ))}
+              </select>
+            </div>
+            <div className="form-row">
+              <span className="input-icon">{icons.duration}</span>
+              <input name="duration" type="number" min="1" value={form.duration} onChange={handleFormChange} placeholder="Duration (min)" required />
+            </div>
+            <div className="form-row">
+              <span className="input-icon">{icons.stops}</span>
+              <select name="stops" value={form.stops} onChange={handleFormChange} required>
+                <option value="">Stops</option>
+                {stopsOptions.map((s) => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+            </div>
+            <div className="form-actions">
+              <button className="submit-btn" type="submit" disabled={loading}>
+                {loading ? <span className="spinner" /> : "Predict"}
+              </button>
+              <button className="reset-btn" type="button" onClick={handleReset} disabled={loading}>
+                Reset Form
+              </button>
+            </div>
+            {error && <div className="error-msg">{error}</div>}
+          </form>
+          <div className="result-section">
+            {loading && <div className="result-loading"><span className="spinner" /> Loading...</div>}
+            {result && (
+              <div className="result-content">
+                <div className="result-price">₹{result.price}</div>
+                <div className="result-metrics">
+                  <span>MAE: {result.mae}</span>
+                  <span>RMSE: {result.rmse}</span>
+                  <span>R²: {result.r2}</span>
+                </div>
+                <div className="result-message">{getRecommendation(result.price)}</div>
+              </div>
+            )}
+          </div>
+        </section>
+        <section className="card chart-card">
+          <div className="chart-tabs">
+            <button className={showChart === "airline" ? "active" : ""} onClick={() => setShowChart("airline")}>Price vs Airline</button>
+            <button className={showChart === "stops" ? "active" : ""} onClick={() => setShowChart("stops")}>Price vs Stops</button>
+            <button className={showChart === "duration" ? "active" : ""} onClick={() => setShowChart("duration")}>Price vs Duration</button>
+          </div>
+          <div className="chart-area">{renderChart()}</div>
+        </section>
+        <section className="card recent-card">
+          <div className="recent-title">Recent Searches</div>
+          <div className="recent-list">
+            {searches.length === 0 && <div className="recent-placeholder">No recent searches</div>}
+            {searches.map((s, i) => (
+              <div className="recent-item" key={i}>
+                <span>{s.source} → {s.destination}</span>
+                <span>₹{s.price}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+        <section className="card chat-card">
+          <div className="chat-title">AI Assistant</div>
+          <div className="chat-window">
+            {chat.map((msg, i) => (
+              <div key={i} className={`chat-msg ${msg.type}`}>{msg.text}</div>
+            ))}
+            <div ref={chatEndRef} />
+            {chatLoading && <div className="chat-msg bot">...</div>}
+          </div>
+          <form className="chat-input-row" onSubmit={handleChatSend} autoComplete="off">
+            <input
+              className="chat-input"
+              value={chatInput}
+              onChange={e => setChatInput(e.target.value)}
+              placeholder="Ask about flights..."
+              disabled={chatLoading}
+              maxLength={300}
+            />
+            <button className="chat-send-btn" type="submit" disabled={chatLoading || !chatInput.trim()}>
+              Send
+            </button>
+          </form>
+        </section>
+      </main>
+      {toast && <div className="toast">{toast}</div>}
+    </div>
+  );
+}
+import React, { useState, useEffect, useRef } from "react";
 import { Bar, Line } from "react-chartjs-2";
 import { Chart, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Tooltip, Legend } from "chart.js";
 Chart.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Tooltip, Legend);
