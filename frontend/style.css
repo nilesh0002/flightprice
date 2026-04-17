@@ -1,3 +1,26 @@
+/* --- Prediction Trend Card --- */
+#trend-card {
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+}
+#chart-trend {
+  width: 100% !important;
+  max-width: 100%;
+  height: 180px !important;
+  background: transparent;
+  margin-top: 8px;
+}
+#trend-label {
+  font-size: 1.08em;
+  text-align: center;
+}
+#trend-label.cheap {
+  color: var(--success-color);
+}
+#trend-label.expensive {
+  color: var(--error-color);
+}
+/* --- End Prediction Trend Card --- */
 /* --- Chart.js Visualizations --- */
 .card-visual {
   margin-bottom: 18px;
