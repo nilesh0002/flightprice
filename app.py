@@ -79,21 +79,13 @@ def charts():
 @app.post("/predict")
 def predict(query: FlightQuery):
     try:
-        price, recommendation, confidence, price_range, std_dev, mse = predict_price(query.model_dump())
+        price, recommendation, confidence, price_range, metrics = predict_price(query.model_dump())
         return {
             "predicted_price": round(price, 2),
             "recommendation": recommendation,
             "confidence": confidence,
             "price_range": price_range,
-            "metrics": {
-                "r2": 0.91,
-                "mse": mse,
-                "volatility": f"₹{std_dev}",
-                "sample_size": 12800,
-                "method": "Random Forest Regressor",
-                "training_split": "80/20",
-                "f1_approx": 0.88
-            }
+            "metrics": metrics
         }
     except Exception as e:
         if "Model not available" in str(e):
