@@ -2,37 +2,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* LIGHT THEME (Default) - Sea Salt & Oyster Bay */
-  --bg-color: #d6d9d2;
-  --bg-gradient: linear-gradient(135deg, #eef0ed 0%, #d6d9d2 100%);
+  /* LIGHT THEME (Default) - Green & Aqua Palette */
+  --bg-color: #f0f7f6; /* Very soft aqua tint */
+  --bg-gradient: linear-gradient(135deg, #f8fbfb 0%, #e0eceb 100%);
   --forecast-bg: #ffffff;
-  --chat-bg: #f2f4f1; /* Softly tinted Oyster Bay substrate */
-  --text-main: #3a3d3a;
-  --text-dim: #68706a;
-  --border-color: rgba(0, 0, 0, 0.05);
-  --input-bg: #f8f9f7;
-  --accent-color: #bfc5be; /* Oyster Bay */
-  --accent-hover: #91968e; /* Evergreen Fog */
-  --ai-bubble-bg: #e1e9e3; /* Healing Aloe (#7) */
-  --ai-bubble-text: #3a3d3a;
-  --shadow: 0 10px 40px rgba(104, 112, 106, 0.08);
+  --chat-bg: #f5f9f8; 
+  --text-main: #2d5652; /* Deep Green for primary text */
+  --text-dim: #5c8b86;
+  --border-color: rgba(45, 86, 82, 0.1);
+  --input-bg: #ffffff;
+  --accent-color: #2d5652; /* Brand Green */
+  --accent-hover: #97d3cd; /* Brand Aqua */
+  --ai-bubble-bg: #e6f2f1;
+  --ai-bubble-text: #2d5652;
+  --shadow: 0 10px 40px rgba(45, 86, 82, 0.08);
   --glass-blur: blur(30px);
 }
 
 body.dark-theme {
-  /* DARK THEME - Millstone Gray & Deep Green */
-  --bg-color: #1a1c1a;
-  --bg-gradient: radial-gradient(circle at 0% 0%, #2a2e2a 0%, #1a1c1a 100%);
-  --forecast-bg: rgba(45, 48, 45, 0.85);
-  --chat-bg: rgba(35, 38, 35, 0.9); /* Differentiated darker depth */
-  --text-main: #f1f3f1;
-  --text-dim: #949c95;
-  --border-color: rgba(255, 255, 255, 0.05);
-  --input-bg: rgba(10, 12, 10, 0.4);
-  --accent-color: #91968e; /* Evergreen Fog */
-  --accent-hover: #bfc5be; /* Oyster Bay */
-  --ai-bubble-bg: #2d332e; /* Dark Millstone Aloe */
-  --ai-bubble-text: #f1f3f1;
+  /* DARK THEME - Green & Aqua High Contrast */
+  --bg-color: #162a28; /* Deepened Green */
+  --bg-gradient: radial-gradient(circle at 0% 0%, #203e3b 0%, #162a28 100%);
+  --forecast-bg: rgba(35, 68, 65, 0.6);
+  --chat-bg: rgba(28, 54, 52, 0.8);
+  --text-main: #f1f8f7;
+  --text-dim: #97d3cd; /* Aqua for dimmed text */
+  --border-color: rgba(151, 211, 205, 0.15);
+  --input-bg: rgba(10, 20, 19, 0.4);
+  --accent-color: #97d3cd; /* Brand Aqua */
+  --accent-hover: #2d5652; /* Brand Green */
+  --ai-bubble-bg: #23413e; 
+  --ai-bubble-text: #f1f8f7;
   --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
 }
 
@@ -198,8 +198,8 @@ body {
   background-repeat: no-repeat;
   background-position: right 1rem center;
   cursor: pointer;
-  background-color: #fff !important;
-  border: 1px solid #e0e4e0 !important;
+  background-color: var(--input-bg) !important;
+  border: 1px solid var(--border-color) !important;
 }
 
 .input-group input[type="date"]::-webkit-calendar-picker-indicator {
