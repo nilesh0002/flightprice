@@ -1,47 +1,53 @@
-# AeroCore: Omniscient AI Flight Market Predictor
+# Flight Price Prediction
 
-AeroCore is a production-grade Flight Price Prediction SaaS that leverages advanced Machine Learning (Random Forest) and an intelligent Semantic Chatbot (Omniscient AI) to provide high-fidelity travel insights.
+Flight Price Prediction is a machine learning project that estimates flight ticket prices based on user-provided details such as airline, source, destination, date, and more. The project features an updated model, improved user interface, and streamlined workflow as of April 2026.
 
-## 🚀 Key Features
-- **Omniscient Forecast Engine**: Predicts flight prices across 10 major Indian hubs with **91.5% accuracy**.
-- **Deep Technical Analysis**: Real-time display of ML metrics including **R² Score**, **MSE**, and **Market Volatility**.
-- **Omniscient AI Hub**: A hybrid rule-based/LLM chatbot that explains market trends and answers journey-specific queries.
-- **Architectural Design System**: A premium "Sea Salt & Evergreen Fog" glassmorphic UI with seamless Light/Dark mode transitions.
-- **Hidden Intelligence**: Background factor analysis for Departure Windows, Peak Cycles, and Membership tiers even without manual input.
+## ✨ Latest Updates
+- **Model Update:** Enhanced prediction accuracy with the latest trained model (`model.pkl`).
+- **UI Improvements:** Refreshed web interface for better usability and responsiveness.
+- **Feature Expansion:** Added support for new airlines and additional input fields (e.g., number of stops, time of day).
+- **Deployment Ready:** Easily deployable on local machines or cloud platforms.
 
-## 🛠️ Technology Stack
-- **Frontend**: React (Vite), Vanilla CSS (Custom Design System).
-- **Backend**: FastAPI (Python), uvicorn.
-- **Machine Learning**: Scikit-Learn (Random Forest Regressor), Pandas, NumPy.
-- **Deployment**: Optimized for Vercel Serverless Functions.
+## 🚀 Getting Started
 
-## 📊 Model Performance
-| Metric | Value |
-| :--- | :--- |
-| **Accuracy (R²)** | 0.91 |
-| **Mean Absolute Error (MAE)** | ₹105.4 |
-| **Training Split** | 80/20 Cross-Validation |
-| **Estimators** | 100 Tree Forest |
+### Prerequisites
+- Python 3.8+
+- pip
 
-## 📦 Installation & Setup
-
-1. **Clone the Repository**
+### Installation
+1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/flightprice.git
+   git clone https://github.com/yourusername/flightprice.git
    cd flightprice
    ```
-
-2. **Backend Setup**
+2. **Install dependencies:**
    ```bash
    pip install -r requirements.txt
+   ```
+
+### Running the Application
+1. **Start the server:**
+   ```bash
    python app.py
    ```
+2. **Access the app:**
+   Open your browser and go to [http://localhost:5000](http://localhost:5000)
+3. **Input details:**
+   Fill in the flight details and click 'Predict' to get the estimated price.
 
-3. **Frontend Setup**
-   ```bash
-   npm install
-   npm run dev
-   ```
+## 🗂️ Project Structure
+```
+flightprice/
+├── app.py              # Main application file
+├── model.pkl           # Trained ML model
+├── requirements.txt    # Python dependencies
+├── static/             # Static assets (CSS, JS, images)
+├── templates/          # HTML templates
+└── README.md           # Project documentation
+```
 
-## 🌍 Supported Routes
-Delhi, Mumbai, Bangalore, Kolkata, Chennai, Hyderabad, Ahmedabad, Pune, Goa, Jaipur.
+## 🤝 Contributing
+Contributions, bug reports, and feature requests are welcome! Please open an issue or submit a pull request.
+
+## 📄 License
+This project is licensed under the MIT License.
