@@ -120,7 +120,18 @@ def get_chat_response(message: str) -> str:
 
         # Explicit NLP Date Generation Framework
         days_left = 1
-        if "tomorrow" in msg_low:
+        date_match = re.search(r"(\d{1,2})[/-](\d{1,2})[/-](\d{4})", msg_low)
+        
+        if date_match:
+            try:
+                day, month, year = map(int, date_match.groups())
+                target_date = datetime.datetime(year, month, day)
+                today = datetime.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+                diff = (target_date - today).days
+                days_left = max(0, diff)
+            except ValueError:
+                days_left = 1
+        elif "tomorrow" in msg_low:
             days_left = 1
         elif "next week" in msg_low:
             days_left = 7
@@ -143,14 +154,17 @@ def get_chat_response(message: str) -> str:
         }
 
         try:
-            price, recommendation, conf, price_range, std_dev, mse = predict_price(payload)
+            price, recommendation, conf, price_range, metrics = predict_price(payload)
+            mse = metrics.get('mse', 'N/A')
+            volatility = metrics.get('volatility', 'N/A')
+            
             target_date_str = travel_date.strftime("%B %d")
             return (
                 f"✈️ Scanning flights from {src} to {dest} for {target_date_str}...\n\n"
                 f"Omniscient Intelligence predicts base-tier tickets at roughly **₹{price}** "
                 f"with a model confidence of {conf}%. \n\n"
                 f"**Market Analysis:** {recommendation}\n"
-                f"**Technical Metrics:** MSE: {mse} | Volatility: ₹{std_dev}"
+                f"**Technical Metrics:** MSE: {mse} | Volatility: {volatility}"
             )
         except Exception as e:
             print(f"Chat Predict Error: {e}")
