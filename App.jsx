@@ -47,6 +47,23 @@ export default function App() {
   const [messages, setMessages] = useState([
     { role: 'ai', text: 'I am Omniscient AI. My intelligence spans all historical market fluctuations. How may I guide your journey today?' }
   ]);
+  const [mlStatus, setMlStatus] = useState('checking');
+
+  useEffect(() => {
+    const checkStatus = async () => {
+      try {
+        // IMPORTANT: Change this to your Render backend URL (e.g. "https://YOUR-BACKEND.onrender.com/test")
+        const res = await fetch("/api/test");
+        if (res.ok) setMlStatus('online');
+        else setMlStatus('offline');
+      } catch (e) {
+        setMlStatus('offline');
+      }
+    };
+    checkStatus();
+    const interval = setInterval(checkStatus, 15000); // Check every 15s
+    return () => clearInterval(interval);
+  }, []);
 
   const cities = ['Delhi', 'Mumbai', 'Bangalore', 'Kolkata', 'Chennai', 'Hyderabad', 'Ahmedabad', 'Pune', 'Goa', 'Jaipur'];
 
@@ -156,6 +173,12 @@ export default function App() {
       <header className="app-header">
         <div className="logo-section">
           <h1>Aero<span>Core</span></h1>
+          <div className={`status-indicator ${mlStatus}`}>
+            <span className="status-dot"></span>
+            <span className="status-text">
+              {mlStatus === 'checking' ? 'Connecting to ML...' : mlStatus === 'online' ? 'ML Engine Online' : 'ML Engine Offline (Fallback Mode)'}
+            </span>
+          </div>
         </div>
         <div className="theme-toggle" onClick={toggleTheme}>
           {isDark ? <SunIcon /> : <MoonIcon />}
