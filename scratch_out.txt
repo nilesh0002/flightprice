@@ -1,0 +1,20 @@
+1. ✈️ Scanning flights from Delhi to Mumbai for May 12...
+
+Omniscient Intelligence predicts base-tier tickets at roughly **₹3139.7661563789698** with a model confidence of 76.7%. 
+
+**Market Analysis:** Good time to book! 🚀 Avoid surge pricing.
+**Technical Metrics:** MSE: 1339.34 | Volatility: ₹365.9694403839952
+
+2. ✈️ Scanning flights from Delhi to Mumbai for May 12...
+
+Omniscient Intelligence predicts base-tier tickets at roughly **₹3139.7661563789698** with a model confidence of 76.7%. 
+
+**Market Analysis:** Good time to book! 🚀 Avoid surge pricing.
+**Technical Metrics:** MSE: 1339.34 | Volatility: ₹365.9694403839952
+
+3. I don’t have live access to future flight pricing.  
+Could you let me know your departure city (and any preferred airline or class)? That way I can give you a realistic range or direct you to the most reliable booking sources.
+
+4. I don’t have live access to future flight pricing.  
+Could you let me know your departure city (and any preferred airline or class)? That way I can give you a realistic range or direct you to the most reliable booking sources.
+
