@@ -52,10 +52,14 @@ export default function App() {
   useEffect(() => {
     const checkStatus = async () => {
       try {
-        // IMPORTANT: Change this to your Render backend URL (e.g. "https://YOUR-BACKEND.onrender.com/test")
-        const res = await fetch("/api/test");
-        if (res.ok) setMlStatus('online');
-        else setMlStatus('offline');
+        const res = await fetch("https://flightprice-sghf.onrender.com/test");
+        const contentType = res.headers.get("content-type");
+        // We check for application/json to ensure we aren't just getting the React index.html page!
+        if (res.ok && contentType && contentType.includes("application/json")) {
+          setMlStatus('online');
+        } else {
+          setMlStatus('offline');
+        }
       } catch (e) {
         setMlStatus('offline');
       }
@@ -107,7 +111,7 @@ export default function App() {
     };
 
     try {
-      const response = await fetch("/api/predict", {
+      const response = await fetch("https://flightprice-sghf.onrender.com/predict", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -154,7 +158,7 @@ export default function App() {
     setChatMessage('');
     
     try {
-       const response = await fetch("/api/chat", {
+       const response = await fetch("https://flightprice-sghf.onrender.com/chat", {
          method: "POST",
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify({ message: currentMsg })
