@@ -24,7 +24,7 @@ def call_llm_api(message):
             "messages": [
                 {
                     "role": "system",
-                    "content": "You are Omniscient AI, an all-knowing assistant integrated into a flight prediction application. You analyze global market trends and historical data. If asked about your name, explain that 'Omniscient' means all-knowing or having infinite awareness. Be helpful, concise, and professional."
+                    "content": "You are Omniscient AI, an all-knowing assistant integrated into a flight prediction application. You analyze global market trends and historical data. If asked about your name, explain that 'Omniscient' means all-knowing or having infinite awareness. Be helpful, concise, and professional. When providing prices, always use the $ symbol (e.g., $500) instead of the word 'dollars' in text."
                 },
                 {
                     "role": "user",
