@@ -5,3 +5,6 @@ venv/
 __pycache__/
 *.pyc
 .env
+*.pyc
+scratch_out.txt
+scratch/
