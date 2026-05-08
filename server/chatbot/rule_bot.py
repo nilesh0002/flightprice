@@ -5,50 +5,51 @@ from utils.predict import predict_price
 
 def call_llm_api(message):
     """
-    Hits a free LLM endpoint using text.pollinations.ai to act like a real AI (ChatGPT).
-    Uses urllib directly to avoid any CA certificate bundle issues on the local system.
-    Implements role-based context to mimic ChatGPT.
+    Hits HuggingFace Router API using the openai-compatible client.
+    Uses google/gemma-4-31B-it via Novita provider.
+    Requires HF_TOKEN environment variable.
     """
     try:
-        import urllib.request
-        import json
-        import ssl
-        
-        # Bypass SSL verification to avoid local CA bundle issues
-        ctx = ssl._create_unverified_context()
-        
-        url = "https://text.pollinations.ai/"
-        
-        # Implementing role-based context to act exactly like Omni-bot
-        payload = {
-            "messages": [
+        import os
+        from openai import OpenAI
+
+        hf_token = os.environ.get("HF_TOKEN")
+        if not hf_token:
+            print("HF_TOKEN not set — skipping LLM call.")
+            return None
+
+        client = OpenAI(
+            base_url="https://router.huggingface.co/v1",
+            api_key=hf_token,
+        )
+
+        completion = client.chat.completions.create(
+            model="google/gemma-4-31B-it:novita",
+            messages=[
                 {
                     "role": "system",
-                    "content": "You are Omniscient AI, an all-knowing assistant integrated into a flight prediction application. You analyze global market trends and historical data. If asked about your name, explain that 'Omniscient' means all-knowing or having infinite awareness. Be helpful, concise, and professional. When providing prices, always use the $ symbol (e.g., $500) instead of the word 'dollars' in text."
+                    "content": (
+                        "You are Omniscient AI, an all-knowing assistant integrated into a flight "
+                        "prediction application. You analyze global market trends and historical data. "
+                        "If asked about your name, explain that 'Omniscient' means all-knowing or having "
+                        "infinite awareness. Be helpful, concise, and professional. When providing prices, "
+                        "always use the ₹ symbol (e.g., ₹5000) for Indian flights."
+                    )
                 },
                 {
                     "role": "user",
                     "content": message
                 }
             ],
-            "model": "openai"
-        }
-        
-        data = json.dumps(payload).encode('utf-8')
-        req = urllib.request.Request(
-            url, 
-            data=data, 
-            headers={
-                'Content-Type': 'application/json',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
-            }
+            max_tokens=300,
         )
-        
-        response = urllib.request.urlopen(req, timeout=15, context=ctx)
-        return response.read().decode('utf-8')
+
+        return completion.choices[0].message.content
+
     except Exception as e:
-        print(f"LLM API Error: {e}")
+        print(f"HuggingFace LLM API Error: {e}")
         return None
+
 
 def fallback_general_qa(message):
     """
