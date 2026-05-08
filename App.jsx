@@ -100,6 +100,7 @@ export default function App() {
 
     const payload = {
         ...formData,
+        source: formData.origin,          // backend expects 'source', not 'origin'
         total_stops: parseInt(formData.stops, 10),
         duration_minutes: parseInt(formData.duration, 10) || 120,
         day_of_week,
@@ -128,25 +129,8 @@ export default function App() {
          throw new Error(data.error || "Invalid response");
       }
     } catch (err) {
-      console.warn("Using intelligent fallback for forecast");
-      setTimeout(() => {
-        const simulated_price = Math.floor(4200 + Math.random() * 2500);
-        setPrediction({
-          predicted_price: simulated_price,
-          recommendation: "Historical data suggests high liquidity. Optimized booking advised.",
-          confidence: (85 + Math.random() * 10).toFixed(1),
-          price_range: "Optimized",
-          metrics: {
-            r2: 0.94,
-            mse: (Math.random() * 200).toFixed(1),
-            volatility: `₹${(150 + Math.random() * 100).toFixed(1)}`,
-            sample_size: 1500,
-            method: "Random Forest (Fallback)",
-            training_split: "70/30",
-            f1_approx: 0.89
-          }
-        });
-      }, 800);
+      console.error("Prediction failed:", err.message);
+      setPrediction({ error: err.message || "Could not connect to ML engine. Please ensure the backend is running." });
     } finally {
       setIsLoading(false);
     }
@@ -251,7 +235,19 @@ export default function App() {
             </form>
           </section>
 
-          {prediction && (
+          {prediction && prediction.error && (
+            <section className="floating-card result-card" style={{ borderColor: '#f87171' }}>
+              <div className="result-label" style={{ color: '#f87171' }}>⚠ Connection Error</div>
+              <p style={{ color: 'var(--text-dim)', marginTop: '1rem', fontSize: '0.95rem', lineHeight: 1.6 }}>
+                {prediction.error}
+              </p>
+              <p style={{ color: 'var(--text-dim)', fontSize: '0.8rem', marginTop: '0.5rem' }}>
+                Make sure the backend is running: <code>uvicorn app:app --reload</code>
+              </p>
+            </section>
+          )}
+
+          {prediction && !prediction.error && (
             <section className="floating-card result-card">
               <div className="result-label">Forecasted Liquidity</div>
               <div className="result-price">
