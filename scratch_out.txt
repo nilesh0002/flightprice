@@ -1,1 +1,0 @@
-{"predicted_price":2785.51,"recommendation":"Good time to book! 🚀 Avoid surge pricing.","confidence":76.3,"price_range":"Low","avg_price":3203.34}

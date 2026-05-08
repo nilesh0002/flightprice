@@ -1,7 +1,15 @@
 import re
-import requests
+import sys
+import os
 import datetime
+
+# Ensure server/ root is on the path so 'from utils.predict' resolves correctly
+_server_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if _server_dir not in sys.path:
+    sys.path.insert(0, _server_dir)
+
 from utils.predict import predict_price
+
 
 def call_llm_api(message):
     """
