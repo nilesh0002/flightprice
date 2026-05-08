@@ -1,8 +1,6 @@
-import sys
-import os
-
-# Add server/ to path so imports like 'from utils.predict' and 'from chatbot.rule_bot' resolve correctly
-server_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'server')
-sys.path.insert(0, server_dir)
-
-from app import app
+# This file was the Vercel serverless entry point for the old monorepo setup.
+# The project has been restructured:
+#   - Frontend (React/Vite) is deployed from client/ on Vercel
+#   - Backend (FastAPI)     is deployed from server/ on Render
+#
+# This file is no longer active. See server/app.py for the FastAPI application.
