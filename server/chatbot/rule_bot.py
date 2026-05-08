@@ -155,7 +155,11 @@ def get_chat_response(message: str) -> str:
         }
 
         try:
-            from utils.predict import predict_price  # resolved from server/ CWD
+            import sys as _sys, os as _os
+            _server_root = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+            if _server_root not in _sys.path:
+                _sys.path.insert(0, _server_root)
+            from utils.predict import predict_price  # resolved via __file__-based server root
             price, recommendation, conf, price_range, metrics = predict_price(payload)
             mse = metrics.get("mse", "N/A")
             volatility = metrics.get("volatility", "N/A")
