@@ -90,10 +90,12 @@ export default function App() {
     setIsLoading(true);
     setPrediction(null);
 
+    // Compare dates as strings (YYYY-MM-DD) to avoid timestamp drift changing days_left on every click
+    const todayStr = new Date().toISOString().split('T')[0];
+    const todayDate = new Date(todayStr);
     const travelDate = new Date(formData.date);
-    const today = new Date();
-    const diffTime = Math.max(0, travelDate.getTime() - today.getTime());
-    const days_left = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const diffTime = Math.max(0, travelDate.getTime() - todayDate.getTime());
+    const days_left = Math.round(diffTime / (1000 * 60 * 60 * 24));
     
     const day_of_week = travelDate.getDay(); 
     const month = travelDate.getMonth() + 1;
