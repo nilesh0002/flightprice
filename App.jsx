@@ -49,10 +49,12 @@ export default function App() {
   ]);
   const [mlStatus, setMlStatus] = useState('checking');
 
+  const API_BASE_URL = import.meta.env.DEV ? "http://127.0.0.1:8000" : "https://flightprice-sghf.onrender.com";
+
   useEffect(() => {
     const checkStatus = async () => {
       try {
-        const res = await fetch("https://flightprice-sghf.onrender.com/test");
+        const res = await fetch(`${API_BASE_URL}/test`);
         const contentType = res.headers.get("content-type");
         // We check for application/json to ensure we aren't just getting the React index.html page!
         if (res.ok && contentType && contentType.includes("application/json")) {
@@ -111,7 +113,7 @@ export default function App() {
     };
 
     try {
-      const response = await fetch("https://flightprice-sghf.onrender.com/predict", {
+      const response = await fetch(`${API_BASE_URL}/predict`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -158,7 +160,7 @@ export default function App() {
     setChatMessage('');
     
     try {
-       const response = await fetch("https://flightprice-sghf.onrender.com/chat", {
+       const response = await fetch(`${API_BASE_URL}/chat`, {
          method: "POST",
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify({ message: currentMsg })
