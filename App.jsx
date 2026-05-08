@@ -48,13 +48,17 @@ export default function App() {
     { role: 'ai', text: 'I am Omniscient AI. My intelligence spans all historical market fluctuations. How may I guide your journey today?' }
   ]);
   const [mlStatus, setMlStatus] = useState('checking');
+  const [isWaking, setIsWaking] = useState(false);
 
   const API_BASE_URL = import.meta.env.DEV ? "http://127.0.0.1:8000" : "https://flightprice-sghf.onrender.com";
 
   useEffect(() => {
     const checkStatus = async () => {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 8000); // 8s timeout
       try {
-        const res = await fetch(`${API_BASE_URL}/test`);
+        const res = await fetch(`${API_BASE_URL}/test`, { signal: controller.signal });
+        clearTimeout(timer);
         const contentType = res.headers.get("content-type");
         // We check for application/json to ensure we aren't just getting the React index.html page!
         if (res.ok && contentType && contentType.includes("application/json")) {
@@ -63,11 +67,13 @@ export default function App() {
           setMlStatus('offline');
         }
       } catch (e) {
-        setMlStatus('offline');
+        clearTimeout(timer);
+        // AbortError means it timed out = Render is cold-starting
+        setMlStatus(e.name === 'AbortError' ? 'checking' : 'offline');
       }
     };
     checkStatus();
-    const interval = setInterval(checkStatus, 15000); // Check every 15s
+    const interval = setInterval(checkStatus, 20000); // Check every 20s
     return () => clearInterval(interval);
   }, []);
 
@@ -116,11 +122,21 @@ export default function App() {
     };
 
     try {
+      setIsWaking(false);
+      const controller = new AbortController();
+      // Render free tier cold-starts in ~50s, so allow 65s before giving up
+      const wakeTimer = setTimeout(() => setIsWaking(true), 8000);
+      const abortTimer = setTimeout(() => controller.abort(), 65000);
+
       const response = await fetch(`${API_BASE_URL}/predict`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        signal: controller.signal
       });
+      clearTimeout(wakeTimer);
+      clearTimeout(abortTimer);
+      setIsWaking(false);
       
       const data = await response.json();
       
@@ -128,11 +144,15 @@ export default function App() {
          setPrediction(data);
       } else {
          console.error("Predict logic error:", data);
-         throw new Error(data.error || "Invalid response");
+         throw new Error(data.error || "Invalid response from ML engine");
       }
     } catch (err) {
+      setIsWaking(false);
       console.error("Prediction failed:", err.message);
-      setPrediction({ error: err.message || "Could not connect to ML engine. Please ensure the backend is running." });
+      const msg = err.name === 'AbortError'
+        ? "ML engine took too long to respond. Render may be cold-starting — please try again in 30 seconds."
+        : (err.message || "Could not connect to ML engine.");
+      setPrediction({ error: msg });
     } finally {
       setIsLoading(false);
     }
@@ -168,7 +188,7 @@ export default function App() {
           <div className={`status-indicator ${mlStatus}`}>
             <span className="status-dot"></span>
             <span className="status-text">
-              {mlStatus === 'checking' ? 'Connecting to ML...' : mlStatus === 'online' ? 'ML Engine Online' : 'ML Engine Offline (Fallback Mode)'}
+              {mlStatus === 'checking' ? '⏳ Waking ML Engine...' : mlStatus === 'online' ? 'ML Engine Online' : 'ML Engine Offline'}
             </span>
           </div>
         </div>
@@ -232,7 +252,7 @@ export default function App() {
               </div>
 
               <button type="submit" className="submit-btn" disabled={isLoading}>
-                {isLoading ? 'Processing Intelligence...' : 'Generate Market Forecast'}
+                {isLoading && isWaking ? '⏳ Waking ML Engine (Render cold start)...' : isLoading ? 'Processing Intelligence...' : 'Generate Market Forecast'}
               </button>
             </form>
           </section>
