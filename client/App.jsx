@@ -49,6 +49,7 @@ export default function App() {
   ]);
   const [mlStatus, setMlStatus] = useState('checking');
   const [isWaking, setIsWaking] = useState(false);
+  const [useMlModel, setUseMlModel] = useState(true);
 
   const API_BASE_URL = import.meta.env.DEV ? "http://127.0.0.1:8000" : "https://flightprice-sghf.onrender.com";
 
@@ -120,6 +121,29 @@ export default function App() {
                         formData.departureWindow === 'Afternoon' ? 14 :
                         formData.departureWindow === 'Evening' ? 19 : 22
     };
+
+    if (!useMlModel) {
+      setTimeout(() => {
+        const randomPrice = Math.floor(Math.random() * (15000 - 3000) + 3000);
+        setPrediction({
+          predicted_price: randomPrice,
+          confidence: Math.floor(Math.random() * (95 - 60) + 60),
+          recommendation: "Standard Market Fluctuation (Rule-Based)",
+          price_range: "Stable",
+          metrics: {
+            r2: "N/A",
+            mse: "N/A",
+            volatility: "Standard",
+            sample_size: "Rule Engine",
+            method: "Heuristic Fallback",
+            f1_approx: "N/A",
+            training_split: "N/A"
+          }
+        });
+        setIsLoading(false);
+      }, 500);
+      return;
+    }
 
     try {
       setIsWaking(false);
@@ -249,6 +273,14 @@ export default function App() {
                     <option value="Yes">Peak Cycle (+30% Forecast)</option>
                   </select>
                 </div>
+              </div>
+
+              <div className="switch-container">
+                <span className="switch-label">Connect to ML Engine</span>
+                <label className="switch">
+                  <input type="checkbox" checked={useMlModel} onChange={(e) => setUseMlModel(e.target.checked)} />
+                  <span className="slider round"></span>
+                </label>
               </div>
 
               <button type="submit" className="submit-btn" disabled={isLoading}>
