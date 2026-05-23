@@ -196,7 +196,11 @@ export default function App() {
          body: JSON.stringify({ message: currentMsg, role: 'travel', history: messages, flightContext: { trip: formData, prediction } })
        });
        const data = await response.json();
-       if (data.reply) setMessages(prev => [...prev, { role: 'ai', text: data.reply }]);
+       if (data.reply) {
+         setMessages(prev => [...prev, { role: 'ai', text: data.reply }]);
+       } else if (data.error) {
+         setMessages(prev => [...prev, { role: 'ai', text: `Error: ${data.error}` }]);
+       }
     } catch(err) {
       setTimeout(() => {
         setMessages(prev => [...prev, { role: 'ai', text: 'Semantic engine busy. Re-routing through local rule-sets.' }]);
