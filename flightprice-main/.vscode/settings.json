@@ -1,8 +1,0 @@
-{
-  "python.analysis.extraPaths": [
-    "./server"
-  ],
-  "python.analysis.ignore": [
-    "./client/node_modules"
-  ]
-}
