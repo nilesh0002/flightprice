@@ -40,6 +40,7 @@ export default function App() {
     isFestival: 'No',
     membership: 'Guest'
   });
+  const [selectedModel, setSelectedModel] = useState('llama-3.1-8b-instant');
   
   const [prediction, setPrediction] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -193,7 +194,7 @@ export default function App() {
        const response = await fetch("/api/chat", {
          method: "POST",
          headers: { "Content-Type": "application/json" },
-         body: JSON.stringify({ message: currentMsg, role: 'travel', history: messages, flightContext: { trip: formData, prediction } })
+         body: JSON.stringify({ message: currentMsg, role: 'travel', history: messages, flightContext: { trip: formData, prediction }, model: selectedModel })
        });
        const data = await response.json();
        if (data.reply) {
@@ -385,7 +386,28 @@ export default function App() {
 
         <div className="right-col">
           <section className="floating-card chat-card assistant-card">
-            <h2 className="card-title">Omniscient AI Hub</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <h2 className="card-title" style={{ margin: 0 }}>Omniscient AI Hub</h2>
+              <select 
+                value={selectedModel} 
+                onChange={(e) => setSelectedModel(e.target.value)}
+                style={{
+                  background: 'var(--bg-secondary)',
+                  color: 'var(--text-main)',
+                  border: '1px solid var(--border-color)',
+                  borderRadius: '6px',
+                  padding: '4px 8px',
+                  fontSize: '0.8rem',
+                  outline: 'none',
+                  cursor: 'pointer'
+                }}
+              >
+                <option value="llama-3.1-8b-instant">Llama 3.1 8B</option>
+                <option value="llama-3.3-70b-versatile">Llama 3.3 70B</option>
+                <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
+                <option value="gemma2-9b-it">Gemma 2 9B</option>
+              </select>
+            </div>
             <div className="chat-container">
               {messages.map((msg, i) => (
                 <div key={i} className={`chat-bubble ${msg.role}`}>{msg.text}</div>

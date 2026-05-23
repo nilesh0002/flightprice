@@ -57,11 +57,12 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { message: rawMessage, role: rawRole, history: rawHistory, flightContext: rawFlightContext } = req.body;
+    const { message: rawMessage, role: rawRole, history: rawHistory, flightContext: rawFlightContext, model: requestedModel } = req.body;
     const message = typeof rawMessage === "string" ? rawMessage.trim() : "";
     const role = normalizeRole(rawRole);
     const history = sanitizeHistory(rawHistory);
     const flightContext = formatFlightContext(rawFlightContext);
+    const finalModel = typeof requestedModel === "string" ? requestedModel : MODEL;
 
     if (!message) {
       return res.status(400).json({ error: "A message is required." });
@@ -92,7 +93,7 @@ export default async function handler(req, res) {
     ].filter(Boolean).join("\n\n");
 
     const completion = await groq.chat.completions.create({
-      model: MODEL,
+      model: finalModel,
       temperature: 0.7,
       max_tokens: 500,
       messages: [
