@@ -1,11 +1,4 @@
-require("dotenv").config({ path: "../.env.local" }); // Load from root
-const express = require("express");
-const cors = require("cors");
-const Groq = require("groq-sdk");
-
-const app = express();
-app.use(cors());
-app.use(express.json());
+import Groq from "groq-sdk";
 
 const MODEL = "llama-3.3-70b-versatile";
 const LIVE_PRICE_REPLY = "Live pricing requires flight API integration.";
@@ -58,7 +51,11 @@ function sanitizeHistory(history) {
     .filter((item) => item.content);
 }
 
-app.post("/api/chat", async (req, res) => {
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
   try {
     const { message: rawMessage, role: rawRole, history: rawHistory, flightContext: rawFlightContext } = req.body;
     const message = typeof rawMessage === "string" ? rawMessage.trim() : "";
@@ -119,9 +116,4 @@ app.post("/api/chat", async (req, res) => {
     }
     res.status(500).json({ error: "Unable to process chat right now." });
   }
-});
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Express server running on http://localhost:${PORT}`);
-});
+}
