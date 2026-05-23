@@ -114,6 +114,6 @@ export default async function handler(req, res) {
     if (/invalid api key|authentication|unauthorized|forbidden/i.test(error.message)) {
       return res.status(500).json({ error: "Groq authentication failed. Verify the GROQ_API_KEY value." });
     }
-    res.status(500).json({ error: "Unable to process chat right now." });
+    res.status(500).json({ error: `Server Error: ${error.message}` });
   }
 }
