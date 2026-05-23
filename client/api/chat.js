@@ -1,6 +1,6 @@
 import Groq from "groq-sdk";
 
-const MODEL = "llama-3.3-70b-versatile";
+const MODEL = "llama3-8b-8192";
 const LIVE_PRICE_REPLY = "Live pricing requires flight API integration.";
 
 const ROLE_PROMPTS = {
