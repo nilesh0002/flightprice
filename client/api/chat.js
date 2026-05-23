@@ -84,6 +84,7 @@ export default async function handler(req, res) {
     const systemPrompt = [
       ROLE_PROMPTS[role],
       "Keep responses concise, useful, and action-oriented.",
+      "Format your responses cleanly with line breaks. Do NOT use markdown bolding (asterisks) or special characters.",
       `If asked for live or current prices, respond exactly with: "${LIVE_PRICE_REPLY}"`,
       "Use provided flight app context when it exists. If context is missing, ask only for the minimum needed details.",
       "Do not invent airline inventory, real-time prices, refunds, or visa rules when they are not provided in context.",

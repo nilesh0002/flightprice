@@ -412,6 +412,7 @@ input:checked + .slider:before {
   font-size: 0.95rem;
   line-height: 1.5;
   max-width: 85%;
+  white-space: pre-wrap;
 }
 
 .chat-bubble.ai {
