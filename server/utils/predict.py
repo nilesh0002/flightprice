@@ -83,6 +83,24 @@ def predict_price(flight_data: dict):
         price = price * festival_mult.get(flight_data.get('isFestival', 'No'), 1.0)
         price = price * window_mult
 
+        # Incorporate Passengers
+        passengers_str = flight_data.get('passengers', '1')
+        try:
+            num_passengers = int(passengers_str.replace('+', ''))
+        except:
+            num_passengers = 1
+        
+        price = price * num_passengers
+
+        # Incorporate Amenities
+        amenities = flight_data.get('amenities', 'None')
+        if amenities == 'Meals Included':
+            price += (500 * num_passengers)
+        elif amenities == 'Seat Selection':
+            price += (300 * num_passengers)
+        elif amenities == 'Meals + Seat Selection':
+            price += (800 * num_passengers)
+
         # Confidence score: based on estimator variance
         rf = model.named_steps['regressor']
         X_transformed = model.named_steps['preprocessor'].transform(payload)
