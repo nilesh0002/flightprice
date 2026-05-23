@@ -46,6 +46,8 @@ class FlightQuery(BaseModel):
     departureWindow: str = "Morning"
     isFestival: str = "No"
     membership: str = "Guest"
+    passengers: str = "1"
+    amenities: str = "None"
 
 class ChatQuery(BaseModel):
     message: str

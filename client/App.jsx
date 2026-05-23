@@ -38,7 +38,9 @@ export default function App() {
     extra: 'Basic',
     departureWindow: 'Morning',
     isFestival: 'No',
-    membership: 'Guest'
+    membership: 'Guest',
+    passengers: '1',
+    amenities: 'None'
   });
   const [selectedModel, setSelectedModel] = useState('llama-3.1-8b-instant');
   
@@ -276,6 +278,28 @@ export default function App() {
                   <select value={formData.isFestival} onChange={(e) => setFormData({...formData, isFestival: e.target.value})}>
                     <option value="No">Off-Peak (Standard)</option>
                     <option value="Yes">Peak Cycle (+30% Forecast)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="input-group">
+                  <label>Passengers</label>
+                  <select value={formData.passengers} onChange={(e) => setFormData({...formData, passengers: e.target.value})}>
+                    <option value="1">1 Passenger</option>
+                    <option value="2">2 Passengers</option>
+                    <option value="3">3 Passengers</option>
+                    <option value="4">4 Passengers</option>
+                    <option value="5+">5+ Passengers</option>
+                  </select>
+                </div>
+                <div className="input-group">
+                  <label>Amenities</label>
+                  <select value={formData.amenities} onChange={(e) => setFormData({...formData, amenities: e.target.value})}>
+                    <option value="None">None</option>
+                    <option value="Meals Included">Meals Included</option>
+                    <option value="Seat Selection">Seat Selection</option>
+                    <option value="Meals + Seat Selection">Meals + Seat Selection</option>
                   </select>
                 </div>
               </div>

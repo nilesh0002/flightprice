@@ -32,6 +32,8 @@ function formatFlightContext(flightContext) {
   if (trip.date) lines.push(`Departure date: ${trip.date}`);
   if (trip.airline) lines.push(`Airline: ${trip.airline}`);
   if (trip.cabin) lines.push(`Cabin: ${trip.cabin}`);
+  if (trip.passengers) lines.push(`Passengers: ${trip.passengers}`);
+  if (trip.amenities) lines.push(`Amenities requested: ${trip.amenities}`);
   if (trip.departureWindow) lines.push(`Departure window: ${trip.departureWindow}`);
   if (trip.isFestival) lines.push(`Festival cycle: ${trip.isFestival}`);
   if (prediction?.predicted_price) lines.push(`Predicted fare: INR ${prediction.predicted_price}`);
