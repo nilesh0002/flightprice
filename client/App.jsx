@@ -190,7 +190,9 @@ export default function App() {
     setChatMessage('');
     
     try {
-       const response = await fetch("http://localhost:5000/api/chat", {
+       // Note: You must deploy your new Express backend and update EXPRESS_URL in production!
+       const EXPRESS_URL = import.meta.env.DEV ? "http://localhost:5000" : "YOUR_DEPLOYED_EXPRESS_URL_HERE";
+       const response = await fetch(`${EXPRESS_URL}/api/chat`, {
          method: "POST",
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify({ message: currentMsg, role: 'travel', history: messages, flightContext: { trip: formData, prediction } })
