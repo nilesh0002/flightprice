@@ -1,0 +1,1501 @@
+airline,source,destination,total_stops,journey_day,journey_month,duration_minutes,price
+Air India,Kolkata,Bangalore,2,22,10,185,7715.270920304185
+Vistara,Chennai,Kolkata,1,28,5,268,6179.229576505919
+SpiceJet,Mumbai,Bangalore,0,7,11,156,3420.5547924151883
+SpiceJet,Bangalore,Kolkata,0,5,10,133,3767.0343511374913
+SpiceJet,Kolkata,Bangalore,2,28,2,686,9077.6956329061
+Jet Airways,Chennai,Delhi,1,23,9,250,5351.670842822953
+SpiceJet,Kolkata,Delhi,1,22,11,741,8134.9010101452095
+IndiGo,Kolkata,Mumbai,1,17,9,775,9006.88058095089
+SpiceJet,Kolkata,Delhi,1,19,4,115,5447.722519892358
+Jet Airways,Chennai,Mumbai,1,31,8,779,8383.711196751372
+SpiceJet,Delhi,Bangalore,0,2,1,612,6450.593097401196
+Vistara,Bangalore,Delhi,0,6,2,91,3589.3093552079145
+Vistara,Kolkata,Chennai,0,22,7,586,5345.053487187356
+Jet Airways,Bangalore,Chennai,2,4,3,633,9092.431190405845
+IndiGo,Kolkata,Mumbai,1,25,1,726,8093.420202009267
+IndiGo,Bangalore,Kolkata,2,29,10,343,8095.845168462981
+Air India,Bangalore,Kolkata,1,31,10,780,8116.764749698952
+Jet Airways,Delhi,Chennai,0,23,8,553,5308.667712169615
+SpiceJet,Delhi,Chennai,2,22,2,246,7207.226521606596
+Jet Airways,Mumbai,Delhi,0,26,5,557,5462.287748002724
+Air India,Delhi,Kolkata,1,1,4,501,6843.245390208182
+Jet Airways,Mumbai,Chennai,1,25,4,189,5404.560213554437
+Jet Airways,Kolkata,Chennai,1,26,2,698,7798.477918137773
+Air India,Kolkata,Bangalore,0,27,9,351,5236.591371426408
+IndiGo,Delhi,Chennai,1,4,1,173,6072.147553002211
+SpiceJet,Mumbai,Chennai,0,26,2,258,4721.455371479107
+Air India,Mumbai,Delhi,2,22,7,72,5474.401417422569
+Vistara,Kolkata,Delhi,1,1,1,330,5829.013168849083
+IndiGo,Mumbai,Chennai,1,10,2,660,7710.673940483903
+Vistara,Mumbai,Delhi,1,4,2,274,4946.863370324962
+IndiGo,Kolkata,Chennai,2,18,10,503,8077.054141425359
+SpiceJet,Delhi,Kolkata,1,25,2,571,7259.285015383725
+SpiceJet,Chennai,Delhi,0,14,4,506,5305.512959435469
+Jet Airways,Chennai,Delhi,0,9,7,774,6874.325088654459
+Vistara,Delhi,Chennai,1,2,6,133,4474.585819361523
+IndiGo,Kolkata,Chennai,1,2,6,596,7249.858824641582
+SpiceJet,Chennai,Mumbai,2,24,4,160,6875.95487536329
+Air India,Chennai,Kolkata,2,20,1,235,7180.100735712435
+SpiceJet,Delhi,Mumbai,2,2,10,486,8653.446788823941
+Air India,Delhi,Mumbai,1,22,10,176,5574.287180998766
+IndiGo,Kolkata,Bangalore,2,2,4,225,6921.446515622918
+SpiceJet,Bangalore,Mumbai,2,6,9,100,6560.059441537561
+SpiceJet,Bangalore,Mumbai,0,4,12,488,5040.003452652481
+IndiGo,Bangalore,Kolkata,2,10,1,403,7879.885840486356
+SpiceJet,Mumbai,Delhi,0,17,2,483,4887.191264025147
+Air India,Delhi,Chennai,0,13,6,425,5657.712216138129
+SpiceJet,Delhi,Chennai,2,21,9,179,6758.252849734634
+Vistara,Mumbai,Kolkata,0,23,8,668,6871.971723114031
+Jet Airways,Bangalore,Chennai,1,24,9,716,8235.748034344222
+Air India,Bangalore,Mumbai,1,16,3,787,7992.168869171885
+Vistara,Bangalore,Kolkata,2,4,1,288,7565.55329950076
+IndiGo,Bangalore,Mumbai,1,4,11,189,5849.859132543923
+Air India,Chennai,Delhi,0,16,9,411,5016.209604198743
+Jet Airways,Bangalore,Mumbai,1,29,3,377,6422.014676170619
+Jet Airways,Mumbai,Delhi,2,4,11,708,9264.27134582246
+IndiGo,Kolkata,Bangalore,2,7,11,396,7992.051613238674
+IndiGo,Delhi,Chennai,0,17,6,332,4778.949094401071
+Air India,Chennai,Kolkata,2,24,10,176,6590.592092940745
+SpiceJet,Chennai,Bangalore,1,21,7,427,6095.3520316601725
+IndiGo,Chennai,Kolkata,2,31,3,153,7408.985249791597
+SpiceJet,Bangalore,Chennai,0,11,3,227,4437.060252992371
+Vistara,Mumbai,Delhi,2,21,3,774,9596.170947314307
+Jet Airways,Chennai,Mumbai,1,12,3,400,6609.828628579027
+SpiceJet,Chennai,Bangalore,0,26,1,720,5860.710666163505
+Jet Airways,Mumbai,Chennai,1,13,6,754,7281.464513044822
+SpiceJet,Delhi,Mumbai,0,14,5,211,4597.066543738901
+Vistara,Delhi,Mumbai,2,23,1,645,9339.77557013077
+IndiGo,Bangalore,Mumbai,0,9,10,333,4641.148765257692
+Vistara,Kolkata,Mumbai,0,23,1,613,6181.328602406476
+IndiGo,Bangalore,Mumbai,2,30,5,555,10388.06582945985
+IndiGo,Chennai,Mumbai,1,2,10,783,8849.547643122662
+Jet Airways,Bangalore,Delhi,2,14,1,160,6277.279866812597
+Vistara,Kolkata,Bangalore,0,1,5,616,5239.811804039838
+SpiceJet,Delhi,Chennai,2,29,9,141,7232.267881679708
+Vistara,Delhi,Mumbai,0,5,11,588,6368.047927115003
+Jet Airways,Mumbai,Chennai,2,27,9,132,6947.530383775221
+IndiGo,Kolkata,Delhi,2,20,5,73,5958.560484550303
+Jet Airways,Bangalore,Mumbai,1,29,4,492,7141.642694941987
+Air India,Chennai,Mumbai,0,31,3,216,3718.3274156282673
+Air India,Delhi,Bangalore,1,12,9,794,8801.390943010481
+SpiceJet,Delhi,Chennai,0,25,11,191,4446.328453636171
+Jet Airways,Chennai,Mumbai,2,11,10,397,7713.263620585232
+SpiceJet,Delhi,Bangalore,0,27,9,463,5880.905080607712
+SpiceJet,Mumbai,Kolkata,1,9,6,435,6732.426199781355
+Air India,Kolkata,Delhi,1,25,11,618,7835.936606220993
+SpiceJet,Kolkata,Bangalore,1,13,9,166,4675.183318154598
+Air India,Bangalore,Mumbai,0,10,11,679,6511.10725297745
+IndiGo,Chennai,Delhi,1,30,3,324,5782.207806292666
+Jet Airways,Bangalore,Mumbai,1,23,2,264,6057.316727007087
+SpiceJet,Delhi,Chennai,1,24,1,138,5923.5813348256315
+Air India,Bangalore,Kolkata,2,17,9,214,7214.760104658176
+Vistara,Bangalore,Chennai,2,22,8,306,7079.572546783408
+SpiceJet,Kolkata,Bangalore,0,14,2,590,6263.233045888794
+IndiGo,Kolkata,Bangalore,0,13,11,597,6185.894372893858
+IndiGo,Mumbai,Bangalore,1,8,3,788,9469.300873200154
+Vistara,Bangalore,Chennai,2,29,3,213,7191.983980450472
+Air India,Kolkata,Mumbai,1,28,6,213,5272.262504387966
+SpiceJet,Delhi,Mumbai,1,1,8,745,8610.320612823189
+Air India,Bangalore,Chennai,2,26,1,151,6691.160963847204
+IndiGo,Delhi,Mumbai,2,2,3,492,8500.125494855887
+Air India,Mumbai,Delhi,2,10,11,397,7520.761984812224
+IndiGo,Bangalore,Chennai,0,10,9,539,5633.782593598294
+Air India,Mumbai,Chennai,0,22,4,752,6775.402348745218
+Vistara,Kolkata,Mumbai,1,4,2,190,5385.825662131561
+Jet Airways,Mumbai,Chennai,0,7,2,509,5249.556318784589
+Vistara,Chennai,Kolkata,2,30,6,332,7804.114565172647
+Vistara,Bangalore,Mumbai,2,27,5,647,8773.263791579084
+Jet Airways,Delhi,Bangalore,0,11,11,236,3600.5026997380023
+Jet Airways,Bangalore,Chennai,1,27,11,755,8629.768085363221
+SpiceJet,Delhi,Chennai,1,15,7,702,8318.875089043642
+SpiceJet,Bangalore,Mumbai,0,14,9,108,2886.1977596598235
+Vistara,Kolkata,Chennai,1,2,11,626,6715.222476783769
+Vistara,Bangalore,Mumbai,1,4,2,725,7620.628977301716
+IndiGo,Bangalore,Mumbai,1,10,1,414,6505.850502763401
+IndiGo,Chennai,Delhi,2,8,7,771,10432.174787382753
+SpiceJet,Mumbai,Delhi,2,29,7,367,7758.62771609374
+SpiceJet,Bangalore,Kolkata,0,8,4,689,6060.319475635984
+IndiGo,Delhi,Chennai,2,21,8,105,6599.2931145415305
+IndiGo,Delhi,Chennai,1,27,7,361,6247.99194237521
+Air India,Delhi,Kolkata,2,11,3,467,7644.496346273501
+Air India,Kolkata,Bangalore,0,14,9,248,3552.4685575406443
+IndiGo,Delhi,Mumbai,2,18,6,188,6265.901248942353
+Air India,Kolkata,Bangalore,1,16,10,620,8839.925767453968
+Jet Airways,Bangalore,Kolkata,1,3,11,596,7909.990720136807
+SpiceJet,Bangalore,Delhi,0,11,8,325,4328.141970732318
+SpiceJet,Chennai,Mumbai,2,31,1,177,7439.133411414466
+IndiGo,Kolkata,Mumbai,2,26,3,523,8330.971856169268
+Vistara,Chennai,Kolkata,2,27,6,203,7552.590198486865
+IndiGo,Bangalore,Chennai,1,6,1,501,7045.1532285347275
+Air India,Bangalore,Mumbai,0,19,5,259,3965.5743751013515
+Vistara,Delhi,Chennai,2,28,2,216,7419.910172914485
+Air India,Kolkata,Bangalore,1,11,6,546,7298.759786361842
+Jet Airways,Kolkata,Mumbai,1,20,3,193,5664.133886089663
+Air India,Chennai,Kolkata,1,2,3,207,5642.753511592055
+Jet Airways,Delhi,Kolkata,2,1,7,395,8077.507386435464
+Jet Airways,Bangalore,Chennai,2,5,12,130,7050.276944043372
+Air India,Delhi,Chennai,2,26,5,292,8751.903424408834
+Air India,Chennai,Kolkata,2,15,9,393,8589.395950274778
+Jet Airways,Delhi,Bangalore,2,2,7,725,9734.822580141523
+Vistara,Mumbai,Delhi,2,14,5,149,6589.696542550213
+Jet Airways,Mumbai,Bangalore,2,13,7,393,7864.632540999004
+SpiceJet,Mumbai,Delhi,2,20,11,258,6661.935352694775
+Jet Airways,Bangalore,Delhi,2,28,8,220,7432.271771276608
+Vistara,Mumbai,Delhi,1,15,5,597,6977.5386541708285
+SpiceJet,Delhi,Mumbai,2,27,6,180,6713.772843975368
+IndiGo,Delhi,Bangalore,0,29,9,360,5135.174351451
+IndiGo,Chennai,Delhi,1,8,5,783,8296.337348101737
+Vistara,Mumbai,Bangalore,2,20,9,634,8923.856004735373
+Jet Airways,Mumbai,Kolkata,0,16,4,495,4876.259656947179
+Air India,Kolkata,Delhi,2,29,5,127,7237.663366152406
+Vistara,Delhi,Chennai,0,14,5,518,5173.389067273561
+SpiceJet,Chennai,Mumbai,0,22,8,573,5572.062086526025
+SpiceJet,Kolkata,Bangalore,0,3,11,457,4389.13529008307
+IndiGo,Kolkata,Delhi,0,17,12,679,6385.06947609605
+SpiceJet,Mumbai,Bangalore,1,18,2,345,6058.352556819221
+Vistara,Delhi,Kolkata,1,6,6,620,7690.928958484206
+SpiceJet,Mumbai,Delhi,0,25,2,199,3407.6841615212134
+Vistara,Delhi,Chennai,2,14,4,789,10312.090396767568
+Air India,Mumbai,Bangalore,0,5,2,615,5155.394723576942
+IndiGo,Kolkata,Mumbai,1,7,7,649,7698.911250008797
+SpiceJet,Chennai,Kolkata,2,16,7,787,9992.744141569792
+Vistara,Kolkata,Chennai,1,6,4,669,7873.887003353043
+Jet Airways,Bangalore,Chennai,1,13,5,341,6283.877435580134
+IndiGo,Chennai,Delhi,2,12,7,720,9994.335842130433
+Air India,Kolkata,Delhi,0,4,4,637,6847.349352486525
+Vistara,Bangalore,Mumbai,0,17,1,516,5502.19603584353
+Air India,Bangalore,Chennai,0,26,11,146,3246.078682430193
+Air India,Mumbai,Delhi,0,16,6,138,3970.3586411463784
+SpiceJet,Chennai,Delhi,2,28,1,264,7179.880307627905
+SpiceJet,Chennai,Mumbai,2,30,12,396,8612.30985581109
+Vistara,Kolkata,Mumbai,2,25,6,313,7264.016692813937
+Jet Airways,Mumbai,Delhi,1,6,5,363,5885.994555683609
+Vistara,Delhi,Mumbai,2,7,11,439,8266.89687547634
+Jet Airways,Chennai,Kolkata,0,3,7,189,3074.791104381504
+Air India,Delhi,Kolkata,1,9,5,655,7541.285643120858
+IndiGo,Chennai,Kolkata,0,28,5,335,4510.079711695826
+Vistara,Bangalore,Chennai,0,17,9,758,6900.236160386341
+Vistara,Mumbai,Bangalore,2,7,11,617,8586.8639518649
+Jet Airways,Chennai,Mumbai,2,15,2,242,6770.249763866024
+Air India,Chennai,Kolkata,0,27,8,327,5213.4568453482
+Air India,Delhi,Chennai,0,30,9,381,4898.269272707174
+Jet Airways,Chennai,Delhi,1,12,12,571,7787.31859195148
+Air India,Mumbai,Kolkata,2,26,7,671,9084.106299308269
+SpiceJet,Kolkata,Mumbai,1,29,4,137,5157.7745187895625
+IndiGo,Chennai,Delhi,1,19,11,398,6597.267213514607
+Vistara,Mumbai,Kolkata,1,29,4,733,9038.777453811632
+IndiGo,Kolkata,Delhi,0,7,12,615,5966.1909099142595
+Vistara,Kolkata,Delhi,1,27,2,568,7256.865553139811
+SpiceJet,Mumbai,Bangalore,1,24,8,297,6534.076513868369
+Air India,Mumbai,Kolkata,0,12,12,193,3775.0942807574565
+Jet Airways,Chennai,Delhi,2,4,3,251,7397.314595836377
+SpiceJet,Delhi,Chennai,2,11,10,415,8580.479603209516
+IndiGo,Bangalore,Chennai,1,10,7,337,5897.07906415053
+Jet Airways,Kolkata,Delhi,0,19,10,77,3555.231223241828
+Air India,Bangalore,Chennai,2,25,2,583,9787.775355072506
+SpiceJet,Delhi,Mumbai,1,6,12,239,6155.659024419077
+Jet Airways,Chennai,Bangalore,1,7,1,182,5552.466534842406
+SpiceJet,Bangalore,Kolkata,0,1,2,305,4412.8393440836835
+SpiceJet,Kolkata,Bangalore,1,1,12,793,8162.840859362581
+Air India,Delhi,Mumbai,2,2,9,432,7665.907038382096
+Vistara,Mumbai,Bangalore,0,14,9,110,4304.811979982839
+Jet Airways,Kolkata,Chennai,2,14,12,130,7307.7355226849995
+Air India,Mumbai,Kolkata,2,29,2,539,8366.442761229711
+SpiceJet,Bangalore,Delhi,2,21,4,619,9263.843499039069
+Air India,Bangalore,Mumbai,1,12,2,78,4945.663249253155
+Vistara,Mumbai,Kolkata,1,6,12,143,5807.207730662037
+Jet Airways,Mumbai,Delhi,2,30,12,214,7261.400599150676
+Vistara,Mumbai,Delhi,2,13,8,624,9108.590619634826
+IndiGo,Bangalore,Mumbai,0,2,2,678,6119.15719885216
+Jet Airways,Kolkata,Delhi,0,1,10,416,5250.433922562914
+Vistara,Chennai,Delhi,1,27,6,706,7855.9087145186895
+SpiceJet,Chennai,Bangalore,1,8,2,502,7120.342472564921
+Jet Airways,Chennai,Mumbai,0,21,10,128,3602.014460270843
+Jet Airways,Chennai,Kolkata,2,8,3,582,8723.754060064926
+Air India,Delhi,Chennai,1,24,2,202,5023.62961318409
+SpiceJet,Mumbai,Kolkata,2,12,1,251,7512.09762637365
+IndiGo,Delhi,Bangalore,0,26,8,446,5251.285170689516
+Vistara,Delhi,Bangalore,1,24,10,437,7578.710427733214
+Air India,Kolkata,Delhi,1,7,3,640,7183.827580811196
+Vistara,Delhi,Kolkata,0,5,5,594,6282.6490961164955
+IndiGo,Kolkata,Mumbai,1,6,10,752,8218.67676598668
+IndiGo,Chennai,Mumbai,0,12,5,352,5809.879199163279
+Jet Airways,Bangalore,Mumbai,1,17,10,68,5114.485958530733
+IndiGo,Delhi,Mumbai,0,2,12,330,4812.344290817542
+Vistara,Kolkata,Mumbai,1,4,5,446,6689.94878251309
+SpiceJet,Chennai,Bangalore,2,27,9,152,6408.43947266719
+SpiceJet,Bangalore,Mumbai,2,16,1,588,9095.696396320465
+Jet Airways,Kolkata,Chennai,2,20,5,213,6373.8486954316195
+Vistara,Chennai,Mumbai,1,2,1,464,6151.8579557075145
+Vistara,Bangalore,Chennai,1,16,5,208,6046.219218414748
+IndiGo,Delhi,Chennai,2,18,6,326,6748.937930477968
+Vistara,Kolkata,Bangalore,2,21,3,481,8245.21322085458
+Air India,Mumbai,Kolkata,0,19,9,677,5860.436754370521
+IndiGo,Chennai,Bangalore,0,13,11,531,5453.764653805169
+Air India,Kolkata,Mumbai,0,31,12,606,6122.272651169673
+Jet Airways,Kolkata,Bangalore,2,27,3,690,9942.277645482087
+SpiceJet,Chennai,Kolkata,2,7,7,585,9533.816794866361
+Jet Airways,Delhi,Kolkata,2,13,6,562,8350.523390420589
+SpiceJet,Chennai,Delhi,0,19,1,73,3132.019031686618
+Jet Airways,Mumbai,Delhi,1,11,11,711,10081.275061105978
+Vistara,Chennai,Bangalore,2,5,7,423,7989.992657032319
+Air India,Chennai,Bangalore,1,26,2,178,4948.894602002048
+SpiceJet,Bangalore,Delhi,1,6,10,297,5627.0996186292805
+IndiGo,Kolkata,Mumbai,1,29,7,605,7402.930041845335
+Air India,Mumbai,Delhi,0,25,11,228,3943.6313186057705
+IndiGo,Kolkata,Mumbai,1,10,12,581,7287.8149384025655
+Air India,Chennai,Kolkata,2,10,7,693,9454.286723136718
+Air India,Mumbai,Delhi,0,12,4,716,6565.796068853418
+Jet Airways,Bangalore,Delhi,2,22,6,794,9492.256751364403
+SpiceJet,Mumbai,Kolkata,2,7,10,575,9059.665510578065
+SpiceJet,Chennai,Kolkata,0,15,10,456,5340.523474940342
+Air India,Bangalore,Kolkata,2,13,6,165,7073.290835274963
+Vistara,Delhi,Chennai,2,30,12,144,5862.772973137422
+Vistara,Delhi,Mumbai,0,28,9,273,4443.422121845739
+IndiGo,Chennai,Bangalore,2,3,3,180,5907.201842048992
+IndiGo,Chennai,Bangalore,1,6,9,191,5367.2145527617095
+Jet Airways,Mumbai,Delhi,2,24,3,256,7608.968146376538
+Air India,Bangalore,Kolkata,1,22,12,78,5412.889575801182
+IndiGo,Chennai,Delhi,2,3,8,701,9672.230032048503
+IndiGo,Kolkata,Delhi,0,14,4,71,3692.6953676464946
+Air India,Kolkata,Chennai,0,4,11,140,3550.4975189587703
+Jet Airways,Chennai,Mumbai,2,16,11,389,7690.4161150375185
+IndiGo,Delhi,Bangalore,0,18,8,451,6601.379081261863
+Jet Airways,Chennai,Mumbai,2,5,9,696,9893.580155932605
+SpiceJet,Kolkata,Mumbai,0,20,11,366,4243.5080742673035
+Jet Airways,Delhi,Mumbai,1,15,12,326,5262.668039233505
+Vistara,Chennai,Delhi,2,27,2,506,8297.465275468212
+Vistara,Kolkata,Bangalore,1,28,4,500,7595.9342531543325
+Jet Airways,Kolkata,Chennai,1,30,1,711,8079.369577014384
+Vistara,Bangalore,Chennai,2,28,5,61,5192.990088819357
+SpiceJet,Delhi,Mumbai,1,11,6,579,7306.353288405046
+Air India,Delhi,Mumbai,2,6,2,710,9548.799224875724
+Vistara,Chennai,Bangalore,1,31,1,695,6767.16631026726
+Vistara,Delhi,Bangalore,2,1,2,368,7852.083076025095
+Jet Airways,Kolkata,Delhi,2,9,2,799,9488.315996204337
+SpiceJet,Kolkata,Chennai,0,8,11,581,4987.226794605842
+Air India,Chennai,Delhi,2,2,11,528,9442.253790082701
+Jet Airways,Kolkata,Chennai,2,7,8,271,6826.198899607536
+Jet Airways,Mumbai,Delhi,1,5,12,171,5021.357632271859
+SpiceJet,Kolkata,Delhi,2,30,5,67,5994.708556966661
+Air India,Kolkata,Chennai,0,27,1,536,5681.119375462151
+SpiceJet,Chennai,Mumbai,1,9,4,519,7978.155303527937
+Air India,Kolkata,Bangalore,1,31,12,312,5461.906564882034
+SpiceJet,Delhi,Mumbai,0,17,3,585,5771.598242775703
+Jet Airways,Delhi,Kolkata,1,27,12,497,7045.4309395131995
+Jet Airways,Kolkata,Chennai,1,4,7,720,7665.604126420248
+IndiGo,Chennai,Kolkata,1,7,10,295,5813.556797710697
+Vistara,Bangalore,Kolkata,1,15,2,365,6622.249903374779
+SpiceJet,Mumbai,Bangalore,0,25,8,537,5307.147506646754
+IndiGo,Chennai,Mumbai,0,21,10,738,6520.67874563491
+Vistara,Mumbai,Delhi,1,9,10,79,4679.323036540357
+SpiceJet,Mumbai,Bangalore,1,14,8,275,5823.096659432831
+Air India,Chennai,Kolkata,0,5,1,194,4091.575857311621
+Vistara,Delhi,Mumbai,0,9,11,188,4233.28038405344
+Jet Airways,Mumbai,Bangalore,0,16,2,469,6313.777150981169
+IndiGo,Chennai,Delhi,1,14,5,481,5575.761784072894
+Vistara,Delhi,Bangalore,1,9,5,353,6181.304330397279
+Vistara,Bangalore,Mumbai,2,27,7,305,6842.781963878903
+Jet Airways,Chennai,Mumbai,0,14,7,760,6607.314999674548
+SpiceJet,Mumbai,Bangalore,1,2,1,615,8015.433665347039
+Air India,Delhi,Kolkata,0,15,7,145,4323.896261071189
+Jet Airways,Kolkata,Mumbai,1,9,3,615,8197.357288409205
+Air India,Chennai,Kolkata,0,19,8,434,5787.646257425212
+SpiceJet,Bangalore,Kolkata,1,5,3,505,6938.032464189786
+Vistara,Chennai,Kolkata,2,28,5,437,8884.265137353581
+Air India,Chennai,Delhi,2,29,4,449,9043.42489730292
+IndiGo,Mumbai,Bangalore,0,14,12,716,6649.400227270755
+IndiGo,Delhi,Kolkata,1,29,8,110,5638.618300783782
+Jet Airways,Delhi,Mumbai,1,4,11,301,6025.618509258289
+SpiceJet,Bangalore,Kolkata,0,23,9,353,5470.116257775439
+Jet Airways,Chennai,Mumbai,1,1,1,622,7529.168381318221
+Jet Airways,Delhi,Chennai,0,27,1,325,4320.239759153408
+Jet Airways,Mumbai,Delhi,1,1,3,179,4835.0042848641915
+IndiGo,Mumbai,Bangalore,0,16,2,771,6768.185483381175
+IndiGo,Bangalore,Delhi,1,12,7,307,6077.194097164152
+Jet Airways,Kolkata,Mumbai,0,18,1,129,3172.073669312023
+IndiGo,Kolkata,Bangalore,1,3,4,116,4954.9457705021705
+SpiceJet,Delhi,Mumbai,2,9,6,441,7941.725345289617
+Jet Airways,Chennai,Kolkata,1,4,8,98,4451.512226834746
+IndiGo,Mumbai,Bangalore,0,14,2,502,6027.942330776792
+Air India,Bangalore,Chennai,2,29,10,77,6990.951801552892
+Jet Airways,Mumbai,Delhi,1,31,1,791,8970.716339146154
+Jet Airways,Mumbai,Delhi,2,20,3,411,8012.92210468925
+SpiceJet,Bangalore,Delhi,1,25,7,357,6273.808597304064
+Vistara,Kolkata,Mumbai,2,28,8,342,7178.413322130325
+Vistara,Delhi,Chennai,0,19,10,645,6432.316447620669
+SpiceJet,Mumbai,Bangalore,1,9,6,169,5429.81585309281
+SpiceJet,Delhi,Kolkata,1,2,8,239,7116.97369826284
+SpiceJet,Chennai,Delhi,0,12,9,603,6558.5511810078715
+Vistara,Delhi,Mumbai,2,29,10,84,6577.622463285427
+SpiceJet,Kolkata,Chennai,0,16,6,797,6964.195344503338
+IndiGo,Chennai,Delhi,0,2,12,116,4080.653268538613
+Jet Airways,Chennai,Delhi,2,11,4,239,6737.130664809739
+Jet Airways,Chennai,Bangalore,0,27,7,291,5024.818906007015
+Air India,Bangalore,Mumbai,1,5,11,402,5966.42824988135
+Air India,Bangalore,Chennai,1,28,4,536,6899.238071392634
+Jet Airways,Kolkata,Mumbai,1,27,12,635,6755.91025029777
+IndiGo,Bangalore,Kolkata,0,2,5,514,5877.0381115245455
+Vistara,Mumbai,Kolkata,1,26,12,291,6079.964513131595
+Vistara,Mumbai,Bangalore,1,6,12,348,5959.2584876169885
+IndiGo,Bangalore,Kolkata,1,15,2,272,5395.430604512091
+Vistara,Chennai,Delhi,1,17,9,317,6774.3611133500335
+SpiceJet,Kolkata,Delhi,1,4,2,589,7378.198031198414
+Jet Airways,Chennai,Kolkata,1,21,9,746,7846.352312739712
+Jet Airways,Delhi,Kolkata,0,15,12,288,5400.966481809012
+IndiGo,Delhi,Chennai,1,10,3,285,5596.468540429144
+Vistara,Mumbai,Delhi,1,16,12,655,8344.308535726894
+Air India,Delhi,Kolkata,2,11,5,494,7894.504717994713
+Air India,Bangalore,Mumbai,0,29,11,461,5127.526884896513
+Vistara,Mumbai,Bangalore,0,10,8,681,6656.1456126911935
+Air India,Chennai,Mumbai,0,5,6,147,3706.0815251979875
+IndiGo,Mumbai,Chennai,0,11,8,643,6336.881510756526
+IndiGo,Delhi,Mumbai,1,4,12,601,7235.5825769879975
+Vistara,Bangalore,Kolkata,1,11,8,743,7416.101924050203
+Air India,Kolkata,Delhi,2,1,3,368,8572.788192182355
+IndiGo,Kolkata,Delhi,2,23,5,402,7771.085811312965
+IndiGo,Chennai,Delhi,0,25,9,495,5619.506227766169
+SpiceJet,Bangalore,Chennai,2,24,10,236,7530.978745816163
+SpiceJet,Chennai,Delhi,2,2,3,198,7144.379102155696
+IndiGo,Mumbai,Bangalore,0,27,5,253,3910.7043665308925
+Vistara,Bangalore,Mumbai,0,28,12,245,4804.882480975886
+Jet Airways,Chennai,Delhi,2,16,5,277,7641.839587512434
+Jet Airways,Delhi,Mumbai,1,20,6,223,5714.386825172614
+IndiGo,Mumbai,Chennai,2,3,11,220,7187.7924017929445
+IndiGo,Delhi,Mumbai,2,12,4,584,9761.13117212853
+IndiGo,Chennai,Mumbai,1,7,7,660,7434.968890373426
+Vistara,Kolkata,Delhi,1,5,6,101,5212.627914183873
+SpiceJet,Bangalore,Mumbai,0,2,11,269,4080.6852541999115
+IndiGo,Chennai,Delhi,0,5,2,334,3701.8470968299985
+IndiGo,Kolkata,Delhi,2,17,4,338,6708.63273756856
+Air India,Delhi,Chennai,1,7,1,310,5542.681812511643
+Vistara,Bangalore,Delhi,0,21,5,369,4515.778416993852
+IndiGo,Delhi,Kolkata,2,8,12,779,10981.474874680433
+Air India,Kolkata,Delhi,1,3,4,199,5844.1942171530445
+Jet Airways,Mumbai,Bangalore,2,19,1,605,9419.17151042971
+IndiGo,Bangalore,Kolkata,0,10,6,589,5626.460746874822
+IndiGo,Chennai,Mumbai,0,20,2,116,3610.663584759724
+Air India,Delhi,Kolkata,1,29,7,171,6508.076492373108
+Vistara,Chennai,Bangalore,2,24,12,64,5712.791163111217
+IndiGo,Delhi,Bangalore,1,12,3,469,7073.119398683657
+Jet Airways,Bangalore,Kolkata,0,17,7,473,6170.647883455132
+IndiGo,Kolkata,Delhi,0,26,7,241,4687.97154273612
+Jet Airways,Kolkata,Chennai,2,1,1,72,7260.769806962617
+SpiceJet,Bangalore,Chennai,2,19,4,398,8096.432628263565
+SpiceJet,Delhi,Bangalore,2,8,12,318,7891.726512593549
+Jet Airways,Delhi,Bangalore,1,28,6,149,5299.887193395187
+Vistara,Mumbai,Bangalore,2,31,8,675,9641.67277956979
+IndiGo,Chennai,Kolkata,2,22,12,757,9327.39679384829
+IndiGo,Mumbai,Chennai,0,29,11,309,4941.174204471841
+SpiceJet,Bangalore,Chennai,0,7,5,314,4717.124156383528
+Jet Airways,Delhi,Chennai,2,19,11,647,9266.329683127273
+IndiGo,Delhi,Chennai,2,1,3,167,7708.195818907927
+IndiGo,Delhi,Kolkata,0,8,2,727,6502.307300447613
+Vistara,Bangalore,Chennai,2,26,1,653,9868.911017310216
+Air India,Chennai,Bangalore,1,19,11,648,8393.639298549879
+SpiceJet,Bangalore,Mumbai,1,4,10,544,7647.772192292731
+SpiceJet,Mumbai,Delhi,1,13,7,317,5602.45016463171
+Air India,Chennai,Delhi,2,14,6,698,9669.539148671578
+IndiGo,Kolkata,Delhi,0,21,1,341,5684.23715056575
+Vistara,Chennai,Delhi,2,2,8,147,5825.723232656648
+Vistara,Kolkata,Mumbai,2,2,10,263,7221.170752851899
+SpiceJet,Chennai,Mumbai,0,11,9,75,3956.1542598341
+Vistara,Delhi,Mumbai,0,24,4,210,3992.339700106181
+Air India,Bangalore,Mumbai,0,17,7,313,4969.943908486936
+IndiGo,Chennai,Delhi,1,26,12,247,6439.595514299562
+Air India,Chennai,Bangalore,2,15,3,388,8056.0031415744015
+Jet Airways,Delhi,Chennai,0,27,4,603,6269.4952604277705
+SpiceJet,Bangalore,Mumbai,2,21,12,456,8325.9354667901
+Vistara,Kolkata,Bangalore,1,10,1,576,7528.902940985158
+Jet Airways,Delhi,Kolkata,1,15,7,518,8141.3012174481355
+Vistara,Kolkata,Bangalore,0,10,7,389,4913.025753659676
+IndiGo,Chennai,Kolkata,0,14,4,228,3963.4229810272095
+IndiGo,Chennai,Bangalore,2,21,2,752,10280.877114509882
+IndiGo,Bangalore,Delhi,0,14,5,425,4703.538833879104
+Vistara,Kolkata,Mumbai,2,25,6,237,6877.6392713673795
+Jet Airways,Chennai,Delhi,0,18,3,714,6265.827353023689
+IndiGo,Delhi,Bangalore,2,27,3,421,7977.06273877098
+Jet Airways,Chennai,Mumbai,2,29,8,698,9383.900267564972
+Vistara,Delhi,Mumbai,2,12,10,99,6844.549794832754
+Jet Airways,Delhi,Mumbai,2,12,12,475,8203.819182370662
+Vistara,Mumbai,Kolkata,1,2,2,414,6939.731734617593
+Vistara,Bangalore,Delhi,2,30,4,314,8002.090352420892
+SpiceJet,Kolkata,Mumbai,0,12,1,202,3683.24440033348
+Vistara,Kolkata,Bangalore,1,8,5,799,8916.353009349226
+Vistara,Kolkata,Mumbai,1,22,8,769,8811.709241479144
+Air India,Delhi,Kolkata,2,1,9,636,8299.53178168457
+IndiGo,Chennai,Bangalore,1,21,10,70,4996.740476436983
+SpiceJet,Delhi,Chennai,2,12,7,679,9141.795945849542
+SpiceJet,Mumbai,Delhi,0,26,8,85,4076.532490166221
+SpiceJet,Chennai,Bangalore,2,4,11,480,8141.696907363219
+Air India,Mumbai,Kolkata,1,14,1,722,7440.258422344665
+Vistara,Kolkata,Chennai,0,21,11,280,4385.091591665586
+IndiGo,Chennai,Kolkata,2,2,1,555,8326.51384795044
+Jet Airways,Chennai,Kolkata,0,19,4,296,4904.7926322689445
+Vistara,Mumbai,Bangalore,0,29,7,296,4075.6937505591063
+Air India,Bangalore,Chennai,1,11,5,278,5881.246775405862
+Vistara,Kolkata,Delhi,0,3,5,546,6502.905213582082
+Vistara,Bangalore,Kolkata,1,14,1,520,7649.264311107068
+Air India,Kolkata,Bangalore,0,26,9,722,6848.919601644475
+SpiceJet,Mumbai,Delhi,2,27,9,694,9406.211143723862
+SpiceJet,Bangalore,Chennai,0,21,8,203,4206.448228105544
+IndiGo,Mumbai,Kolkata,2,10,4,248,7584.491976362527
+IndiGo,Mumbai,Chennai,2,5,8,314,7076.698818392256
+SpiceJet,Bangalore,Chennai,0,3,3,127,4060.6686219619196
+Jet Airways,Kolkata,Chennai,2,9,9,675,8824.152973721459
+Vistara,Kolkata,Delhi,0,4,6,395,5261.225967506138
+Jet Airways,Delhi,Chennai,0,14,10,730,6096.554797725179
+Vistara,Mumbai,Bangalore,2,3,5,468,9321.398121685306
+SpiceJet,Chennai,Mumbai,2,25,10,359,8176.670812468519
+IndiGo,Bangalore,Mumbai,1,27,9,661,7026.987360607023
+IndiGo,Chennai,Kolkata,2,2,7,416,8079.536686884923
+Jet Airways,Mumbai,Chennai,1,29,2,315,5814.288977957682
+IndiGo,Delhi,Mumbai,2,20,3,412,7740.136535109318
+SpiceJet,Bangalore,Kolkata,0,6,9,791,7028.551763234209
+Jet Airways,Delhi,Kolkata,2,20,8,580,8436.003125165751
+Vistara,Delhi,Chennai,0,7,1,583,6295.732882492218
+IndiGo,Delhi,Kolkata,0,27,2,753,7117.327043499671
+Air India,Mumbai,Bangalore,0,29,8,343,4890.712387470992
+IndiGo,Kolkata,Mumbai,1,17,5,371,6345.2477357295675
+Vistara,Mumbai,Bangalore,2,4,10,158,7119.909142972491
+Jet Airways,Mumbai,Delhi,0,9,4,256,4675.692753038992
+Vistara,Bangalore,Delhi,0,26,8,541,5932.458868370841
+Air India,Bangalore,Mumbai,1,4,12,285,5269.062988409882
+SpiceJet,Bangalore,Chennai,2,30,11,674,8975.806943065496
+IndiGo,Bangalore,Mumbai,2,20,10,677,9250.969539253943
+Jet Airways,Kolkata,Mumbai,1,13,6,424,5882.104551075151
+SpiceJet,Delhi,Kolkata,1,8,3,427,6747.001566665765
+Vistara,Bangalore,Delhi,2,27,5,629,9850.50260366181
+Jet Airways,Kolkata,Delhi,1,16,4,649,8370.845183379795
+SpiceJet,Chennai,Mumbai,2,8,9,134,7039.813072002437
+Jet Airways,Delhi,Chennai,2,24,7,101,6868.855966935777
+Air India,Delhi,Mumbai,0,1,3,481,6512.647765481691
+Air India,Kolkata,Chennai,0,16,6,240,4621.931916089181
+IndiGo,Chennai,Mumbai,2,18,3,604,9482.817843394174
+IndiGo,Delhi,Kolkata,2,24,5,130,5930.542652831923
+Air India,Bangalore,Kolkata,2,11,4,627,9801.409397178133
+Jet Airways,Delhi,Kolkata,2,16,12,164,7019.248675152781
+Air India,Chennai,Bangalore,2,19,10,259,7255.107827283661
+IndiGo,Mumbai,Bangalore,2,9,2,160,6636.180937965881
+Air India,Mumbai,Delhi,1,12,6,366,6055.702281665377
+Air India,Kolkata,Mumbai,2,10,3,645,9853.388439180448
+Jet Airways,Mumbai,Bangalore,1,6,7,742,8195.820535371313
+SpiceJet,Kolkata,Mumbai,1,7,4,436,6424.160720564876
+IndiGo,Chennai,Bangalore,2,9,1,714,9184.226597634943
+Jet Airways,Mumbai,Delhi,2,23,7,737,9770.299397231429
+Air India,Bangalore,Delhi,1,13,4,458,6610.195147891109
+Air India,Kolkata,Mumbai,1,19,5,280,5606.122223750172
+SpiceJet,Kolkata,Delhi,2,4,1,654,8578.922015362265
+IndiGo,Chennai,Mumbai,2,15,2,241,7684.678679752249
+IndiGo,Delhi,Bangalore,1,7,9,366,6260.988362275117
+Vistara,Bangalore,Kolkata,1,28,5,581,6862.38067148799
+IndiGo,Delhi,Kolkata,1,22,3,455,6639.381929333558
+SpiceJet,Bangalore,Mumbai,0,19,8,63,3589.5660279828085
+Vistara,Kolkata,Delhi,1,26,6,340,6214.420435801656
+Vistara,Bangalore,Chennai,0,9,9,274,4465.496873885305
+Air India,Kolkata,Delhi,2,18,1,669,9366.274128995155
+Air India,Mumbai,Kolkata,2,5,5,479,7756.572111779459
+IndiGo,Bangalore,Kolkata,1,24,1,160,5774.254271631766
+Vistara,Bangalore,Chennai,2,28,9,580,8045.876919809034
+Air India,Chennai,Delhi,2,15,12,632,9390.768287305722
+SpiceJet,Mumbai,Kolkata,2,31,1,368,8147.785460747722
+Air India,Kolkata,Bangalore,2,6,5,717,9475.07814811041
+Air India,Mumbai,Delhi,0,29,9,569,6021.7112619027785
+Vistara,Bangalore,Chennai,0,28,9,122,3471.4322653798895
+Vistara,Kolkata,Mumbai,1,25,1,692,8142.747601545558
+Jet Airways,Mumbai,Kolkata,1,26,3,285,6421.461271759452
+SpiceJet,Kolkata,Bangalore,1,30,11,164,4923.936786807331
+Vistara,Kolkata,Delhi,2,10,7,484,8756.982429476151
+IndiGo,Kolkata,Mumbai,2,28,9,314,8416.199001194056
+SpiceJet,Mumbai,Bangalore,0,28,10,488,5572.2826312671805
+SpiceJet,Delhi,Bangalore,0,20,8,493,5213.447887789294
+Vistara,Delhi,Mumbai,1,4,2,266,6961.616419542768
+SpiceJet,Mumbai,Kolkata,0,31,7,87,3479.3531195223786
+Vistara,Delhi,Mumbai,0,29,5,741,6820.7649519014385
+Air India,Bangalore,Chennai,0,27,12,395,5101.187104766804
+Jet Airways,Mumbai,Delhi,0,17,5,647,6458.931663799641
+Air India,Chennai,Kolkata,0,13,1,687,6265.562527275507
+Vistara,Mumbai,Kolkata,1,17,1,128,5234.995430352085
+Vistara,Bangalore,Delhi,1,29,4,572,7836.091871718385
+Air India,Chennai,Delhi,0,6,8,226,3943.299489382622
+IndiGo,Kolkata,Mumbai,1,7,4,789,8235.003011436653
+IndiGo,Mumbai,Kolkata,2,22,5,427,7988.957762265674
+IndiGo,Delhi,Chennai,0,6,7,310,4001.113591007909
+Vistara,Chennai,Delhi,2,7,10,745,9383.580269074217
+SpiceJet,Chennai,Bangalore,1,20,7,229,5283.210038179952
+Vistara,Delhi,Bangalore,1,18,1,149,5244.7387381659855
+SpiceJet,Mumbai,Chennai,2,22,2,620,9518.072827852884
+Air India,Chennai,Mumbai,1,30,12,505,7751.857048439736
+Jet Airways,Chennai,Delhi,0,29,12,353,4793.5943085959325
+SpiceJet,Chennai,Mumbai,2,15,8,209,7273.234875714354
+IndiGo,Mumbai,Kolkata,0,8,4,191,4076.6969029538477
+Vistara,Kolkata,Delhi,2,2,3,492,7413.280522396671
+Air India,Mumbai,Chennai,1,26,1,118,4516.054544069863
+IndiGo,Bangalore,Mumbai,2,6,9,258,7670.63214558237
+Air India,Bangalore,Kolkata,2,24,2,274,7799.24258595979
+Jet Airways,Kolkata,Bangalore,0,31,7,620,6517.8040125599855
+Vistara,Mumbai,Kolkata,1,6,2,531,7066.094007768305
+Vistara,Chennai,Bangalore,0,15,1,306,3532.582769699513
+Jet Airways,Bangalore,Chennai,1,6,7,441,6190.737507160414
+Vistara,Delhi,Bangalore,0,23,6,298,4052.246077176419
+SpiceJet,Bangalore,Delhi,2,13,5,426,8444.384289545356
+Air India,Chennai,Mumbai,0,30,5,227,3956.314451791702
+IndiGo,Mumbai,Chennai,1,18,6,619,8440.200254065208
+Jet Airways,Kolkata,Bangalore,1,25,11,110,5783.8191689303785
+SpiceJet,Bangalore,Chennai,2,19,11,669,10181.849223110432
+IndiGo,Bangalore,Mumbai,1,3,2,787,7976.743503178389
+IndiGo,Bangalore,Kolkata,0,2,4,748,6985.445606070785
+Jet Airways,Bangalore,Delhi,2,26,6,439,7956.237955531065
+SpiceJet,Delhi,Kolkata,1,17,3,533,7328.935909116645
+IndiGo,Delhi,Mumbai,1,1,5,139,4792.19312862802
+IndiGo,Delhi,Mumbai,0,22,5,756,7393.078183775728
+SpiceJet,Delhi,Kolkata,0,13,2,426,4736.534224898057
+Vistara,Bangalore,Delhi,2,17,7,520,7626.380487664452
+IndiGo,Delhi,Bangalore,1,6,12,598,8506.89040787158
+Air India,Bangalore,Delhi,0,26,4,511,5776.248339783965
+SpiceJet,Chennai,Bangalore,2,24,7,523,8080.436617790936
+IndiGo,Mumbai,Chennai,1,2,9,537,7103.864442465431
+Jet Airways,Bangalore,Kolkata,1,21,10,479,6606.571452641558
+Air India,Kolkata,Bangalore,2,30,9,766,9832.87072340222
+IndiGo,Bangalore,Mumbai,2,29,6,273,7766.39041795741
+Air India,Chennai,Mumbai,0,17,5,428,5462.8895464518155
+Air India,Mumbai,Chennai,1,26,8,173,5491.864510254257
+Vistara,Bangalore,Kolkata,1,2,4,562,7312.6265566547545
+Air India,Delhi,Kolkata,1,6,9,695,8514.335378764004
+Vistara,Delhi,Mumbai,2,20,7,647,8272.270890831553
+SpiceJet,Kolkata,Bangalore,0,27,8,370,4475.533653369781
+Vistara,Mumbai,Kolkata,1,17,6,528,6650.668583371917
+Jet Airways,Mumbai,Delhi,2,25,5,767,10338.128886501445
+IndiGo,Delhi,Kolkata,1,23,8,103,4645.453692160764
+SpiceJet,Mumbai,Kolkata,0,18,5,474,4727.022303854776
+SpiceJet,Delhi,Bangalore,1,25,11,757,8559.663773058466
+Jet Airways,Mumbai,Bangalore,0,30,3,305,4070.6262095451375
+Vistara,Chennai,Delhi,0,5,9,143,3539.636758745821
+IndiGo,Kolkata,Bangalore,1,23,2,266,7020.571950440849
+Vistara,Mumbai,Bangalore,1,14,3,210,5943.569277001737
+Air India,Mumbai,Bangalore,0,16,3,727,6529.479696292663
+Vistara,Kolkata,Chennai,2,23,7,587,8874.435937027909
+SpiceJet,Chennai,Delhi,0,2,5,224,4573.743793110736
+IndiGo,Bangalore,Kolkata,1,25,6,204,5851.4352150523155
+Vistara,Bangalore,Delhi,1,22,8,96,5017.799744725468
+IndiGo,Kolkata,Mumbai,2,22,2,392,8011.779971119712
+IndiGo,Kolkata,Mumbai,0,8,2,462,4570.075759781014
+Air India,Chennai,Delhi,0,10,2,473,4519.9947249655315
+Air India,Delhi,Kolkata,0,6,1,104,3431.5888621132476
+SpiceJet,Mumbai,Chennai,1,30,9,461,6488.357407326927
+Jet Airways,Mumbai,Bangalore,0,27,1,265,4618.039517170182
+IndiGo,Mumbai,Delhi,2,3,3,121,6703.589871902813
+Jet Airways,Bangalore,Kolkata,1,19,6,479,6508.61280325281
+SpiceJet,Chennai,Delhi,1,13,10,527,7216.599229748179
+IndiGo,Bangalore,Chennai,0,23,2,78,3180.8836072225386
+IndiGo,Chennai,Mumbai,2,17,6,424,9153.300689007014
+Jet Airways,Chennai,Kolkata,1,21,11,359,6488.121149481479
+Vistara,Kolkata,Mumbai,1,15,10,66,4049.696506483536
+Air India,Kolkata,Mumbai,0,28,4,487,6345.257550109791
+Vistara,Mumbai,Chennai,0,5,3,176,3563.425498021375
+Jet Airways,Chennai,Mumbai,2,27,3,639,8707.631504609915
+Air India,Delhi,Bangalore,0,2,2,566,6901.843326271761
+Vistara,Chennai,Delhi,2,12,1,605,9197.918328897782
+Air India,Kolkata,Delhi,1,25,8,765,8675.383003602743
+IndiGo,Chennai,Mumbai,2,31,7,384,8286.530057936076
+Vistara,Delhi,Kolkata,2,7,3,114,6467.005141881098
+Air India,Delhi,Mumbai,2,17,11,101,6218.79736490684
+Air India,Delhi,Chennai,1,22,4,356,6075.37127253113
+Air India,Kolkata,Bangalore,0,28,5,290,5254.433139622017
+Vistara,Mumbai,Kolkata,1,19,7,512,7161.893776603404
+SpiceJet,Chennai,Kolkata,0,29,7,453,5921.457519858068
+Vistara,Bangalore,Chennai,2,23,10,581,8866.777436385752
+Jet Airways,Bangalore,Kolkata,2,17,2,417,7707.308211328128
+Vistara,Mumbai,Chennai,2,24,4,503,7793.891763065973
+Air India,Kolkata,Bangalore,2,12,1,187,7259.00159257702
+IndiGo,Kolkata,Bangalore,2,29,5,750,10597.049039205987
+Vistara,Chennai,Delhi,0,30,5,464,4877.013495876749
+Vistara,Bangalore,Delhi,0,20,11,451,5511.68628431901
+Air India,Delhi,Mumbai,2,26,6,252,6572.192142159624
+IndiGo,Delhi,Bangalore,1,14,1,663,7537.1516614690545
+IndiGo,Chennai,Kolkata,1,24,3,137,5318.968392687274
+Jet Airways,Delhi,Mumbai,2,22,9,144,5855.852957164799
+Vistara,Bangalore,Chennai,0,27,6,89,3435.9883736353086
+IndiGo,Mumbai,Kolkata,1,3,1,784,8001.649763291427
+IndiGo,Bangalore,Delhi,1,21,12,108,5342.379612869137
+SpiceJet,Bangalore,Delhi,1,16,6,204,5437.299678923235
+SpiceJet,Mumbai,Bangalore,2,23,11,128,7109.719509733792
+IndiGo,Bangalore,Kolkata,1,15,9,117,4945.200856627593
+Jet Airways,Chennai,Mumbai,1,6,7,756,7598.810240085246
+IndiGo,Delhi,Chennai,1,4,2,633,6921.519959481868
+Air India,Chennai,Delhi,1,7,7,538,6235.495248221016
+Vistara,Bangalore,Mumbai,0,26,1,504,5836.4789163049945
+Jet Airways,Bangalore,Chennai,2,1,7,355,9053.865459634497
+Air India,Chennai,Mumbai,2,3,3,737,9902.619068592565
+Jet Airways,Bangalore,Mumbai,0,20,7,230,4986.02344100217
+Air India,Mumbai,Chennai,0,6,12,634,6736.78664539451
+Vistara,Mumbai,Kolkata,2,6,1,206,6770.8319950629575
+Vistara,Bangalore,Delhi,1,6,9,543,7847.657990495312
+SpiceJet,Kolkata,Bangalore,1,11,12,365,6085.712654243743
+Air India,Chennai,Delhi,2,2,9,732,9430.64606523082
+SpiceJet,Mumbai,Kolkata,1,19,2,712,7955.703837031845
+Air India,Kolkata,Chennai,0,19,3,668,6259.400988836435
+SpiceJet,Chennai,Kolkata,1,25,7,505,7355.684731593074
+Vistara,Delhi,Kolkata,1,15,9,280,5564.556632054598
+Jet Airways,Chennai,Bangalore,1,10,1,614,8014.551389291489
+SpiceJet,Mumbai,Bangalore,2,2,1,437,8622.372041515735
+Air India,Mumbai,Bangalore,0,1,8,679,6566.481766222242
+Air India,Chennai,Kolkata,1,1,11,325,7094.8059543037225
+Vistara,Delhi,Bangalore,2,27,2,154,7413.696324329154
+Air India,Kolkata,Mumbai,1,19,2,321,6639.864645100232
+IndiGo,Bangalore,Mumbai,0,17,11,130,3683.076687271626
+Jet Airways,Chennai,Bangalore,1,19,12,278,6065.883068907163
+SpiceJet,Chennai,Mumbai,0,25,8,592,6221.903681543877
+Jet Airways,Chennai,Delhi,1,5,6,151,5261.620686763803
+Vistara,Kolkata,Bangalore,0,19,5,186,3742.2152698457644
+SpiceJet,Kolkata,Bangalore,1,13,2,139,3992.143628561844
+SpiceJet,Chennai,Delhi,0,8,2,297,4843.882704562411
+IndiGo,Delhi,Bangalore,1,7,11,431,7175.723608441677
+Vistara,Mumbai,Delhi,1,6,12,545,6644.440571921582
+Air India,Bangalore,Kolkata,2,4,8,753,10067.584324860245
+IndiGo,Mumbai,Chennai,2,15,1,84,6124.236660841238
+IndiGo,Mumbai,Kolkata,0,3,2,215,3891.735408796463
+Jet Airways,Chennai,Delhi,1,22,7,576,8035.380263681677
+Jet Airways,Chennai,Bangalore,0,25,9,691,5959.682804892993
+Jet Airways,Delhi,Mumbai,2,29,10,589,8448.92610565339
+IndiGo,Delhi,Chennai,0,22,10,769,7747.417182821999
+Air India,Chennai,Bangalore,0,13,5,116,3507.221650731808
+SpiceJet,Bangalore,Delhi,2,22,2,664,9943.272796615534
+Jet Airways,Delhi,Chennai,1,1,12,78,4090.6485690855325
+Air India,Kolkata,Chennai,0,7,2,443,4455.698365204574
+Vistara,Kolkata,Chennai,2,18,1,252,6803.527742210789
+Jet Airways,Mumbai,Chennai,1,12,9,296,5739.269611733655
+SpiceJet,Bangalore,Mumbai,2,28,11,446,7528.356701673444
+Vistara,Kolkata,Mumbai,0,9,7,485,5609.648238215
+Vistara,Mumbai,Delhi,1,21,10,336,6397.297084328391
+SpiceJet,Bangalore,Delhi,1,25,6,286,5480.928561080731
+Jet Airways,Mumbai,Kolkata,2,6,6,611,8645.7006503046
+IndiGo,Kolkata,Chennai,2,18,3,382,7566.609283074219
+SpiceJet,Bangalore,Chennai,2,16,5,212,6477.557100553479
+SpiceJet,Chennai,Kolkata,1,15,5,698,6542.221150011041
+SpiceJet,Bangalore,Mumbai,1,9,9,296,5937.479846927567
+Vistara,Bangalore,Delhi,0,4,9,114,3354.7811536495115
+Air India,Mumbai,Delhi,1,8,2,495,6810.9270775867135
+IndiGo,Mumbai,Kolkata,0,26,2,743,6209.098239495614
+Jet Airways,Kolkata,Mumbai,2,19,10,168,7245.248749575134
+Jet Airways,Bangalore,Kolkata,2,28,9,243,8427.695794708541
+Air India,Delhi,Kolkata,1,12,4,427,6217.957571989422
+SpiceJet,Chennai,Bangalore,2,23,3,257,7984.848069486174
+IndiGo,Kolkata,Delhi,2,8,6,430,8333.324906073647
+Jet Airways,Kolkata,Bangalore,1,3,1,432,6677.709945891217
+Jet Airways,Bangalore,Mumbai,0,26,7,556,5607.9386317185845
+SpiceJet,Kolkata,Chennai,1,10,8,658,7748.391564883004
+Air India,Chennai,Kolkata,0,27,1,260,4874.795344849314
+IndiGo,Chennai,Bangalore,1,1,5,568,6770.9595195217435
+Air India,Kolkata,Bangalore,1,19,12,381,6267.496634424274
+Air India,Delhi,Kolkata,2,12,11,334,8294.500103911252
+IndiGo,Bangalore,Mumbai,1,25,4,270,6341.857346763999
+IndiGo,Mumbai,Chennai,1,30,12,563,6753.707030524878
+Jet Airways,Mumbai,Kolkata,0,3,4,177,3793.704061109477
+Jet Airways,Bangalore,Mumbai,2,25,6,762,10174.003923917013
+IndiGo,Delhi,Chennai,0,3,4,613,6396.714059660549
+Vistara,Mumbai,Chennai,0,30,7,101,3992.567260621644
+Jet Airways,Bangalore,Chennai,2,27,7,374,8062.142944083649
+Vistara,Delhi,Mumbai,2,4,6,388,8215.976573997892
+IndiGo,Chennai,Kolkata,2,15,7,76,6551.398210963579
+Jet Airways,Bangalore,Delhi,1,3,1,342,6999.866538763945
+Air India,Kolkata,Bangalore,2,6,6,317,7374.0944102843905
+IndiGo,Chennai,Kolkata,2,16,4,634,9194.09558147261
+SpiceJet,Kolkata,Delhi,2,31,1,633,8657.515583841145
+Vistara,Bangalore,Chennai,0,8,2,671,5748.989116597793
+IndiGo,Delhi,Mumbai,0,29,1,78,3552.4783505291903
+IndiGo,Kolkata,Chennai,1,15,5,588,7077.9068670290735
+Jet Airways,Kolkata,Mumbai,0,23,7,482,5381.157198551322
+Jet Airways,Delhi,Chennai,1,13,8,525,7933.874655262104
+Jet Airways,Chennai,Kolkata,0,2,1,432,5939.968851186411
+SpiceJet,Mumbai,Bangalore,2,8,6,140,7812.02238934415
+Jet Airways,Chennai,Mumbai,0,1,6,610,6868.826254199561
+IndiGo,Chennai,Delhi,1,10,5,607,8736.509095892745
+Jet Airways,Mumbai,Bangalore,0,25,4,483,5633.264833906281
+Air India,Chennai,Mumbai,2,6,6,488,7988.489708677708
+Jet Airways,Delhi,Chennai,1,23,5,447,6234.80371525726
+SpiceJet,Delhi,Bangalore,2,29,1,768,10538.16530372076
+Air India,Bangalore,Mumbai,2,20,5,729,9670.81325140521
+IndiGo,Delhi,Chennai,1,12,7,263,5878.065757923008
+IndiGo,Delhi,Chennai,2,24,4,255,7000.464456023094
+Vistara,Kolkata,Mumbai,2,15,1,787,9720.41303017536
+Air India,Mumbai,Delhi,0,23,8,344,4911.879644888462
+Vistara,Kolkata,Mumbai,2,24,4,255,6747.388254937981
+Air India,Mumbai,Kolkata,2,16,8,366,7958.569232904048
+Air India,Delhi,Kolkata,2,10,6,723,10370.540097567564
+SpiceJet,Kolkata,Delhi,2,13,5,73,5298.1820791705895
+Vistara,Mumbai,Delhi,1,16,11,205,4754.344060961444
+SpiceJet,Mumbai,Delhi,0,4,10,116,3917.804980751529
+Air India,Mumbai,Delhi,2,8,1,782,10591.983936830431
+IndiGo,Kolkata,Mumbai,2,13,9,269,7100.053634930159
+Air India,Bangalore,Kolkata,1,15,2,588,6440.879692477731
+SpiceJet,Bangalore,Mumbai,2,11,9,403,8730.962086970376
+Vistara,Delhi,Mumbai,1,30,8,774,7964.467424042738
+Vistara,Mumbai,Chennai,0,26,7,670,6169.376828536194
+SpiceJet,Mumbai,Chennai,0,17,7,338,4849.5224361598885
+Vistara,Kolkata,Bangalore,2,22,6,268,7006.783314044621
+Jet Airways,Bangalore,Chennai,2,17,3,700,9061.935136421402
+IndiGo,Kolkata,Delhi,2,22,8,394,7541.099903717955
+IndiGo,Mumbai,Bangalore,1,29,11,347,7163.9642804638415
+IndiGo,Delhi,Chennai,2,21,4,311,8134.806794212641
+Vistara,Mumbai,Bangalore,2,11,10,324,7907.258670308591
+Vistara,Mumbai,Chennai,0,1,3,330,3556.7833871327166
+Air India,Kolkata,Mumbai,2,25,8,759,10084.095947527794
+Air India,Chennai,Bangalore,0,1,5,478,5652.100104204735
+IndiGo,Mumbai,Bangalore,2,6,2,785,9285.933429907416
+Jet Airways,Kolkata,Bangalore,0,23,10,270,4479.355066736916
+Air India,Kolkata,Delhi,2,1,11,424,8645.746248129344
+Air India,Mumbai,Bangalore,0,17,6,135,3959.6829592968866
+Vistara,Chennai,Mumbai,1,18,11,719,7754.915299149887
+Jet Airways,Bangalore,Chennai,0,6,7,380,4906.632321541987
+IndiGo,Mumbai,Bangalore,0,15,10,784,7285.178465600599
+Air India,Bangalore,Kolkata,0,4,10,492,5489.726017108825
+Jet Airways,Chennai,Mumbai,2,31,12,168,7467.142444553448
+Jet Airways,Kolkata,Mumbai,2,31,3,700,9697.840778420054
+IndiGo,Chennai,Delhi,2,24,10,581,9281.461332643916
+Jet Airways,Chennai,Kolkata,1,1,11,106,5440.70032349588
+Jet Airways,Kolkata,Chennai,1,13,11,438,6156.658648347068
+Jet Airways,Kolkata,Chennai,0,18,1,155,3799.9930176783396
+Air India,Kolkata,Delhi,1,2,7,162,5143.822763240518
+IndiGo,Delhi,Bangalore,0,1,10,205,4546.922997403539
+Jet Airways,Delhi,Chennai,0,3,3,86,3661.6165233520123
+Jet Airways,Mumbai,Kolkata,0,5,7,791,6860.893768947205
+Air India,Mumbai,Chennai,1,4,4,589,6804.074298278669
+IndiGo,Mumbai,Delhi,2,31,3,738,8891.54583393973
+Vistara,Kolkata,Delhi,1,19,8,141,5360.171309972477
+Air India,Bangalore,Delhi,0,28,6,487,5076.39366138327
+IndiGo,Chennai,Bangalore,0,6,7,643,6548.063234048616
+Jet Airways,Chennai,Delhi,1,13,9,538,6368.429867461887
+IndiGo,Chennai,Mumbai,0,11,3,221,4901.475599104445
+IndiGo,Bangalore,Delhi,0,21,2,461,5636.932044965837
+IndiGo,Kolkata,Delhi,1,21,2,567,7384.592544988864
+Vistara,Kolkata,Delhi,1,22,12,97,5826.529468201366
+IndiGo,Chennai,Kolkata,1,27,7,570,7824.208967110568
+Vistara,Chennai,Mumbai,0,6,9,452,5022.498380691478
+Jet Airways,Kolkata,Mumbai,0,6,10,772,6898.788154889165
+Vistara,Kolkata,Delhi,2,5,8,553,7782.862850092627
+Jet Airways,Delhi,Bangalore,2,15,6,259,7827.095155274425
+Jet Airways,Delhi,Mumbai,1,11,6,314,5922.024161004139
+Vistara,Kolkata,Delhi,2,9,9,238,6201.387577380509
+Air India,Bangalore,Kolkata,0,16,12,606,5439.080715295504
+SpiceJet,Chennai,Mumbai,2,1,6,653,9700.456024224704
+IndiGo,Kolkata,Chennai,0,25,8,448,6046.901357518076
+SpiceJet,Chennai,Bangalore,1,28,4,457,6795.212759459044
+IndiGo,Mumbai,Bangalore,1,2,1,791,7963.974329003553
+IndiGo,Mumbai,Kolkata,0,3,2,217,3374.625155160449
+Jet Airways,Mumbai,Chennai,2,22,1,63,7022.307309070554
+IndiGo,Delhi,Mumbai,1,1,10,226,5854.733889223614
+IndiGo,Chennai,Bangalore,1,31,3,527,6969.930189677627
+Vistara,Kolkata,Mumbai,2,23,12,468,8055.86410696223
+SpiceJet,Delhi,Chennai,2,26,3,471,8690.914818866815
+Vistara,Kolkata,Mumbai,0,21,7,263,4637.15924703568
+IndiGo,Bangalore,Kolkata,2,9,2,253,6816.707793272028
+Jet Airways,Chennai,Kolkata,2,24,3,294,6898.813754549529
+Vistara,Delhi,Mumbai,2,9,11,777,9339.048652143252
+Vistara,Kolkata,Chennai,0,21,8,209,3810.8877097628215
+Air India,Kolkata,Bangalore,0,15,4,218,3745.107273208622
+IndiGo,Chennai,Delhi,1,3,5,338,6999.046009084783
+Jet Airways,Mumbai,Kolkata,0,19,1,463,5063.1096888702805
+Vistara,Kolkata,Delhi,1,29,5,737,7560.166776025135
+Vistara,Chennai,Mumbai,2,21,7,370,7253.251279550236
+Jet Airways,Bangalore,Kolkata,1,11,7,127,5043.014199479202
+IndiGo,Chennai,Bangalore,1,30,3,522,6198.937938510579
+Air India,Chennai,Mumbai,2,12,12,147,6704.939643068802
+Vistara,Delhi,Bangalore,1,19,7,276,5211.895249759218
+Air India,Kolkata,Delhi,0,12,2,60,3879.3051833708505
+SpiceJet,Kolkata,Delhi,0,7,6,194,4028.2811746209727
+IndiGo,Bangalore,Delhi,0,15,7,756,7840.511800766222
+SpiceJet,Delhi,Kolkata,0,9,12,410,4935.899710248895
+SpiceJet,Delhi,Bangalore,1,24,8,199,3929.128083014873
+SpiceJet,Mumbai,Chennai,1,7,5,677,8613.840600178102
+IndiGo,Kolkata,Chennai,2,1,4,192,7210.961579238534
+IndiGo,Mumbai,Delhi,1,29,3,679,8223.453939480336
+Jet Airways,Kolkata,Delhi,1,11,7,237,5183.708205127976
+Air India,Chennai,Mumbai,1,13,10,417,6563.575972202306
+Air India,Chennai,Kolkata,2,30,1,439,8288.23043756783
+Jet Airways,Mumbai,Delhi,0,18,4,717,6466.08969119695
+Jet Airways,Bangalore,Delhi,1,7,12,509,6177.818587373263
+SpiceJet,Mumbai,Delhi,2,17,3,645,10609.346024129527
+Jet Airways,Delhi,Mumbai,2,5,2,522,9027.914618914112
+Vistara,Kolkata,Bangalore,2,28,1,167,7045.292023510198
+Air India,Delhi,Chennai,0,16,5,181,4561.942810506989
+Jet Airways,Delhi,Mumbai,1,31,1,76,5202.09610551942
+Vistara,Bangalore,Kolkata,2,10,8,255,6936.39855996015
+Vistara,Chennai,Mumbai,0,30,12,386,5554.891378908845
+Vistara,Mumbai,Chennai,2,21,1,377,8311.108003289008
+Vistara,Mumbai,Delhi,2,7,3,538,8370.35709134297
+SpiceJet,Delhi,Mumbai,2,12,5,311,7950.007334142522
+Vistara,Delhi,Mumbai,2,30,5,562,8689.71498391196
+SpiceJet,Chennai,Mumbai,2,21,1,178,6994.239099899307
+SpiceJet,Chennai,Kolkata,0,1,4,733,6964.825233456613
+Vistara,Delhi,Bangalore,1,2,2,769,9029.24885065248
+Air India,Kolkata,Delhi,1,23,1,557,6962.002007436473
+Vistara,Chennai,Bangalore,1,2,10,545,7407.481090326131
+Vistara,Mumbai,Delhi,1,28,9,104,6027.863113115598
+Vistara,Chennai,Mumbai,0,17,7,373,4776.976251986524
+Air India,Bangalore,Kolkata,0,20,8,238,4288.278388849792
+IndiGo,Bangalore,Mumbai,0,22,7,477,6392.115237238994
+IndiGo,Delhi,Kolkata,2,10,1,615,9393.738735974552
+SpiceJet,Delhi,Chennai,2,17,2,137,5948.009860419442
+SpiceJet,Mumbai,Kolkata,2,27,7,385,7527.261173922818
+Air India,Bangalore,Chennai,1,8,7,749,8589.789607182722
+Jet Airways,Chennai,Mumbai,2,22,9,416,8291.502453945237
+IndiGo,Delhi,Mumbai,1,17,6,475,6956.2899333694095
+SpiceJet,Delhi,Bangalore,2,8,7,574,9950.612091583233
+IndiGo,Kolkata,Delhi,1,22,1,273,5556.2564219208025
+Air India,Bangalore,Delhi,2,7,1,133,6627.793088283982
+Air India,Mumbai,Bangalore,2,30,6,622,8128.4448952808825
+Jet Airways,Chennai,Delhi,0,12,3,638,6770.329944400486
+Jet Airways,Mumbai,Chennai,2,2,7,568,8440.57384946871
+Air India,Chennai,Kolkata,2,6,8,391,8483.568384400465
+SpiceJet,Mumbai,Chennai,0,19,1,152,4236.0150657186505
+IndiGo,Chennai,Delhi,1,30,11,747,9409.549629393889
+Vistara,Chennai,Bangalore,0,7,12,716,6904.637788265606
+Jet Airways,Mumbai,Chennai,0,8,3,578,5711.9566878399455
+Vistara,Bangalore,Kolkata,1,14,7,328,6366.811479998546
+SpiceJet,Chennai,Bangalore,2,20,8,435,7795.373576085706
+Jet Airways,Chennai,Mumbai,1,27,9,63,4974.580088754455
+Vistara,Kolkata,Bangalore,2,8,2,197,6884.548747228814
+SpiceJet,Bangalore,Chennai,2,14,2,290,7414.830775164064
+IndiGo,Chennai,Kolkata,1,22,6,659,7345.816756036218
+SpiceJet,Bangalore,Delhi,0,25,7,588,6090.223029881388
+Jet Airways,Chennai,Kolkata,1,6,7,111,5467.1150128430345
+Air India,Kolkata,Bangalore,2,3,7,705,8698.951602664136
+IndiGo,Chennai,Bangalore,1,23,10,782,8065.703673367431
+Vistara,Mumbai,Chennai,1,29,11,384,6504.023584590135
+Jet Airways,Mumbai,Delhi,2,27,8,790,8776.341679393292
+Air India,Delhi,Kolkata,0,21,11,776,7750.132216856459
+SpiceJet,Kolkata,Delhi,1,7,10,782,8054.444592723473
+Air India,Delhi,Bangalore,2,20,3,336,7210.956240620786
+Jet Airways,Kolkata,Delhi,2,23,11,595,8871.328861871605
+Jet Airways,Chennai,Mumbai,1,5,3,545,7293.686419399111
+Air India,Mumbai,Kolkata,0,5,3,575,5496.7635510238315
+SpiceJet,Mumbai,Chennai,1,15,9,211,6045.206832994463
+Air India,Kolkata,Chennai,0,8,5,542,5909.853269720612
+Jet Airways,Delhi,Chennai,0,6,5,318,4171.379053197322
+Jet Airways,Chennai,Delhi,0,27,10,383,4653.797441538814
+Vistara,Bangalore,Kolkata,0,16,10,227,3376.6151518048405
+Vistara,Chennai,Mumbai,1,18,1,747,7608.3295522325825
+IndiGo,Mumbai,Delhi,2,5,12,369,8038.799164106181
+Jet Airways,Mumbai,Kolkata,2,17,6,538,8276.567721965086
+Vistara,Mumbai,Delhi,2,20,5,115,7477.1422265245465
+Air India,Bangalore,Kolkata,2,5,12,679,9430.461600154571
+SpiceJet,Kolkata,Delhi,2,9,6,532,7983.588287448002
+Air India,Bangalore,Chennai,2,8,8,355,7203.326356966219
+SpiceJet,Kolkata,Delhi,1,12,5,520,7626.484847340714
+Vistara,Delhi,Bangalore,0,4,10,383,4876.7431986954625
+IndiGo,Kolkata,Delhi,2,11,6,200,7495.9974132788175
+Air India,Delhi,Kolkata,1,4,11,726,7946.756009960967
+Air India,Delhi,Bangalore,2,6,7,321,7324.883953748245
+Air India,Kolkata,Delhi,2,26,11,479,8954.723685517192
+SpiceJet,Delhi,Kolkata,0,7,9,300,4070.711311485704
+Vistara,Delhi,Kolkata,0,11,3,414,5314.527066685181
+Air India,Bangalore,Chennai,0,23,3,648,6134.108194799316
+Air India,Bangalore,Delhi,2,19,1,239,7634.361706687887
+IndiGo,Delhi,Kolkata,2,22,7,125,7534.2419937679
+IndiGo,Chennai,Mumbai,2,19,8,407,7838.911158399495
+Vistara,Delhi,Bangalore,0,25,7,230,3876.428930601772
+Vistara,Chennai,Delhi,1,22,8,533,7497.904194518678
+Jet Airways,Bangalore,Delhi,2,25,12,593,8423.998202398467
+IndiGo,Chennai,Mumbai,2,18,8,426,8938.232728925017
+Jet Airways,Delhi,Bangalore,2,6,1,166,7553.011275028237
+SpiceJet,Kolkata,Bangalore,1,30,3,498,6490.440180419785
+Jet Airways,Kolkata,Delhi,2,20,2,286,6638.437590296547
+Air India,Mumbai,Kolkata,1,28,11,503,6434.711423571891
+Jet Airways,Kolkata,Mumbai,2,12,12,501,7932.315180020441
+Vistara,Kolkata,Bangalore,1,13,7,455,7175.880282177488
+SpiceJet,Delhi,Mumbai,2,2,8,787,10709.585157889702
+Air India,Bangalore,Mumbai,0,24,6,640,6595.0631063094115
+Jet Airways,Kolkata,Mumbai,0,5,4,143,3596.903891691771
+SpiceJet,Kolkata,Delhi,0,29,4,674,6541.249233455207
+SpiceJet,Kolkata,Chennai,0,1,10,610,5615.110983597482
+Air India,Bangalore,Kolkata,2,21,8,72,6908.604022782116
+Jet Airways,Mumbai,Bangalore,0,23,8,752,6976.014469991266
+SpiceJet,Kolkata,Delhi,1,10,12,552,7646.5988910082315
+SpiceJet,Bangalore,Delhi,0,19,11,327,4271.232149070112
+IndiGo,Kolkata,Delhi,0,24,2,584,5835.701406565677
+SpiceJet,Delhi,Bangalore,0,5,1,179,4257.5365699906015
+IndiGo,Mumbai,Chennai,2,8,9,412,8781.756449761808
+Jet Airways,Kolkata,Delhi,0,1,9,116,3275.9501202757074
+Jet Airways,Kolkata,Mumbai,1,16,6,99,5385.22595358541
+Jet Airways,Mumbai,Chennai,0,16,1,395,4618.964101694858
+Vistara,Delhi,Chennai,0,24,3,699,7553.596886413305
+Jet Airways,Kolkata,Bangalore,0,6,9,232,3952.5876458637354
+SpiceJet,Chennai,Bangalore,1,9,4,606,7851.752587026056
+Air India,Chennai,Mumbai,0,1,6,318,4672.804807616816
+IndiGo,Delhi,Kolkata,1,13,8,576,8682.651560680246
+Vistara,Kolkata,Delhi,1,19,7,789,8559.950804012282
+Jet Airways,Delhi,Kolkata,0,9,7,582,5652.471988504936
+Jet Airways,Kolkata,Chennai,1,14,3,176,5699.7532563065315
+Air India,Mumbai,Kolkata,2,4,1,243,7523.620433387687
+Air India,Kolkata,Mumbai,0,2,7,175,3796.265068120529
+Vistara,Mumbai,Kolkata,0,24,4,221,3557.6170678859457
+IndiGo,Mumbai,Kolkata,1,26,7,638,7426.0005693048215
+Jet Airways,Mumbai,Bangalore,1,12,8,771,8795.74947407246
+Vistara,Delhi,Mumbai,0,17,12,602,5136.275526883019
+SpiceJet,Delhi,Bangalore,2,23,4,646,9105.977050307143
+SpiceJet,Bangalore,Chennai,1,11,6,296,6477.431960908391
+Vistara,Mumbai,Chennai,1,14,3,125,5078.251890499976
+Jet Airways,Mumbai,Bangalore,2,3,8,129,7731.855069776371
+Vistara,Bangalore,Chennai,2,29,9,506,7657.674879850674
+Jet Airways,Chennai,Delhi,0,24,9,475,4894.3160655402835
+Air India,Kolkata,Mumbai,2,28,7,591,7797.683098873606
+Vistara,Mumbai,Delhi,0,28,1,500,6496.84528337265
+Jet Airways,Chennai,Bangalore,2,1,2,797,9512.506424624185
+Vistara,Mumbai,Bangalore,1,22,2,523,6121.539344135834
+Vistara,Kolkata,Mumbai,0,14,2,455,4969.0403427872825
+Jet Airways,Chennai,Bangalore,0,27,4,770,6153.595445905765
+Jet Airways,Mumbai,Bangalore,0,30,1,610,5747.607554847298
+IndiGo,Mumbai,Bangalore,2,4,6,716,9600.614625472452
+Vistara,Mumbai,Chennai,1,26,1,616,7982.46055202355
+SpiceJet,Mumbai,Delhi,0,17,7,454,5182.665529944531
+Vistara,Delhi,Mumbai,0,28,12,385,4937.645349667338
+Vistara,Chennai,Mumbai,0,28,6,150,3459.2023884649348
+Jet Airways,Kolkata,Mumbai,0,9,5,129,2889.1508863751706
+Vistara,Chennai,Bangalore,1,31,5,225,4701.72987851705
+Vistara,Bangalore,Mumbai,2,24,1,701,9322.757109831819
+SpiceJet,Delhi,Kolkata,1,8,11,273,5907.319889271607
+Jet Airways,Chennai,Delhi,0,2,11,660,6080.692739386875
+Vistara,Chennai,Delhi,1,27,4,394,5565.336503569329
+Air India,Kolkata,Mumbai,0,14,2,428,5240.700046634086
+IndiGo,Kolkata,Chennai,2,29,3,643,10029.652441452157
+SpiceJet,Kolkata,Chennai,2,15,3,736,9622.676743244427
+Vistara,Chennai,Delhi,2,24,5,108,6250.234711211959
+Air India,Chennai,Kolkata,0,8,12,111,3524.7529798782402
+Vistara,Bangalore,Delhi,1,31,12,348,5687.810077718441
+Vistara,Kolkata,Bangalore,2,24,11,685,8840.550435351926
+Jet Airways,Bangalore,Kolkata,0,9,9,298,4715.707044047318
+Jet Airways,Bangalore,Delhi,0,14,11,192,4455.160764516166
+Jet Airways,Mumbai,Delhi,1,27,3,225,5551.45082390279
+Air India,Bangalore,Delhi,2,10,8,433,7178.117476192117
+Vistara,Chennai,Mumbai,0,10,5,432,5336.674463267876
+IndiGo,Bangalore,Mumbai,1,25,4,537,8218.691085168724
+SpiceJet,Bangalore,Kolkata,2,22,7,538,8568.050918275858
+Jet Airways,Delhi,Chennai,1,5,5,709,7956.077112298289
+Jet Airways,Bangalore,Chennai,1,16,4,650,7313.683234943031
+Vistara,Delhi,Chennai,0,19,1,741,6945.676998946705
+Vistara,Kolkata,Mumbai,0,21,12,694,6134.508267752693
+Air India,Chennai,Kolkata,0,21,5,747,7245.750948834298
+Air India,Kolkata,Chennai,1,29,7,359,5966.209726757422
+Jet Airways,Kolkata,Delhi,0,15,8,141,3875.895734059482
+Vistara,Chennai,Kolkata,1,19,10,146,5206.82787697022
+IndiGo,Bangalore,Chennai,1,26,6,284,6697.55580965465
+SpiceJet,Chennai,Kolkata,0,26,12,75,3579.7396930990244
+Vistara,Chennai,Delhi,2,3,4,417,8778.50365956246
+Vistara,Bangalore,Kolkata,2,21,2,222,7164.311750388583
+Air India,Chennai,Delhi,2,7,2,669,9259.62984974286
+SpiceJet,Mumbai,Kolkata,1,3,9,727,8115.904615232387
+Jet Airways,Delhi,Kolkata,1,17,2,573,6979.295399311403
+Vistara,Chennai,Delhi,1,4,4,409,6810.834391851936
+Jet Airways,Mumbai,Kolkata,0,30,4,740,6354.820829598257
+Vistara,Chennai,Kolkata,1,16,7,523,7171.2315207589245
+Jet Airways,Mumbai,Kolkata,0,22,7,434,5597.600983231956
+SpiceJet,Chennai,Mumbai,0,19,3,151,4546.774454888469
+Air India,Bangalore,Mumbai,2,18,1,240,7281.430041932495
+SpiceJet,Kolkata,Bangalore,2,28,9,360,8230.603528033016
+IndiGo,Chennai,Kolkata,2,16,7,719,9965.943875190407
+Air India,Mumbai,Chennai,0,13,1,248,4048.8114545895123
+SpiceJet,Mumbai,Chennai,0,30,10,373,5918.901727212089
+IndiGo,Kolkata,Delhi,0,20,12,552,5471.878898560528
+Vistara,Bangalore,Mumbai,1,11,11,187,5480.497313074783
+Vistara,Chennai,Kolkata,0,16,4,578,6617.059876699213
+Jet Airways,Mumbai,Kolkata,2,11,11,485,9139.729121399412
+Air India,Mumbai,Kolkata,2,19,4,618,9097.160199017831
+Vistara,Delhi,Mumbai,0,12,9,624,6615.2083739203135
+Air India,Delhi,Mumbai,0,22,11,246,4118.013831778222
+Vistara,Delhi,Mumbai,2,5,10,609,8800.66055485047
+Jet Airways,Mumbai,Chennai,0,18,2,512,4953.60546344078
+SpiceJet,Chennai,Mumbai,2,13,9,530,9011.94068273964
+Jet Airways,Mumbai,Delhi,1,7,1,797,8899.610465634229
+IndiGo,Mumbai,Chennai,2,31,7,624,8836.055352222169
+Vistara,Chennai,Bangalore,1,28,11,283,6049.050016992617
+IndiGo,Mumbai,Bangalore,0,30,6,213,5390.494213935966
+IndiGo,Delhi,Mumbai,0,23,11,619,6668.341150058683
+Air India,Kolkata,Bangalore,1,28,9,410,6099.258028710569
+Vistara,Chennai,Mumbai,0,28,10,206,4530.781139881694
+IndiGo,Chennai,Kolkata,1,16,2,635,7226.56910937466
+SpiceJet,Delhi,Bangalore,0,9,11,408,3592.3908440726573
+IndiGo,Delhi,Kolkata,2,15,3,241,7194.793928366936
+SpiceJet,Bangalore,Mumbai,0,2,7,696,7261.6007297964925
+Air India,Chennai,Kolkata,2,26,12,238,7888.72398021847
+IndiGo,Mumbai,Chennai,2,4,12,98,6678.617584546328
+Jet Airways,Bangalore,Chennai,1,3,5,62,4539.135293375053
+Air India,Bangalore,Chennai,0,3,2,123,3858.2248419563234
+SpiceJet,Bangalore,Delhi,1,11,8,88,4805.419914844545
+Air India,Chennai,Kolkata,0,27,9,431,4898.172154015345
+IndiGo,Mumbai,Chennai,2,1,10,582,9441.001101152786
+Vistara,Delhi,Mumbai,2,30,10,156,6516.982110144703
+Vistara,Delhi,Bangalore,0,4,10,501,6068.618278238038
+SpiceJet,Delhi,Chennai,0,26,10,262,4013.9070190180937
+SpiceJet,Kolkata,Mumbai,1,2,8,470,7879.245977411445
+Vistara,Delhi,Mumbai,0,4,9,80,2579.6827798574404
+SpiceJet,Mumbai,Delhi,0,21,10,610,5571.615334147716
+Air India,Mumbai,Kolkata,0,16,11,794,6892.316132904839
+Jet Airways,Kolkata,Chennai,1,25,2,161,4312.978048405968
+Jet Airways,Bangalore,Delhi,0,16,10,105,2239.506928622417
+Air India,Chennai,Kolkata,2,7,12,125,5637.296191544696
+Jet Airways,Kolkata,Delhi,1,12,6,662,7663.955394844496
+IndiGo,Bangalore,Delhi,1,12,1,223,5481.644995057944
+Air India,Delhi,Mumbai,2,20,8,170,7016.499740616433
+SpiceJet,Delhi,Bangalore,2,11,6,397,7886.499259111829
+Air India,Kolkata,Delhi,2,7,7,182,7059.758232255424
+Vistara,Delhi,Chennai,0,13,1,764,6594.891792780799
+SpiceJet,Kolkata,Chennai,2,10,1,506,8887.407878735841
+Vistara,Bangalore,Mumbai,0,8,1,670,6647.155001586761
+SpiceJet,Chennai,Bangalore,1,14,10,350,6086.653690071241
+Jet Airways,Mumbai,Chennai,1,28,6,730,8416.505717336195
+Air India,Delhi,Kolkata,2,14,1,471,8259.677032025666
+IndiGo,Chennai,Kolkata,0,1,1,674,5608.837042303448
+SpiceJet,Kolkata,Bangalore,2,28,5,340,8152.248320691311
+SpiceJet,Bangalore,Mumbai,2,24,11,102,6056.591976700785
+Vistara,Kolkata,Delhi,0,13,6,545,6171.911977570883
+Jet Airways,Mumbai,Kolkata,2,4,1,655,9437.013386058512
+Vistara,Chennai,Bangalore,1,25,10,762,8267.738845491438
+Vistara,Mumbai,Bangalore,2,3,4,110,5611.503302274457
+Jet Airways,Kolkata,Bangalore,0,16,7,269,5114.872778707222
+IndiGo,Chennai,Kolkata,0,20,12,185,3743.443069322956
+Vistara,Delhi,Bangalore,1,7,12,551,7572.281793577791
+Vistara,Bangalore,Kolkata,0,11,7,568,5783.0129383146095
+SpiceJet,Kolkata,Mumbai,0,6,2,640,6064.282332218806
+Jet Airways,Chennai,Delhi,1,8,3,317,6181.403919198495
+Air India,Mumbai,Chennai,2,13,4,247,7248.286141720923
+IndiGo,Chennai,Bangalore,1,19,2,289,5811.503604912106
+IndiGo,Delhi,Chennai,2,13,9,248,7212.342720693924
+Jet Airways,Bangalore,Delhi,1,6,11,474,7083.532328135855
+SpiceJet,Mumbai,Bangalore,2,30,1,69,6593.909588379147
+SpiceJet,Delhi,Kolkata,1,23,6,173,5386.678606371965
+Jet Airways,Bangalore,Delhi,2,21,8,135,6985.46849490722
+SpiceJet,Delhi,Kolkata,1,8,5,735,7962.965097778457
+IndiGo,Delhi,Chennai,2,15,12,561,9917.443190498228
+IndiGo,Kolkata,Delhi,1,19,8,144,5962.79430400389
+Air India,Mumbai,Delhi,0,15,8,108,3921.2214974158055
+Jet Airways,Kolkata,Mumbai,2,31,1,554,7799.209753081474
+Vistara,Delhi,Kolkata,1,25,5,748,8543.009569427491
+Vistara,Delhi,Chennai,2,9,1,446,8061.681458568973
+Air India,Bangalore,Kolkata,2,1,7,448,7750.6596342953235
+Air India,Mumbai,Chennai,1,31,1,277,5703.9519748475905
+SpiceJet,Chennai,Delhi,2,29,1,760,9366.08263303529
+Air India,Bangalore,Delhi,1,4,11,405,6778.401546879753
+Air India,Chennai,Kolkata,0,12,1,289,5252.997031281614
+Vistara,Chennai,Delhi,2,27,5,314,7983.014395853391
+SpiceJet,Kolkata,Chennai,0,12,6,295,5856.262620394793
+Air India,Delhi,Kolkata,2,10,1,85,5648.193785212297
+Air India,Kolkata,Mumbai,2,15,1,643,8961.982647765446
+SpiceJet,Kolkata,Bangalore,2,15,10,320,7128.487403828844
+Jet Airways,Chennai,Delhi,1,23,1,330,6764.68415717993
+SpiceJet,Kolkata,Chennai,0,12,6,182,3799.724821510731
+Vistara,Mumbai,Delhi,2,7,3,715,9669.758098238626
+Jet Airways,Bangalore,Chennai,1,14,7,316,6396.84276598653
+IndiGo,Kolkata,Bangalore,2,30,6,715,8847.60557473163
+SpiceJet,Delhi,Bangalore,1,13,11,480,6589.325518397502
+Vistara,Chennai,Delhi,2,6,4,318,8088.632976848957
+Jet Airways,Chennai,Bangalore,0,25,6,106,3255.95604974604
+SpiceJet,Chennai,Mumbai,0,21,9,584,5063.178515465654
+Air India,Delhi,Chennai,2,19,9,267,6883.868556157876
+SpiceJet,Delhi,Bangalore,1,23,12,370,6206.865973197368
+IndiGo,Kolkata,Bangalore,2,31,7,208,7123.380259944714
+SpiceJet,Bangalore,Mumbai,1,23,4,497,6949.59334502474
+Jet Airways,Kolkata,Mumbai,2,27,1,214,6762.891079028513
+Jet Airways,Delhi,Chennai,1,10,4,737,8654.656719424234
+SpiceJet,Kolkata,Bangalore,0,14,4,149,3680.469531719046
+Jet Airways,Kolkata,Bangalore,2,7,3,757,9889.700680998962
+Air India,Delhi,Kolkata,0,24,12,417,4804.522011305784
+SpiceJet,Delhi,Chennai,0,19,11,233,4919.470132120106
+Air India,Chennai,Delhi,2,29,7,276,7184.184447396569
+Air India,Mumbai,Bangalore,2,13,7,515,8612.34643329663
+Vistara,Chennai,Bangalore,1,29,2,668,8357.49972106344
+SpiceJet,Delhi,Kolkata,1,29,6,688,8080.02113052998
+Jet Airways,Delhi,Bangalore,0,19,2,258,4417.54484821874
+Air India,Chennai,Bangalore,1,18,9,545,6238.172245301694
+Vistara,Chennai,Bangalore,1,27,1,592,7800.3175008469425
+SpiceJet,Mumbai,Bangalore,2,30,10,259,7322.793470106745
+SpiceJet,Mumbai,Bangalore,1,27,2,430,6920.782551586275
+IndiGo,Chennai,Kolkata,0,27,11,507,5626.606524184418
+IndiGo,Chennai,Mumbai,1,26,10,307,5755.421221438564
+Air India,Chennai,Delhi,0,19,5,323,5062.153583274798
+IndiGo,Chennai,Delhi,2,10,4,117,6684.063305639958
+Air India,Kolkata,Delhi,0,29,2,361,4160.306754478545
+Jet Airways,Bangalore,Mumbai,1,9,8,90,5604.258578173081
+Air India,Delhi,Chennai,2,21,8,557,8069.760217806264
+IndiGo,Delhi,Chennai,1,13,6,308,6490.464617125272
+Jet Airways,Kolkata,Chennai,2,1,2,664,10063.465885965103
+IndiGo,Delhi,Chennai,2,14,5,330,7096.852282018369
+Air India,Delhi,Chennai,1,16,2,665,7763.619106631056
+Vistara,Chennai,Delhi,1,7,11,725,8017.025876932912
+SpiceJet,Kolkata,Bangalore,2,17,8,453,8179.514422409556
+IndiGo,Kolkata,Delhi,2,24,5,561,9720.119177616532
+Air India,Mumbai,Kolkata,1,16,1,651,7207.64056354144
+Jet Airways,Kolkata,Mumbai,0,13,9,143,3561.716477560501
+IndiGo,Chennai,Bangalore,1,3,11,424,7371.661249410876
+IndiGo,Kolkata,Delhi,2,16,8,608,8878.525585830426
+SpiceJet,Mumbai,Bangalore,1,3,6,401,6037.110142066752
+Air India,Delhi,Kolkata,0,30,11,466,5461.507340884874
+Vistara,Kolkata,Delhi,1,9,6,484,7322.820270853507
+Jet Airways,Delhi,Bangalore,2,24,2,152,6563.579514925851
+Air India,Mumbai,Bangalore,1,28,3,673,8142.184195403773
+Jet Airways,Kolkata,Delhi,2,18,1,471,7666.692452962719
+IndiGo,Mumbai,Chennai,2,12,5,491,7794.486458290703
+SpiceJet,Delhi,Kolkata,1,19,2,737,7964.956859873686
+SpiceJet,Mumbai,Kolkata,2,24,8,218,7385.008709995864
+Vistara,Mumbai,Kolkata,2,13,10,73,6745.748990492543
+SpiceJet,Bangalore,Delhi,0,30,1,432,4568.991976270969
+IndiGo,Chennai,Mumbai,0,24,3,284,4782.21035236629
+Vistara,Bangalore,Mumbai,0,27,8,564,5903.25352021739
+Air India,Chennai,Mumbai,0,22,7,132,3220.397652774341
+SpiceJet,Chennai,Mumbai,2,22,5,308,6872.905823988501
+Vistara,Delhi,Kolkata,1,22,2,570,7464.911577452162
+IndiGo,Kolkata,Delhi,2,13,10,662,9954.781612082723
+Jet Airways,Delhi,Mumbai,2,1,4,275,7392.761215388979
+Jet Airways,Delhi,Kolkata,2,11,7,661,8837.539575296882
+IndiGo,Chennai,Delhi,1,22,7,600,6565.988856460287
+IndiGo,Kolkata,Delhi,0,12,3,279,5159.745423444305
+Jet Airways,Bangalore,Mumbai,2,9,7,786,10450.92530515988
+Vistara,Delhi,Mumbai,2,1,12,280,7551.038424385801
+Jet Airways,Mumbai,Delhi,0,11,5,448,5978.99698363273
+IndiGo,Delhi,Kolkata,2,7,5,613,9176.959549876798
+SpiceJet,Chennai,Delhi,1,8,3,706,7764.4815246911585
+Air India,Delhi,Bangalore,2,17,4,101,6782.566122525105
+SpiceJet,Chennai,Bangalore,2,21,10,735,9260.137161866105
+SpiceJet,Mumbai,Bangalore,0,16,1,342,4212.176091073409
+IndiGo,Bangalore,Mumbai,2,27,12,117,6970.803554803634
+Jet Airways,Chennai,Delhi,2,16,8,596,9407.879383782041
+Vistara,Kolkata,Chennai,1,12,2,132,4523.130859756296
+SpiceJet,Chennai,Bangalore,0,1,6,188,3321.6011587790717
+Jet Airways,Chennai,Mumbai,0,5,12,658,6067.4751531834945
+Vistara,Mumbai,Chennai,1,29,10,485,6569.347583410168
+SpiceJet,Mumbai,Delhi,2,3,3,724,9858.244381582685
+Vistara,Delhi,Bangalore,0,24,7,753,6789.024918882795
+Jet Airways,Kolkata,Mumbai,0,10,10,184,4502.4531288183025
+Air India,Mumbai,Chennai,2,2,4,126,6788.628862616992
+Jet Airways,Bangalore,Chennai,2,21,10,65,6002.711585164161
+IndiGo,Delhi,Bangalore,0,22,12,696,5534.435569056777
+Vistara,Mumbai,Bangalore,2,22,8,373,7954.727992138589
+Air India,Bangalore,Kolkata,0,18,8,385,4069.8359448818615
+Vistara,Bangalore,Chennai,2,8,11,624,8791.522381539582
+Vistara,Mumbai,Chennai,2,23,12,637,8824.136610951662
+SpiceJet,Kolkata,Mumbai,1,19,8,565,7070.786442558285
+IndiGo,Kolkata,Mumbai,2,30,11,141,6046.9828700365715
+Vistara,Mumbai,Delhi,1,13,10,658,7427.3616959450255
+Jet Airways,Kolkata,Chennai,2,25,11,61,6877.9522892259
+Jet Airways,Kolkata,Delhi,0,13,10,263,4886.574243787467
+SpiceJet,Bangalore,Kolkata,0,28,8,721,7371.249887732985
+IndiGo,Bangalore,Delhi,2,18,2,463,8320.073262871887
+IndiGo,Bangalore,Mumbai,2,16,10,162,6945.609564449123
+Jet Airways,Kolkata,Mumbai,0,9,6,595,6555.3057088468295
+Air India,Chennai,Bangalore,2,27,8,427,7399.669521531441
+SpiceJet,Chennai,Bangalore,1,8,12,271,6257.81425335185
+SpiceJet,Delhi,Chennai,1,15,3,636,8331.172361697827
+Jet Airways,Bangalore,Mumbai,1,28,6,268,5395.519836981188
+Jet Airways,Chennai,Kolkata,1,23,5,176,6071.31957280183
+Air India,Chennai,Kolkata,1,11,11,687,8963.858040150792
+Air India,Mumbai,Chennai,2,10,6,537,9073.923335255415
+IndiGo,Kolkata,Delhi,2,20,9,164,7117.252184330062
+SpiceJet,Bangalore,Kolkata,1,13,9,554,6710.11197543537
+SpiceJet,Delhi,Bangalore,2,7,6,105,7059.601964520462
+Jet Airways,Delhi,Chennai,2,4,4,390,7437.204673681444
+IndiGo,Delhi,Chennai,1,16,5,275,6059.870401320181
+SpiceJet,Mumbai,Delhi,2,31,7,551,8990.547553665512
+IndiGo,Chennai,Bangalore,2,14,6,508,6891.873494008735
+IndiGo,Chennai,Kolkata,2,1,7,595,9177.901691767876
+Jet Airways,Delhi,Chennai,1,3,6,570,8660.737393239244
+IndiGo,Mumbai,Bangalore,2,21,1,517,7539.071788864764
+Air India,Kolkata,Chennai,0,28,6,606,6003.054002993433
+Air India,Delhi,Bangalore,0,12,8,595,5001.442311632691
+Vistara,Mumbai,Chennai,1,29,12,599,7047.929280597411
+Jet Airways,Kolkata,Mumbai,0,8,3,543,4750.111572589848
+Vistara,Chennai,Delhi,1,31,8,75,4954.771163498609
+Air India,Bangalore,Chennai,0,12,9,630,6546.802401629797
+Vistara,Kolkata,Delhi,0,18,1,302,4714.8693163845455
+Jet Airways,Chennai,Delhi,0,6,8,266,3864.908765271214
+Jet Airways,Delhi,Kolkata,1,14,9,330,5845.302621702036
+IndiGo,Bangalore,Chennai,1,21,5,764,8456.13634304282
+SpiceJet,Mumbai,Bangalore,2,5,7,789,9495.53800493054
+IndiGo,Mumbai,Delhi,1,20,4,174,4705.602445742179
+Jet Airways,Bangalore,Mumbai,0,17,2,639,6075.43646994902
+Air India,Delhi,Kolkata,0,26,3,358,4317.645895363796
+Air India,Kolkata,Bangalore,1,12,5,542,7415.778958626821
+IndiGo,Bangalore,Mumbai,1,18,8,456,7429.348700158459
+Jet Airways,Kolkata,Delhi,1,20,3,453,8063.791701352881
+Air India,Mumbai,Bangalore,2,15,1,134,6839.033456069825
+Jet Airways,Kolkata,Mumbai,0,15,11,541,6027.986081409768
+Air India,Kolkata,Chennai,2,27,12,162,6510.341328352936
+Jet Airways,Delhi,Bangalore,2,30,3,356,7511.311612889228
+Vistara,Kolkata,Delhi,0,18,9,237,4827.028123270469
+Jet Airways,Delhi,Kolkata,0,4,10,274,4231.8360999266115
+Jet Airways,Bangalore,Mumbai,1,1,7,374,6406.473689302891
+IndiGo,Chennai,Kolkata,1,5,10,98,5601.4878350641675
+Vistara,Kolkata,Chennai,2,18,7,318,7455.686414056705
+SpiceJet,Kolkata,Mumbai,1,28,8,775,9125.210218844075
+IndiGo,Delhi,Bangalore,1,25,7,66,5116.514668025702
+SpiceJet,Kolkata,Delhi,0,12,1,108,3767.6990854891073
+Air India,Bangalore,Mumbai,0,8,3,597,5660.905426466328
+SpiceJet,Bangalore,Delhi,1,11,7,220,5854.562997525052
+Jet Airways,Kolkata,Bangalore,0,29,5,235,3960.477026066877
+SpiceJet,Bangalore,Chennai,1,20,3,650,7984.7044280978525
+IndiGo,Delhi,Mumbai,0,19,10,61,3254.0874671197857
+IndiGo,Mumbai,Bangalore,0,30,8,514,6053.40478549206
+SpiceJet,Bangalore,Delhi,0,10,7,703,6499.114413601623
+IndiGo,Bangalore,Mumbai,0,19,9,335,5693.928775118348
+IndiGo,Kolkata,Chennai,1,31,8,557,7147.226510802137
+SpiceJet,Chennai,Mumbai,2,20,3,688,9172.712618988246
+Vistara,Bangalore,Chennai,0,14,9,735,6848.056893400627
+Vistara,Delhi,Chennai,1,19,6,87,5473.935527913736
+Air India,Bangalore,Chennai,1,18,7,392,6995.049242413637
+IndiGo,Chennai,Kolkata,0,16,2,60,3383.3907222012485
+SpiceJet,Kolkata,Mumbai,2,2,11,247,7404.544580402393
+IndiGo,Delhi,Mumbai,0,14,8,115,3745.2690286862116
+Jet Airways,Kolkata,Mumbai,1,7,6,606,6991.063593185938
+IndiGo,Bangalore,Kolkata,2,6,5,171,7367.0367208830485
+IndiGo,Bangalore,Mumbai,1,3,5,369,5716.071783939667
+Vistara,Bangalore,Mumbai,0,20,10,95,2937.000662107604
+SpiceJet,Kolkata,Bangalore,2,4,8,498,8517.513542260733
+IndiGo,Kolkata,Chennai,1,2,8,788,8280.070132927229
+Vistara,Mumbai,Kolkata,1,23,9,651,8153.078699687725
+Air India,Delhi,Kolkata,1,11,10,654,7993.67633633509
+Vistara,Delhi,Chennai,0,24,1,636,6249.100693535346
+Vistara,Bangalore,Delhi,2,12,1,384,7357.233002013975
+Vistara,Chennai,Kolkata,0,8,12,699,6508.280052431701
+IndiGo,Chennai,Kolkata,0,29,4,366,4803.744265439292
+IndiGo,Bangalore,Chennai,0,24,12,593,6076.093368451085
+Air India,Delhi,Kolkata,2,11,11,787,9719.98099728618
+Jet Airways,Chennai,Mumbai,0,16,9,678,6651.408768996772
+Jet Airways,Chennai,Mumbai,0,20,10,168,3666.7194811465665
+Jet Airways,Kolkata,Bangalore,0,22,9,431,5369.556732564556
+Air India,Delhi,Mumbai,0,14,1,416,5478.0237870428755
+Jet Airways,Chennai,Mumbai,1,16,2,240,5432.702250673813
+Jet Airways,Bangalore,Delhi,0,10,5,415,4688.920764909258
+Vistara,Kolkata,Bangalore,1,25,2,735,8413.18307823467
+IndiGo,Kolkata,Mumbai,0,27,9,127,2974.4501596427854
+IndiGo,Chennai,Bangalore,2,28,11,351,8310.832377446031
+Vistara,Kolkata,Chennai,1,16,11,751,8260.481308558488
+Vistara,Kolkata,Chennai,1,25,9,240,5642.620799050817
+Vistara,Kolkata,Bangalore,1,9,8,525,7398.007959175613
+IndiGo,Kolkata,Delhi,1,28,8,493,7206.977260211048
+Jet Airways,Mumbai,Bangalore,2,16,3,523,8618.259037489453
+Vistara,Delhi,Mumbai,0,20,1,740,7139.308205300957
+Air India,Delhi,Mumbai,1,27,10,593,7128.805847324874
+Vistara,Chennai,Delhi,2,24,2,125,6981.178246646813
+SpiceJet,Bangalore,Chennai,1,12,6,80,4360.688264165462
+Vistara,Mumbai,Kolkata,0,14,1,671,6610.324495532567
+IndiGo,Chennai,Mumbai,1,13,10,443,6551.063351766521
+Vistara,Bangalore,Kolkata,2,30,9,674,8714.456968815404
+SpiceJet,Kolkata,Mumbai,0,8,2,618,6218.321408572187
+Air India,Chennai,Kolkata,2,9,3,98,6472.786753424635
+Jet Airways,Delhi,Mumbai,0,25,12,344,3948.6372452589358
+Vistara,Bangalore,Chennai,0,18,6,661,5248.1672287201345
+SpiceJet,Kolkata,Mumbai,0,12,11,656,6203.868083291252
+SpiceJet,Mumbai,Kolkata,1,18,12,395,7284.112980350914
+Air India,Chennai,Mumbai,2,8,2,247,7395.507504102955
+IndiGo,Mumbai,Bangalore,2,21,8,730,9315.848381642778
+Vistara,Delhi,Mumbai,2,17,7,302,8050.934757843928
+SpiceJet,Chennai,Mumbai,0,29,4,132,4113.611808937279
+Air India,Delhi,Mumbai,1,27,4,538,7825.789538994693
+Jet Airways,Chennai,Bangalore,0,15,9,620,6441.948882171353
+SpiceJet,Bangalore,Mumbai,2,8,7,160,7242.951161555604
+Air India,Chennai,Bangalore,1,21,6,573,7730.554265506282
+IndiGo,Bangalore,Kolkata,1,30,12,235,5436.247526291786
+IndiGo,Chennai,Mumbai,1,12,11,297,5166.359630298202
+SpiceJet,Kolkata,Bangalore,2,4,9,118,6329.432302103474
+SpiceJet,Kolkata,Chennai,1,25,5,158,5842.468488500677
+Vistara,Chennai,Mumbai,1,10,5,554,7079.494581952714
+Air India,Chennai,Delhi,0,13,7,573,5792.270474446322
+SpiceJet,Kolkata,Delhi,0,30,1,356,4197.107533426777
+Vistara,Chennai,Mumbai,1,29,11,270,5574.455213920389
+Vistara,Bangalore,Kolkata,1,30,3,182,5405.455416608287
+SpiceJet,Delhi,Chennai,0,13,12,288,4686.281088929377
+IndiGo,Mumbai,Delhi,0,12,5,653,6035.669516412167
+Air India,Mumbai,Chennai,0,5,9,715,6310.731287191151
+Air India,Delhi,Chennai,2,15,12,447,8656.087782574434
+IndiGo,Mumbai,Kolkata,2,24,1,199,7157.6332632191115
+SpiceJet,Bangalore,Chennai,0,4,4,600,6224.336232596075
+Air India,Kolkata,Mumbai,1,22,9,450,7514.160293034185
+SpiceJet,Delhi,Chennai,0,3,10,329,4392.462805794821
+SpiceJet,Mumbai,Bangalore,2,13,10,71,6330.490414759182
+Vistara,Delhi,Kolkata,1,17,6,448,7015.579887211573
+IndiGo,Delhi,Bangalore,2,30,1,396,7544.246319170993
+SpiceJet,Bangalore,Kolkata,1,28,8,565,7439.5248691260595
+Jet Airways,Mumbai,Delhi,2,29,7,165,6836.09824862955
+IndiGo,Bangalore,Mumbai,1,25,4,91,6343.649705784562
+Air India,Delhi,Chennai,1,1,9,133,5214.934750832536
+Vistara,Bangalore,Chennai,1,24,11,230,6228.469882782166
+Air India,Bangalore,Kolkata,1,24,6,128,5554.971606923421
+Air India,Mumbai,Kolkata,2,28,5,421,7526.719198429506
+IndiGo,Bangalore,Delhi,2,23,5,708,8765.58808101965
+Air India,Delhi,Mumbai,1,19,1,492,7083.507302683147
+SpiceJet,Kolkata,Bangalore,1,12,4,159,5923.667331073477
+Air India,Bangalore,Mumbai,2,31,1,717,9728.957409781588
+Vistara,Chennai,Delhi,1,11,11,68,4879.425902008587
+Vistara,Chennai,Kolkata,1,4,10,633,7522.956673525375
+Jet Airways,Delhi,Mumbai,1,20,6,756,7618.019376701798
+Vistara,Delhi,Chennai,0,6,6,88,2959.739641205494
+Air India,Chennai,Bangalore,1,18,1,173,4553.843155580151
+Vistara,Mumbai,Chennai,0,31,3,521,5053.476700443374
+IndiGo,Bangalore,Kolkata,1,22,7,202,5246.995881285325
+Vistara,Delhi,Kolkata,2,14,7,449,8633.008010758493
+SpiceJet,Mumbai,Chennai,0,15,10,691,6232.466369602201
+IndiGo,Kolkata,Delhi,0,28,9,741,6832.8128927748585
+Jet Airways,Bangalore,Chennai,1,22,7,216,5647.614605588341
+SpiceJet,Kolkata,Mumbai,1,10,7,394,6719.524417741487
+Air India,Bangalore,Delhi,0,27,10,319,4077.5925342413707
+Air India,Bangalore,Mumbai,2,24,6,141,7234.596857561774
+Air India,Kolkata,Chennai,2,2,5,500,7796.411507523204
+SpiceJet,Delhi,Chennai,1,25,2,231,5431.093398806696
+SpiceJet,Chennai,Kolkata,2,14,1,290,7439.547296111711
+SpiceJet,Delhi,Mumbai,2,21,7,779,10275.072424074873
+IndiGo,Kolkata,Bangalore,1,16,4,134,5859.654667775377
+IndiGo,Chennai,Delhi,2,7,3,329,8029.015760064195
+Air India,Kolkata,Delhi,1,28,12,685,8632.95817872793
+Vistara,Kolkata,Bangalore,0,22,11,121,3190.412035246348
+Air India,Bangalore,Mumbai,1,4,6,379,6990.185240035605
+Jet Airways,Delhi,Kolkata,0,18,1,161,4314.32836495665
+IndiGo,Mumbai,Chennai,0,23,9,488,4241.8624714871685
+SpiceJet,Kolkata,Mumbai,2,5,11,781,9794.767878052862
+IndiGo,Kolkata,Mumbai,2,5,9,314,7871.018711690891
+SpiceJet,Chennai,Delhi,2,5,7,591,8697.29306727728
+Jet Airways,Chennai,Bangalore,1,1,4,629,7102.087413851882
+Jet Airways,Bangalore,Kolkata,2,4,9,171,7912.087608970937
+IndiGo,Kolkata,Delhi,0,22,2,372,4915.520075485453
+SpiceJet,Bangalore,Delhi,2,8,7,520,8669.20271707703
+Jet Airways,Bangalore,Delhi,2,16,1,767,9180.502942562467
+Air India,Bangalore,Kolkata,1,5,11,521,6798.81950210188
+Air India,Chennai,Delhi,1,10,4,151,4806.079685314048
+SpiceJet,Chennai,Delhi,0,4,12,111,4094.4876150696514
+IndiGo,Chennai,Kolkata,1,11,2,579,7647.316810463026
+Jet Airways,Mumbai,Chennai,2,3,2,157,6499.718153596736
+IndiGo,Chennai,Bangalore,1,7,7,295,6255.250119333107
+Air India,Kolkata,Delhi,0,7,7,433,5038.239927129462
+Jet Airways,Kolkata,Mumbai,2,13,3,640,9317.24535898927
+IndiGo,Delhi,Kolkata,0,15,6,616,6194.8819435928535
+Vistara,Chennai,Bangalore,1,12,3,708,8250.1336052398
+SpiceJet,Kolkata,Mumbai,1,23,9,293,6114.825961698373
+SpiceJet,Chennai,Kolkata,0,17,3,91,3665.5248255824545
+Vistara,Chennai,Mumbai,2,9,4,348,8367.904155242788
+Air India,Delhi,Kolkata,1,22,3,697,8305.281376536763
+Jet Airways,Mumbai,Kolkata,1,24,10,638,7521.54911863702
+SpiceJet,Chennai,Bangalore,2,22,1,601,8956.023627007413
+Vistara,Bangalore,Delhi,1,21,11,173,5980.085293998533
+Vistara,Mumbai,Kolkata,0,1,2,263,4371.211227474108
+Air India,Bangalore,Delhi,1,24,9,88,4752.99079132145
+Air India,Delhi,Kolkata,1,29,9,702,7694.430828934982
+IndiGo,Kolkata,Chennai,2,27,8,533,8801.519054083123
+SpiceJet,Bangalore,Chennai,0,10,4,756,6352.5715987272115
+IndiGo,Bangalore,Mumbai,2,12,4,312,8202.397711917154
+Vistara,Kolkata,Bangalore,1,9,12,445,6206.09082312146
+Jet Airways,Chennai,Delhi,1,3,7,121,5844.03386275971
+Jet Airways,Bangalore,Chennai,2,30,9,574,8727.384842063775
+Air India,Bangalore,Kolkata,2,4,1,489,7906.631323186172
+Jet Airways,Delhi,Bangalore,2,18,6,639,9289.587869282688
+Jet Airways,Kolkata,Delhi,0,24,10,596,5503.480420892855
+Jet Airways,Delhi,Bangalore,1,7,12,750,8267.18588051513
+Vistara,Chennai,Kolkata,2,3,9,200,6711.228234200334
+Jet Airways,Kolkata,Mumbai,1,4,2,359,6767.5366339345455
+Jet Airways,Chennai,Bangalore,0,7,4,734,6738.3748049688165
+Jet Airways,Bangalore,Kolkata,0,23,9,370,4255.749583962733
+IndiGo,Mumbai,Bangalore,0,26,5,530,5351.481729786998
+Vistara,Chennai,Kolkata,0,14,12,452,5612.473624796565
+Air India,Bangalore,Chennai,1,18,2,701,8648.546051895237
+IndiGo,Chennai,Mumbai,0,6,8,504,5497.362596266158
+SpiceJet,Kolkata,Mumbai,0,14,12,231,3632.8017190655482
+Vistara,Mumbai,Chennai,2,5,3,635,9702.018155425445
+Vistara,Delhi,Bangalore,0,31,5,90,3800.2818374466874
+SpiceJet,Bangalore,Delhi,2,12,12,106,7183.2697921512745
+SpiceJet,Kolkata,Chennai,0,30,1,189,4090.1045592106534
+SpiceJet,Kolkata,Delhi,0,19,7,411,4794.701542101553
+Air India,Kolkata,Bangalore,2,30,9,681,9663.44424269779
+Jet Airways,Delhi,Bangalore,0,16,8,640,6363.164611720791
+Vistara,Bangalore,Mumbai,1,30,4,117,4797.563154076983
+Jet Airways,Bangalore,Delhi,1,10,3,165,5424.319291923703
+Jet Airways,Delhi,Bangalore,0,14,12,389,4847.487055588977
+SpiceJet,Chennai,Bangalore,1,10,8,742,8581.76892249184
+Air India,Mumbai,Chennai,2,4,8,442,8456.003455157717
+IndiGo,Bangalore,Chennai,0,10,9,221,3579.204303359405
+Air India,Chennai,Bangalore,0,2,3,345,4148.788710319504
+Jet Airways,Delhi,Chennai,2,3,9,130,6605.094413213224
+Air India,Chennai,Mumbai,2,2,4,513,8581.409642689658
+SpiceJet,Delhi,Mumbai,2,28,11,626,9510.488387045913
+IndiGo,Delhi,Bangalore,0,21,7,456,5536.651955280944
+SpiceJet,Bangalore,Kolkata,2,24,1,574,9599.342821606371
+IndiGo,Chennai,Kolkata,2,13,1,85,6191.403267862285
+Jet Airways,Mumbai,Kolkata,1,20,3,372,6097.856965286396
+IndiGo,Bangalore,Delhi,1,28,6,185,4945.092997177478
+IndiGo,Mumbai,Kolkata,0,4,2,467,5709.70355738754
+IndiGo,Kolkata,Delhi,1,23,1,624,7630.87609200798
+Air India,Delhi,Bangalore,1,8,11,257,4858.198241519177
+Air India,Delhi,Bangalore,2,1,9,247,7336.082688853947
+Jet Airways,Bangalore,Delhi,2,28,8,757,9917.985083908536
+IndiGo,Mumbai,Bangalore,1,12,10,775,8302.826528626078
+Vistara,Delhi,Chennai,1,14,3,543,7363.327426479209
+Jet Airways,Delhi,Kolkata,1,17,2,509,6434.8821503871395
+IndiGo,Delhi,Kolkata,0,22,2,582,6730.515917050014
+IndiGo,Chennai,Kolkata,0,4,1,413,5255.129713037962
+Air India,Kolkata,Mumbai,0,11,11,717,5698.150558460689
+Jet Airways,Delhi,Chennai,1,23,3,656,7777.051450334946
+IndiGo,Bangalore,Delhi,1,7,2,159,5498.360099826057
+IndiGo,Delhi,Chennai,0,7,9,675,5818.533962538476
+Jet Airways,Bangalore,Chennai,0,22,1,617,6351.815139506719
+Vistara,Chennai,Kolkata,1,20,7,615,8415.462811504332
+Jet Airways,Mumbai,Kolkata,2,11,7,337,7362.815469725236
+Jet Airways,Chennai,Bangalore,0,13,6,752,6974.219347934972
+Vistara,Bangalore,Delhi,1,22,11,758,8394.299299496099
+Jet Airways,Delhi,Chennai,1,6,9,685,8409.144999906192
+IndiGo,Kolkata,Delhi,2,18,2,550,8695.579047687928
+Jet Airways,Mumbai,Delhi,1,17,10,314,5536.641686819065
+Vistara,Chennai,Delhi,1,11,3,440,7152.091123487353
+SpiceJet,Bangalore,Kolkata,0,5,11,601,5501.369704639928
+Jet Airways,Chennai,Mumbai,0,9,2,323,5519.430688946472
+Air India,Delhi,Mumbai,2,9,6,669,9625.384674507584
+IndiGo,Chennai,Kolkata,2,18,12,388,7640.553631692317
+IndiGo,Chennai,Bangalore,1,26,4,174,5924.3258062531295
+Air India,Chennai,Bangalore,0,18,9,335,4670.405482984557
+Air India,Delhi,Mumbai,2,8,4,547,8624.297219502989
+Jet Airways,Delhi,Chennai,2,11,6,340,7359.565311951117
+Air India,Kolkata,Chennai,2,16,4,334,6730.910500234081
+SpiceJet,Mumbai,Delhi,1,26,9,778,8692.196285183414
+Vistara,Kolkata,Chennai,0,6,6,387,4120.936619091197
+Air India,Chennai,Kolkata,2,18,8,270,6953.3528340743105
+Air India,Bangalore,Delhi,0,14,2,786,7146.422276925138
+SpiceJet,Kolkata,Delhi,2,20,6,611,8804.661799252242
+IndiGo,Mumbai,Delhi,2,23,11,85,6503.5759353954745
+IndiGo,Bangalore,Mumbai,0,25,12,86,2823.1523430251736
+Jet Airways,Kolkata,Mumbai,0,5,10,761,6630.7703134310495
+SpiceJet,Delhi,Mumbai,0,16,11,142,3791.692852479094
+Vistara,Mumbai,Kolkata,1,12,4,741,7729.263742032139
+Vistara,Mumbai,Delhi,2,1,12,472,9203.18173887096
+SpiceJet,Delhi,Mumbai,1,9,5,226,5311.288043559636
+Vistara,Chennai,Mumbai,0,2,9,759,7484.208394007953
+IndiGo,Chennai,Bangalore,2,18,12,228,7056.097227626767
+Vistara,Delhi,Mumbai,1,10,5,288,5155.762216959323
+Vistara,Bangalore,Mumbai,2,28,5,668,8771.549595702174
+SpiceJet,Bangalore,Delhi,1,31,8,426,6718.03964446569
+SpiceJet,Kolkata,Chennai,0,13,10,587,6451.387876279212
+Vistara,Kolkata,Delhi,1,30,1,706,8914.888566312682
+Air India,Bangalore,Kolkata,2,10,3,597,9049.109364296648
+SpiceJet,Bangalore,Mumbai,2,11,1,583,8326.37812625271
+Jet Airways,Kolkata,Bangalore,2,20,2,131,6794.242540272373
+Jet Airways,Chennai,Mumbai,2,14,7,704,9107.392663319923
+IndiGo,Mumbai,Delhi,0,18,3,165,4021.095810597276
+Vistara,Chennai,Mumbai,1,8,9,791,7984.262723797226
+Air India,Kolkata,Bangalore,0,4,2,748,5695.214881415093
+IndiGo,Delhi,Kolkata,0,4,7,341,5363.427829809949
+Vistara,Chennai,Bangalore,0,27,3,192,3846.791634327369
+SpiceJet,Chennai,Kolkata,2,19,6,593,8989.83016690829
+Jet Airways,Delhi,Chennai,2,17,5,328,8138.350687119761
+Air India,Bangalore,Mumbai,2,16,1,471,9294.423354665727
+Jet Airways,Kolkata,Mumbai,1,18,9,732,8520.040326074479
+SpiceJet,Delhi,Kolkata,2,20,4,678,9441.500808101806
+Vistara,Kolkata,Bangalore,1,27,1,77,5116.43643805662
+SpiceJet,Bangalore,Chennai,2,27,7,176,6732.608478356681
+SpiceJet,Chennai,Delhi,2,31,12,203,7033.05718924482
+Jet Airways,Delhi,Kolkata,0,11,10,776,6952.431818929592
+Air India,Kolkata,Mumbai,0,11,10,610,5656.687371598433
+SpiceJet,Bangalore,Delhi,0,21,6,725,6635.586793438938
+Jet Airways,Bangalore,Chennai,1,18,9,747,8418.550926251964
+Air India,Delhi,Chennai,1,12,6,481,7163.508448787775
+Vistara,Delhi,Kolkata,2,31,5,428,8358.661891214657
+Vistara,Mumbai,Kolkata,1,6,2,705,7355.487390962813
+IndiGo,Chennai,Delhi,2,19,8,617,9699.629471299828
+Jet Airways,Delhi,Mumbai,1,20,1,109,5618.140613726908
+Air India,Bangalore,Mumbai,1,17,1,737,8136.9257958906055
+SpiceJet,Kolkata,Delhi,1,27,4,165,5552.754347552717
+Vistara,Delhi,Chennai,0,27,10,275,4266.723116445746
