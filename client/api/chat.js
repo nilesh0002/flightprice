@@ -36,7 +36,7 @@ function formatFlightContext(flightContext) {
   if (trip.amenities) lines.push(`Amenities requested: ${trip.amenities}`);
   if (trip.departureWindow) lines.push(`Departure window: ${trip.departureWindow}`);
   if (trip.isFestival) lines.push(`Festival cycle: ${trip.isFestival}`);
-  if (prediction?.predicted_price) lines.push(`Predicted fare: INR ${prediction.predicted_price}`);
+  if (prediction?.predicted_price) lines.push(`Predicted fare: ₹${prediction.predicted_price}`);
   if (prediction?.confidence) lines.push(`Model confidence: ${prediction.confidence}%`);
   if (prediction?.recommendation) lines.push(`Prediction guidance: ${prediction.recommendation}`);
   if (prediction?.price_range) lines.push(`Price trend: ${prediction.price_range}`);
@@ -89,8 +89,9 @@ export default async function handler(req, res) {
       "ALWAYS format your response into exactly two sections with these exact headers in all caps:",
       "",
       "FROM GIVEN DATA:",
-      "- Answer questions about the price, route, and whether to book now based strictly on the 'Flight app context'. Quote the 'Predicted fare'.",
-      "- CRITICAL: If 'Predicted fare' is missing from the context, YOU MUST SAY: 'The ML Engine has not generated a prediction yet. Please click Generate Market Forecast on the left.' DO NOT INVENT A PRICE.",
+      "- Answer questions about the price, route, and whether to book now based strictly on the 'Flight app context'.",
+      "- CRITICAL RULE: YOU MUST COPY THE EXACT NUMBER SHOWN IN 'Predicted fare'. Do NOT invent, guess, or round the price. If it says ₹4559.15, output exactly ₹4559.15.",
+      "- If 'Predicted fare' is missing from the context, YOU MUST SAY: 'The ML Engine has not generated a prediction yet. Please click Generate Market Forecast on the left.' DO NOT INVENT A PRICE.",
       "",
       "FROM OUTSIDE DATA:",
       "- Answer any general travel questions (baggage, visa, weather) here. If there are no outside questions, say 'No external data requested.'",
