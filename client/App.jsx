@@ -403,8 +403,6 @@ export default function App() {
                 }}
               >
                 <option value="llama-3.1-8b-instant">Llama 3.1 8B (Default)</option>
-                <option value="llama-3.2-3b-preview">Llama 3.2 3B (Fallback)</option>
-                <option value="llama-3.2-11b-vision-preview">Llama 3.2 11B (Fallback)</option>
                 <option value="llama-3.3-70b-versatile">Llama 3.3 70B (Pro)</option>
               </select>
             </div>
