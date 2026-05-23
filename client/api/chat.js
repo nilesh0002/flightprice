@@ -90,6 +90,7 @@ export default async function handler(req, res) {
       "",
       "FROM GIVEN DATA:",
       "- Answer questions about the price, route, and whether to book now based strictly on the 'Flight app context'. Quote the 'Predicted fare'.",
+      "- CRITICAL: If 'Predicted fare' is missing from the context, YOU MUST SAY: 'The ML Engine has not generated a prediction yet. Please click Generate Market Forecast on the left.' DO NOT INVENT A PRICE.",
       "",
       "FROM OUTSIDE DATA:",
       "- Answer any general travel questions (baggage, visa, weather) here. If there are no outside questions, say 'No external data requested.'",
@@ -102,7 +103,7 @@ export default async function handler(req, res) {
 
     const completion = await groq.chat.completions.create({
       model: finalModel,
-      temperature: 0.7,
+      temperature: 0.1,
       max_tokens: 500,
       messages: [
         { role: "system", content: systemPrompt },
