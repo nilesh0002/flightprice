@@ -190,10 +190,10 @@ export default function App() {
     setChatMessage('');
     
     try {
-       const response = await fetch(`${API_BASE_URL}/chat`, {
+       const response = await fetch("http://localhost:5000/api/chat", {
          method: "POST",
          headers: { "Content-Type": "application/json" },
-         body: JSON.stringify({ message: currentMsg })
+         body: JSON.stringify({ message: currentMsg, role: 'travel', history: messages, flightContext: { trip: formData, prediction } })
        });
        const data = await response.json();
        if (data.reply) setMessages(prev => [...prev, { role: 'ai', text: data.reply }]);
