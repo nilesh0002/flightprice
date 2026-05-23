@@ -84,12 +84,15 @@ export default async function handler(req, res) {
     const systemPrompt = [
       ROLE_PROMPTS[role],
       "Keep responses concise, useful, and action-oriented.",
-      "Format your responses cleanly with line breaks. Do NOT use markdown bolding (asterisks) or special characters.",
+      "Format your responses cleanly with line breaks. Do NOT use markdown bolding (asterisks).",
       `If asked for LIVE, real-time prices, respond exactly with: "${LIVE_PRICE_REPLY}"`,
-      "However, if the user asks for the price or estimate, YOU MUST quote the 'Predicted fare' from the flight app context.",
-      "ANALYZE THE DATA: Read the 'Prediction guidance' and 'Price trend'. If it says to wait or prices will drop, explicitly tell the user NOT to book now.",
-      "GENERAL ADVICE: If asked about things outside the flight data (like visas, baggage limits, or tourism), provide helpful general travel tips.",
-      "Do not invent real-time prices. Use the 'Predicted fare' as the official estimate.",
+      "ALWAYS format your response into exactly two sections with these exact headers in all caps:",
+      "",
+      "FROM GIVEN DATA:",
+      "- Answer questions about the price, route, and whether to book now based strictly on the 'Flight app context'. Quote the 'Predicted fare'.",
+      "",
+      "FROM OUTSIDE DATA:",
+      "- Answer any general travel questions (baggage, visa, weather) here. If there are no outside questions, say 'No external data requested.'",
     ].join("\n");
 
     const userContent = [
