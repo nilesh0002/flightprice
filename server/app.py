@@ -1,8 +1,14 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from utils.predict import predict_price
-from chatbot.rule_bot import get_chat_response
+
+try:
+    from utils.predict import predict_price
+    from chatbot.rule_bot import get_chat_response
+except ImportError:
+    # Support running the API both from the server/ directory and the repo root.
+    from server.utils.predict import predict_price
+    from server.chatbot.rule_bot import get_chat_response
 
 import os
 
