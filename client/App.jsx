@@ -402,10 +402,10 @@ export default function App() {
                   cursor: 'pointer'
                 }}
               >
-                <option value="llama-3.1-8b-instant">Llama 3.1 8B</option>
-                <option value="llama-3.3-70b-versatile">Llama 3.3 70B</option>
-                <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
-                <option value="gemma2-9b-it">Gemma 2 9B</option>
+                <option value="llama-3.1-8b-instant">Llama 3.1 8B (Default)</option>
+                <option value="llama-3.2-3b-preview">Llama 3.2 3B (Fallback)</option>
+                <option value="llama-3.2-11b-vision-preview">Llama 3.2 11B (Fallback)</option>
+                <option value="llama-3.3-70b-versatile">Llama 3.3 70B (Pro)</option>
               </select>
             </div>
             <div className="chat-container">
