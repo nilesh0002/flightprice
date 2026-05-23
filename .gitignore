@@ -1,10 +1,14 @@
 node_modules/
 dist/
+.next/
+.vercel/
 .DS_Store
 venv/
 __pycache__/
 *.pyc
 .env
+.env.local
+.env.*.local
 *.pyc
 scratch_out.txt
 scratch/

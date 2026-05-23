@@ -1,53 +1,63 @@
-# Flight Price Prediction
+# AeroCore Flight Predictor
 
-Flight Price Prediction is a machine learning project that estimates flight ticket prices based on user-provided details such as airline, source, destination, date, and more. The project features an updated model, improved user interface, and streamlined workflow as of April 2026.
+Next.js + Tailwind CSS flight price prediction app with a secure Groq-powered chatbot for booking help, refunds, deals, and travel guidance.
 
-## ✨ Latest Updates
-- **Model Update:** Enhanced prediction accuracy with the latest trained model (`model.pkl`).
-- **UI Improvements:** Refreshed web interface for better usability and responsiveness.
-- **Feature Expansion:** Added support for new airlines and additional input fields (e.g., number of stops, time of day).
-- **Deployment Ready:** Easily deployable on local machines or cloud platforms.
+## Stack
 
-## 🚀 Getting Started
+- Next.js App Router
+- React
+- Tailwind CSS
+- Groq API via `groq-sdk`
+- Existing ML prediction backend can remain on Render or any hosted API
 
-### Prerequisites
-- Python 3.8+
-- pip
+## Environment Variables
 
-### Installation
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/yourusername/flightprice.git
-   cd flightprice
-   ```
-2. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+Create `C:\Users\niles\Downloads\flightprice\.env.local`:
 
-### Running the Application
-1. **Start the server:**
-   ```bash
-   python app.py
-   ```
-2. **Access the app:**
-   Open your browser and go to [http://localhost:5000](http://localhost:5000)
-3. **Input details:**
-   Fill in the flight details and click 'Predict' to get the estimated price.
-
-## 🗂️ Project Structure
-```
-flightprice/
-├── app.py              # Main application file
-├── model.pkl           # Trained ML model
-├── requirements.txt    # Python dependencies
-├── static/             # Static assets (CSS, JS, images)
-├── templates/          # HTML templates
-└── README.md           # Project documentation
+```bash
+GROQ_API_KEY=your_groq_api_key_here
+NEXT_PUBLIC_ML_API_URL=https://flightprice-sghf.onrender.com
 ```
 
-## 🤝 Contributing
-Contributions, bug reports, and feature requests are welcome! Please open an issue or submit a pull request.
+Notes:
 
-## 📄 License
-This project is licensed under the MIT License.
+- `GROQ_API_KEY` is server-side only and is used exclusively inside `app/api/chat/route.js`.
+- `NEXT_PUBLIC_ML_API_URL` is safe for the browser because it only points to the flight prediction API URL.
+
+## Install
+
+```bash
+npm install
+```
+
+If you need to install from a blank checkout manually, the app depends on:
+
+```bash
+npm install next react react-dom groq-sdk tailwindcss @tailwindcss/postcss postcss
+```
+
+## Run Locally
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+## Production Chatbot Behavior
+
+- Chat API route: [app/api/chat/route.js](/C:/Users/niles/Downloads/flightprice/app/api/chat/route.js)
+- Chat UI component: [components/FlightChatbot.jsx](/C:/Users/niles/Downloads/flightprice/components/FlightChatbot.jsx)
+- The Groq key never ships to the frontend.
+- If a user asks for live or current fares, the bot returns:
+  `Live pricing requires flight API integration.`
+- Current trip and forecast details are injected into the chatbot when available.
+
+## Deploy To Vercel
+
+1. Import the repo into Vercel.
+2. Set `GROQ_API_KEY` in the Vercel project environment variables.
+3. Optionally set `NEXT_PUBLIC_ML_API_URL` if your prediction API URL changes.
+4. Deploy.
+
+Vercel will detect the root Next.js app and build it with `npm run build`.
