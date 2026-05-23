@@ -144,6 +144,11 @@ body {
   }
 }
 
+@keyframes slideUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
 /* Premium Card System */
 .floating-card {
   backdrop-filter: var(--glass-blur);
@@ -152,9 +157,10 @@ body {
   padding: 2rem;
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow);
-  transition: all 0.4s ease;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   width: 100%;
   box-sizing: border-box;
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .forecast-card {
@@ -229,6 +235,13 @@ body {
   font-size: 1rem;
   outline: none;
   box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(167, 224, 218, 0.15);
 }
 
 select option {
@@ -280,12 +293,13 @@ body.dark-theme .input-group input[type="date"] {
   font-size: 1.05rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .submit-btn:hover {
   background: var(--accent-hover);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(0.99);
+  box-shadow: 0 8px 20px rgba(45, 86, 82, 0.15);
 }
 
 /* Toggle Switch Styles */
@@ -396,6 +410,12 @@ input:checked + .slider:before {
   flex-direction: column;
 }
 
+@media (max-width: 1024px) {
+  .assistant-card {
+    height: 500px; /* Shorter on mobile so user doesn't have to scroll endlessly */
+  }
+}
+
 .chat-container {
   flex: 1;
   overflow-y: auto;
@@ -460,3 +480,29 @@ input:checked + .slider:before {
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-thumb { background: var(--accent-color); border-radius: 10px; }
+
+/* Trust Signals */
+.trust-bar {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+  flex-wrap: wrap;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+
+.trust-item svg {
+  color: var(--accent-color);
+}
