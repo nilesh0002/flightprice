@@ -21,7 +21,7 @@ function getGroqClient() {
   const apiKey = process.env.GROQ_API_KEY;
 
   if (!apiKey) {
-    throw new Error("Missing GROQ_API_KEY");
+    throw new Error("CHATBOT_CONFIG_MISSING");
   }
 
   return new Groq({ apiKey });
@@ -179,6 +179,28 @@ export async function POST(request) {
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Unexpected server error";
+
+    if (message === "CHATBOT_CONFIG_MISSING") {
+      return NextResponse.json(
+        {
+          error:
+            "Chatbot is not configured on the server yet. Add GROQ_API_KEY in Vercel, then redeploy.",
+        },
+        { status: 500 },
+      );
+    }
+
+    if (
+      /invalid api key|authentication|unauthorized|forbidden/i.test(message)
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "Groq authentication failed. Verify the GROQ_API_KEY value in Vercel and redeploy.",
+        },
+        { status: 500 },
+      );
+    }
 
     console.error("Chat route error:", message);
 

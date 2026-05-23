@@ -105,7 +105,11 @@ export default function FlightChatbot({ flightContext }) {
         ...current,
         createMessage(
           "assistant",
-          "I hit a temporary issue reaching the assistant. Please try again in a moment.",
+          /configured on the server|authentication failed|GROQ_API_KEY/i.test(
+            messageText,
+          )
+            ? messageText
+            : "I hit a temporary issue reaching the assistant. Please try again in a moment.",
         ),
       ]);
     } finally {
