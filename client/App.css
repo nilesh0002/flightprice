@@ -228,8 +228,12 @@ body {
   font-family: inherit;
   font-size: 1rem;
   outline: none;
-  transition: all 0.3s ease;
   box-sizing: border-box;
+}
+
+select option {
+  background: var(--bg-color);
+  color: var(--text-main);
 }
 
 .input-group input[type="date"] {

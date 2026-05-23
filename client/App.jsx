@@ -416,7 +416,7 @@ export default function App() {
                 value={selectedModel} 
                 onChange={(e) => setSelectedModel(e.target.value)}
                 style={{
-                  background: 'var(--bg-secondary)',
+                  background: 'var(--input-bg)',
                   color: 'var(--text-main)',
                   border: '1px solid var(--border-color)',
                   borderRadius: '6px',
