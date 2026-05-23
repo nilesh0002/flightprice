@@ -34,10 +34,10 @@ function formatFlightContext(flightContext) {
   if (trip.cabin) lines.push(`Cabin: ${trip.cabin}`);
   if (trip.departureWindow) lines.push(`Departure window: ${trip.departureWindow}`);
   if (trip.isFestival) lines.push(`Festival cycle: ${trip.isFestival}`);
-  if (prediction?.predictedPrice) lines.push(`Predicted fare: INR ${prediction.predictedPrice}`);
+  if (prediction?.predicted_price) lines.push(`Predicted fare: INR ${prediction.predicted_price}`);
   if (prediction?.confidence) lines.push(`Model confidence: ${prediction.confidence}%`);
   if (prediction?.recommendation) lines.push(`Prediction guidance: ${prediction.recommendation}`);
-  if (prediction?.priceRange) lines.push(`Price trend: ${prediction.priceRange}`);
+  if (prediction?.price_range) lines.push(`Price trend: ${prediction.price_range}`);
 
   return lines.join("\n");
 }
