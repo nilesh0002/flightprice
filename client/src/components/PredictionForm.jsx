@@ -150,6 +150,7 @@ export default function PredictionForm({ onPredict, isPredicting }) {
         </div>
 
       </form>
+      </div>
     </motion.div>
   );
 }
