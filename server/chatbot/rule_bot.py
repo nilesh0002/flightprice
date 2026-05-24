@@ -9,7 +9,7 @@ from openai import OpenAI
 def call_llm_api(message: str) -> str | None:
     """
     Hits HuggingFace Router API using the openai-compatible client.
-    Uses google/gemma-4-31B-it via Novita provider.
+    Uses meta-llama/Meta-Llama-3-70B-Instruct.
     Requires HF_TOKEN environment variable set in Render dashboard.
     """
     hf_token = os.environ.get("HF_TOKEN")
@@ -24,7 +24,7 @@ def call_llm_api(message: str) -> str | None:
         )
 
         completion = client.chat.completions.create(
-            model="google/gemma-4-31B-it:novita",
+            model="meta-llama/Meta-Llama-3-70B-Instruct",
             messages=[
                 {
                     "role": "system",
