@@ -40,7 +40,9 @@ export default function Home() {
         passengers: formData.passengers
       };
 
-      const res = await fetch("https://flightprice-g2j3.onrender.com/predict", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://flightprice-g2j3.onrender.com";
+
+      const res = await fetch(`${apiUrl}/predict`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -50,30 +52,16 @@ export default function Home() {
       
       if (data.error) {
         console.error("Prediction error:", data.error);
-        // Fallback for demo
-        setTimeout(() => {
-          setPredictionResult({
-            predicted_price: 4500,
-            recommendation: "Good time to book! 🚀 Avoid surge pricing.",
-            confidence: "85.4%"
-          });
-          setIsPredicting(false);
-        }, 1500);
+        alert(`Prediction Error: ${data.error}`);
+        setIsPredicting(false);
       } else {
         setPredictionResult(data);
         setIsPredicting(false);
       }
     } catch (err) {
-      console.error(err);
-      // Fallback for demo
-      setTimeout(() => {
-        setPredictionResult({
-          predicted_price: 5200,
-          recommendation: "Prices are trending high. Wait a few days.",
-          confidence: "78.2%"
-        });
-        setIsPredicting(false);
-      }, 1500);
+      console.error("Network error:", err);
+      alert("Failed to connect to the backend server. Is Render running?");
+      setIsPredicting(false);
     }
   };
 
