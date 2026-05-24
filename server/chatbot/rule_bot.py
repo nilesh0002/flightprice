@@ -6,25 +6,29 @@ from openai import OpenAI
 
 
 
-def call_llm_api(message: str) -> str | None:
+def call_llm_api(message: str, model_choice: str) -> str | None:
     """
-    Hits HuggingFace Router API using the openai-compatible client.
-    Uses meta-llama/Meta-Llama-3-70B-Instruct.
-    Requires HF_TOKEN environment variable set in Render dashboard.
+    Hits Groq API using the openai-compatible client.
+    Requires GROQ_API_KEY environment variable set in Render dashboard.
     """
-    hf_token = os.environ.get("HF_TOKEN")
-    if not hf_token:
-        print("HF_TOKEN not set — skipping LLM call.")
+    groq_api_key = os.environ.get("GROQ_API_KEY")
+    if not groq_api_key:
+        print("GROQ_API_KEY not set — skipping LLM call.")
         return None
 
     try:
         client = OpenAI(
-            base_url="https://router.huggingface.co/v1",
-            api_key=hf_token,
+            base_url="https://api.groq.com/openai/v1",
+            api_key=groq_api_key,
         )
 
+        # Determine model
+        model_name = "llama-3.3-70b-versatile"
+        if model_choice in ["data", "outside"]:
+            model_name = "llama-3.1-8b-instant"
+
         completion = client.chat.completions.create(
-            model="meta-llama/Meta-Llama-3-70B-Instruct",
+            model=model_name,
             messages=[
                 {
                     "role": "system",
@@ -41,13 +45,13 @@ def call_llm_api(message: str) -> str | None:
                     "content": message,
                 },
             ],
-            max_tokens=300,
+            max_tokens=500,
         )
 
         return completion.choices[0].message.content
 
     except Exception as e:
-        print(f"HuggingFace LLM API Error: {e}")
+        print(f"Groq LLM API Error: {e}")
         return None
 
 
@@ -98,7 +102,7 @@ def extract_flight_info(message: str):
     return None, None
 
 
-def get_chat_response(message: str) -> str:
+def get_chat_response(message: str, model_choice: str = "general") -> str:
     msg_low = message.lower()
 
     # 1. Detect flight prediction intent
@@ -175,8 +179,8 @@ def get_chat_response(message: str) -> str:
             print(f"Chat Predict Error: {e}")
             return "Oops! My prediction engine encountered a fault. Try again with 'Delhi to Mumbai tomorrow'."
 
-    # 3. LLM fallback (HuggingFace / Gemma)
-    llm_resp = call_llm_api(message)
+    # 3. LLM fallback (Groq)
+    llm_resp = call_llm_api(message, model_choice)
     if llm_resp:
         return llm_resp
 

@@ -51,6 +51,7 @@ class FlightQuery(BaseModel):
 
 class ChatQuery(BaseModel):
     message: str
+    model: str = "general"
 
 @app.get("/")
 def root():
@@ -103,7 +104,7 @@ def predict(query: FlightQuery):
 @app.post("/chat")
 def chat(query: ChatQuery):
     try:
-        reply = get_chat_response(query.message)
+        reply = get_chat_response(query.message, query.model)
         return {"reply": reply}
     except Exception as e:
         return {"error": str(e)}
