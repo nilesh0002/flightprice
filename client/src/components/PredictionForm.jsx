@@ -29,27 +29,31 @@ export default function PredictionForm({ onPredict, isPredicting }) {
   };
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://flightprice-sghf.onrender.com";
-  const inputClasses = "w-full bg-slate-950 border border-slate-700/50 rounded-xl px-4 py-3 pl-11 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all peer font-medium";
-  const labelClasses = "absolute left-11 -top-2.5 bg-slate-900 px-2 rounded text-xs text-primary font-bold transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-sm peer-placeholder-shown:text-slate-400 peer-placeholder-shown:font-normal peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-primary peer-focus:font-bold peer-focus:bg-slate-900";
+  const inputClasses = "w-full bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 pl-11 text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary transition-all peer font-medium shadow-inner shadow-black/50";
+  const labelClasses = "absolute left-11 -top-2.5 bg-[#050505] px-2 rounded text-xs text-primary font-medium transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-sm peer-placeholder-shown:text-slate-400 peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-primary peer-focus:bg-[#050505]";
 
   return (
     <motion.div 
       initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.2 }}
-      className="glass p-8 rounded-3xl max-w-5xl mx-auto w-full relative z-20 mt-[-100px] mb-20"
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="w-full max-w-5xl mx-auto -mt-10 mb-20 relative z-20"
     >
-      <div className="flex items-center gap-3 mb-8 pb-4 border-b border-white/10">
-        <div className="p-2 bg-primary/20 rounded-lg text-primary">
-          <Sparkles size={24} />
+      <div className="glass rounded-3xl p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 relative overflow-hidden">
+        {/* Decorative inner glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
+        
+        <div className="flex items-center gap-3 mb-8">
+          <div className="p-2.5 bg-primary/10 rounded-xl border border-primary/20">
+            <Search size={24} className="text-primary" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-white tracking-tight">Market Forecast</h2>
+            <p className="text-sm text-slate-400">Configure your route parameters for real-time AI analysis</p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-2xl font-bold text-white">AI Fare Predictor</h2>
-          <p className="text-sm text-slate-400">Configure your route to generate a market forecast</p>
-        </div>
-      </div>
 
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         
         {/* Origin */}
         <div className="relative group">

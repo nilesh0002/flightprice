@@ -1,22 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0f172a; /* Deep blue/slate */
-  --foreground: #f8fafc;
+  --background: #000000;
+  --foreground: #ffffff;
   
-  --primary: #38bdf8; /* Cyan */
-  --primary-foreground: #020617;
+  --primary: #3b82f6; /* Blue 500 */
+  --primary-foreground: #ffffff;
   
-  --secondary: #818cf8; /* Purple/Indigo */
+  --secondary: #8b5cf6; /* Violet 500 */
   --secondary-foreground: #ffffff;
   
-  --accent: #c084fc; /* Purple */
+  --accent: #10b981; /* Emerald 500 */
   --accent-foreground: #ffffff;
   
-  --card: rgba(30, 41, 59, 0.6);
-  --card-foreground: #f8fafc;
+  --card: rgba(10, 10, 10, 0.6);
+  --card-foreground: #ffffff;
   
-  --border: rgba(255, 255, 255, 0.1);
+  --border: rgba(255, 255, 255, 0.08);
 }
 
 @theme inline {
@@ -38,30 +38,36 @@
 
 body {
   background-color: var(--background);
-  /* Sharp Tech Grid Background instead of blurry gradients */
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 40px 40px;
-  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans);
   min-height: 100vh;
   overflow-x: hidden;
+  /* Premium radial glows instead of sharp grids */
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.08), transparent 25%);
 }
 
-/* Glassmorphism utility - Adjusted for much better text readability */
+/* Premium Glassmorphism */
 .glass {
-  background: rgba(15, 23, 42, 0.85); /* Much darker and more solid to make text pop */
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  background: rgba(15, 15, 15, 0.5); 
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Gradient Text Utility */
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(to right, #ffffff, #a1a1aa);
 }
 
 /* Smooth transitions */
 * {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-property: color, background-color, border-color, box-shadow;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 200ms;
 }
