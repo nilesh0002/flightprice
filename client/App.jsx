@@ -43,6 +43,7 @@ export default function App() {
     amenities: 'None'
   });
   const [selectedModel, setSelectedModel] = useState('llama-3.1-8b-instant');
+  const [chatMode, setChatMode] = useState('data');
   
   const [prediction, setPrediction] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -193,11 +194,11 @@ export default function App() {
     setChatMessage('');
     
     try {
-       const response = await fetch("/api/chat", {
-         method: "POST",
-         headers: { "Content-Type": "application/json" },
-         body: JSON.stringify({ message: currentMsg, role: 'travel', history: messages, flightContext: { trip: formData, prediction }, model: selectedModel })
-       });
+       const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: currentMsg, role: 'travel', history: messages, flightContext: { trip: formData, prediction }, model: selectedModel, mode: chatMode })
+      });
        const data = await response.json();
        if (data.reply) {
          setMessages(prev => [...prev, { role: 'ai', text: data.reply }]);
@@ -427,23 +428,38 @@ export default function App() {
           <section className="floating-card chat-card assistant-card">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
               <h2 className="card-title" style={{ margin: 0 }}>Omniscient AI Hub</h2>
-              <select 
-                value={selectedModel} 
-                onChange={(e) => setSelectedModel(e.target.value)}
-                style={{
-                  background: 'var(--input-bg)',
-                  color: 'var(--text-main)',
-                  border: '1px solid var(--border-color)',
-                  borderRadius: '6px',
-                  padding: '4px 8px',
-                  fontSize: '0.8rem',
-                  outline: 'none',
-                  cursor: 'pointer'
-                }}
-              >
-                <option value="llama-3.1-8b-instant">Llama 3.1 8B (Default)</option>
-                <option value="llama-3.3-70b-versatile">Llama 3.3 70B (Pro)</option>
-              </select>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <select 
+                  value={chatMode} 
+                  onChange={(e) => setChatMode(e.target.value)}
+                  style={{
+                    background: 'var(--input-bg)',
+                    color: 'var(--text-main)',
+                    border: '1px solid var(--border-color)',
+                    borderRadius: '6px',
+                    padding: '0.4rem',
+                    fontSize: '0.85rem'
+                  }}
+                >
+                  <option value="data">Data Analyst Mode</option>
+                  <option value="general">General Talk Mode</option>
+                </select>
+                <select 
+                  value={selectedModel} 
+                  onChange={(e) => setSelectedModel(e.target.value)}
+                  style={{
+                    background: 'var(--input-bg)',
+                    color: 'var(--text-main)',
+                    border: '1px solid var(--border-color)',
+                    borderRadius: '6px',
+                    padding: '0.4rem',
+                    fontSize: '0.85rem'
+                  }}
+                >
+                  <option value="llama-3.1-8b-instant">Llama 3.1 8B</option>
+                  <option value="llama-3.3-70b-versatile">Llama 3.3 70B</option>
+                </select>
+              </div>
             </div>
             <div className="chat-container">
               {messages.map((msg, i) => (

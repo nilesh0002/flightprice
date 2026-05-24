@@ -59,12 +59,13 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { message: rawMessage, role: rawRole, history: rawHistory, flightContext: rawFlightContext, model: requestedModel } = req.body;
+    const { message: rawMessage, role: rawRole, history: rawHistory, flightContext: rawFlightContext, model: requestedModel, mode: requestedMode } = req.body;
     const message = typeof rawMessage === "string" ? rawMessage.trim() : "";
     const role = normalizeRole(rawRole);
     const history = sanitizeHistory(rawHistory);
     const flightContext = formatFlightContext(rawFlightContext);
     const finalModel = typeof requestedModel === "string" ? requestedModel : MODEL;
+    const mode = requestedMode === "general" ? "general" : "data";
 
     if (!message) {
       return res.status(400).json({ error: "A message is required." });
@@ -81,21 +82,35 @@ export default async function handler(req, res) {
 
     const groq = new Groq({ apiKey });
 
-    const systemPrompt = [
+    const systemPromptBase = [
       ROLE_PROMPTS[role],
       "Keep responses concise, useful, and action-oriented.",
       "Format your responses cleanly with line breaks. Do NOT use markdown bolding (asterisks).",
       `If asked for LIVE, real-time prices, respond exactly with: "${LIVE_PRICE_REPLY}"`,
-      "ALWAYS format your response into exactly two sections with these exact headers in all caps:",
-      "",
-      "FROM GIVEN DATA:",
-      "- Answer questions about the price, route, and whether to book now based strictly on the 'Flight app context'.",
-      "- CRITICAL RULE: YOU MUST COPY THE EXACT NUMBER SHOWN IN 'Predicted fare'. Do NOT invent, guess, or round the price. If it says ₹4559.15, output exactly ₹4559.15.",
-      "- If 'Predicted fare' is missing from the context, YOU MUST SAY: 'The ML Engine has not generated a prediction yet. Please click Generate Market Forecast on the left.' DO NOT INVENT A PRICE.",
-      "",
-      "FROM OUTSIDE DATA:",
-      "- Answer any general travel questions (baggage, visa, weather) here. If there are no outside questions, say 'No external data requested.'",
-    ].join("\n");
+    ];
+
+    let systemPrompt;
+    if (mode === "general") {
+      systemPrompt = [
+        ...systemPromptBase,
+        "You are in GENERAL TALK MODE.",
+        "You can answer any travel-related questions normally. You do not need to format your answer into sections.",
+        "You can read the Flight app context if the user asks about their trip, but you can also talk about visas, baggage, tourism, etc. freely."
+      ].join("\n");
+    } else {
+      systemPrompt = [
+        ...systemPromptBase,
+        "ALWAYS format your response into exactly two sections with these exact headers in all caps:",
+        "",
+        "FROM GIVEN DATA:",
+        "- Answer questions about the price, route, and whether to book now based strictly on the 'Flight app context'.",
+        "- CRITICAL RULE: YOU MUST COPY THE EXACT NUMBER SHOWN IN 'Predicted fare'. Do NOT invent, guess, or round the price. If it says ₹4559.15, output exactly ₹4559.15.",
+        "- If 'Predicted fare' is missing from the context, YOU MUST SAY: 'The ML Engine has not generated a prediction yet. Please click Generate Market Forecast on the left.' DO NOT INVENT A PRICE.",
+        "",
+        "FROM OUTSIDE DATA:",
+        "- Answer any general travel questions (baggage, visa, weather) here. If there are no outside questions, say 'No external data requested.'"
+      ].join("\n");
+    }
 
     const userContent = [
       flightContext ? `Flight app context:\n${flightContext}` : "",
