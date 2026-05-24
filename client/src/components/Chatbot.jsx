@@ -47,8 +47,10 @@ export default function Chatbot() {
       promptInjection = "Answer this question ONLY using outside knowledge (e.g., airline policies). Do not use flight prediction data. Question: ";
     }
 
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://flightprice-g2j3.onrender.com";
+
     try {
-      const res = await fetch("https://flightprice-g2j3.onrender.com/chat", {
+      const res = await fetch(`${apiUrl}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: promptInjection + userMessage })
