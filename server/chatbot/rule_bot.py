@@ -165,12 +165,22 @@ def get_chat_response(message: str, model_choice: str = "general") -> str:
                 _sys.path.insert(0, _server_root)
             from utils.predict import predict_price  # resolved via __file__-based server root
             price, recommendation, conf, price_range, metrics = predict_price(payload)
+            
+            # Format the numbers
+            formatted_price = f"{int(round(price)):,}"
+            
             mse = metrics.get("mse", "N/A")
             volatility = metrics.get("volatility", "N/A")
+            
+            if isinstance(mse, float):
+                mse = f"{mse:.2f}"
+            if isinstance(volatility, float):
+                volatility = f"₹{volatility:.2f}"
+                
             target_date_str = travel_date.strftime("%B %d")
             return (
                 f"✈️ Scanning flights from {src} to {dest} for {target_date_str}...\n\n"
-                f"Omniscient Intelligence predicts base-tier tickets at roughly **₹{price}** "
+                f"Omniscient Intelligence predicts base-tier tickets at roughly **₹{formatted_price}** "
                 f"with a model confidence of {conf}%.\n\n"
                 f"**Market Analysis:** {recommendation}\n"
                 f"**Technical Metrics:** MSE: {mse} | Volatility: {volatility}"
