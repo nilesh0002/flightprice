@@ -1,48 +1,53 @@
 /* App.css - Universal Theme Management */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
 :root {
-  /* PREMIUM LIGHT THEME - Glassmorphic Aesthetic */
-  --bg-color: #f3f8f8;
-  --bg-gradient: radial-gradient(circle at 50% -20%, #e8f4f3 0%, #f3f8f8 40%, #eef5f5 100%);
-  --forecast-bg: rgba(255, 255, 255, 0.7);
-  --chat-bg: rgba(255, 255, 255, 0.6); 
-  --text-main: #183a37; /* Very deep luxury green */
-  --text-dim: #648a86;
-  --border-color: rgba(255, 255, 255, 0.5);
-  --input-bg: rgba(255, 255, 255, 0.8);
-  --accent-color: #0b9b8a; /* Vibrant premium teal */
-  --accent-hover: #07796b;
-  --ai-bubble-bg: linear-gradient(135deg, #ffffff 0%, #f0f7f6 100%);
-  --ai-bubble-text: #183a37;
-  --shadow: 0 20px 50px rgba(11, 155, 138, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
-  --glass-blur: blur(40px);
+  /* OCEANIX TACTICAL THEME */
+  --bg-color: #020c1b;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #0a1930 0%, #020c1b 100%);
+  --forecast-bg: rgba(2, 12, 27, 0.85);
+  --chat-bg: rgba(2, 12, 27, 0.85); 
+  --text-main: #e6f1ff; /* Crisp tactical white */
+  --text-dim: #8892b0; /* Slate */
+  --border-color: rgba(100, 255, 218, 0.3);
+  --input-bg: rgba(10, 25, 48, 0.6);
+  --accent-color: #64ffda; /* Neon Cyan */
+  --accent-hover: #00e5ff;
+  --ai-bubble-bg: rgba(10, 25, 48, 0.9);
+  --ai-bubble-text: #64ffda;
+  --shadow: 0 0 20px rgba(100, 255, 218, 0.05), inset 0 0 0 1px rgba(100, 255, 218, 0.2);
+  --glass-blur: blur(12px);
 }
 
 body.dark-theme {
-  /* PREMIUM DARK THEME - Deep space aura */
-  --bg-color: #040908; 
-  --bg-gradient: radial-gradient(circle at 100% 0%, #0d2b27 0%, #040908 60%);
-  --forecast-bg: rgba(10, 20, 18, 0.6); 
-  --chat-bg: rgba(7, 15, 14, 0.6);
-  --text-main: #f0fdfa; 
-  --text-dim: #84b3ae; 
-  --border-color: rgba(255, 255, 255, 0.08); 
-  --input-bg: rgba(0, 0, 0, 0.3); 
-  --accent-color: #2dd4bf; /* Vibrant glowing teal */
-  --accent-hover: #14b8a6; 
-  --ai-bubble-bg: linear-gradient(135deg, rgba(20, 40, 36, 0.8) 0%, rgba(10, 20, 18, 0.8) 100%);
-  --ai-bubble-text: #e6f7f5;
-  --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  /* OCEANIX STEALTH THEME */
+  --bg-color: #000000; 
+  --bg-gradient: linear-gradient(180deg, #050a10 0%, #000000 100%);
+  --forecast-bg: rgba(0, 0, 0, 0.9); 
+  --chat-bg: rgba(0, 0, 0, 0.9);
+  --text-main: #64ffda; /* Neon Cyan */
+  --text-dim: #495670; 
+  --border-color: rgba(100, 255, 218, 0.5); 
+  --input-bg: rgba(0, 0, 0, 0.8); 
+  --accent-color: #64ffda;
+  --accent-hover: #ffffff; 
+  --ai-bubble-bg: #050a10;
+  --ai-bubble-text: #e6f1ff;
+  --shadow: 0 0 30px rgba(100, 255, 218, 0.1), inset 0 0 0 1px rgba(100, 255, 218, 0.4);
 }
 
 body {
   margin: 0;
   padding: 0;
   background: var(--bg-gradient);
-  background-attachment: fixed;
+  background-image: 
+    linear-gradient(var(--border-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: center center;
   color: var(--text-main);
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Share Tech Mono', 'Outfit', monospace;
   min-height: 100vh;
   transition: all 0.5s ease;
   overflow-x: hidden;
@@ -149,18 +154,31 @@ body {
   100% { opacity: 1; transform: translateY(0); }
 }
 
-/* Premium Card System */
+/* Tactical Card System */
 .floating-card {
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
-  border-radius: 24px;
+  border-radius: 4px; /* Sharp corners */
   padding: 2rem;
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s ease-out;
   width: 100%;
   box-sizing: border-box;
   animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+.floating-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent-color);
+  box-shadow: 0 0 10px var(--accent-color);
 }
 
 .forecast-card {
@@ -229,20 +247,20 @@ body {
   padding: 0.9rem 1.1rem;
   background: var(--input-bg);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: 2px; /* Sharp inputs */
   color: var(--text-main);
-  font-family: inherit;
+  font-family: 'Share Tech Mono', monospace;
   font-size: 1rem;
   outline: none;
   box-sizing: border-box;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .input-group input:focus,
 .input-group select:focus {
   border-color: var(--accent-color);
-  box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.15), 0 4px 12px rgba(0,0,0,0.05);
-  transform: translateY(-1px);
+  box-shadow: 0 0 8px rgba(100, 255, 218, 0.4);
+  background: rgba(100, 255, 218, 0.05);
 }
 
 select option {
@@ -287,20 +305,25 @@ body.dark-theme .input-group input[type="date"] {
 .submit-btn {
   margin-top: 1rem;
   padding: 1.25rem;
-  background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-  border: none;
-  border-radius: 16px;
-  color: #fff;
+  background: rgba(10, 25, 48, 0.8);
+  border: 1px solid var(--accent-color);
+  border-radius: 2px;
+  color: var(--accent-color);
   font-size: 1.1rem;
+  font-family: 'Share Tech Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 10px 25px rgba(11, 155, 138, 0.25);
+  transition: all 0.2s ease;
+  box-shadow: 0 0 10px rgba(100, 255, 218, 0.1);
 }
 
 .submit-btn:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 15px 35px rgba(11, 155, 138, 0.4);
+  background: var(--accent-color);
+  color: #020c1b;
+  box-shadow: 0 0 20px rgba(100, 255, 218, 0.6);
+  transform: translateY(-1px);
 }
 
 /* Toggle Switch Styles */
@@ -384,16 +407,19 @@ input:checked + .slider:before {
 }
 
 .result-price {
-  font-size: 3rem;
-  font-weight: 800;
-  color: var(--text-main);
+  font-size: 3.5rem;
+  font-weight: 400;
+  color: var(--accent-color);
+  text-shadow: 0 0 15px rgba(100, 255, 218, 0.5);
+  font-family: 'Share Tech Mono', monospace;
 }
 
 .confidence-bar-container {
   width: 100%;
-  height: 6px;
-  background: var(--border-color);
-  border-radius: 10px;
+  height: 8px;
+  background: rgba(100, 255, 218, 0.1);
+  border: 1px solid var(--accent-color);
+  border-radius: 0;
   margin: 1.5rem 0;
   overflow: hidden;
 }
@@ -401,7 +427,8 @@ input:checked + .slider:before {
 .confidence-bar {
   height: 100%;
   background: var(--accent-color);
-  transition: width 1s ease-in-out;
+  box-shadow: 0 0 10px var(--accent-color);
+  transition: width 1s ease-out;
 }
 
 /* Assistant Chat */
@@ -428,29 +455,30 @@ input:checked + .slider:before {
 }
 
 .chat-bubble {
-  padding: 1.25rem 1.5rem;
-  border-radius: 20px;
+  padding: 1rem 1.25rem;
+  border-radius: 2px; /* Tactical sharp edges */
   font-size: 0.95rem;
   line-height: 1.6;
   max-width: 85%;
   white-space: pre-wrap;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+  font-family: 'Share Tech Mono', monospace;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 .chat-bubble.ai {
   background: var(--ai-bubble-bg);
   color: var(--ai-bubble-text);
   align-self: flex-start;
-  border-bottom-left-radius: 4px;
   border: 1px solid var(--border-color);
+  border-left: 3px solid var(--accent-color);
 }
 
 .chat-bubble.user {
-  background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-  color: #fff;
+  background: rgba(100, 255, 218, 0.1);
+  color: var(--accent-color);
   align-self: flex-end;
-  border-bottom-right-radius: 4px;
-  box-shadow: 0 8px 20px rgba(11, 155, 138, 0.2);
+  border: 1px solid var(--accent-color);
+  border-right: 3px solid var(--accent-color);
 }
 
 .chat-input-wrapper {
@@ -458,7 +486,7 @@ input:checked + .slider:before {
   gap: 0.5rem;
   padding: 0.5rem;
   background: var(--input-bg);
-  border-radius: 16px;
+  border-radius: 2px;
   border: 1px solid var(--border-color);
 }
 
