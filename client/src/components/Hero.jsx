@@ -45,7 +45,7 @@ export default function Hero({ onScrollToPredict }) {
           AeroMind is Live
         </motion.div>
 
-        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-primary/80 min-h-[80px]">
+        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] min-h-[80px]">
           {text}
           <motion.span 
             animate={{ opacity: [1, 0] }} 
