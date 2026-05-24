@@ -47,13 +47,16 @@ export default function Chatbot() {
       promptInjection = "Answer this question ONLY using outside knowledge (e.g., airline policies). Do not use flight prediction data. Question: ";
     }
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://flightprice-g2j3.onrender.com";
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://flightprice-sghf.onrender.com";
 
     try {
       const res = await fetch(`${apiUrl}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: promptInjection + userMessage })
+        body: JSON.stringify({ 
+          message: promptInjection + userMessage,
+          model: activeModel 
+        })
       });
       const data = await res.json();
       

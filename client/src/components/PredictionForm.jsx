@@ -28,6 +28,7 @@ export default function PredictionForm({ onPredict, isPredicting }) {
     onPredict(formData);
   };
 
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://flightprice-sghf.onrender.com";
   const inputClasses = "w-full bg-slate-950 border border-slate-700/50 rounded-xl px-4 py-3 pl-11 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all peer font-medium";
   const labelClasses = "absolute left-11 -top-2.5 bg-slate-900 px-2 rounded text-xs text-primary font-bold transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-sm peer-placeholder-shown:text-slate-400 peer-placeholder-shown:font-normal peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-primary peer-focus:font-bold peer-focus:bg-slate-900";
 

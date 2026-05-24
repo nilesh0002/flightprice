@@ -40,7 +40,7 @@ export default function Home() {
         passengers: formData.passengers
       };
 
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://flightprice-g2j3.onrender.com";
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://flightprice-sghf.onrender.com";
 
       const res = await fetch(`${apiUrl}/predict`, {
         method: "POST",
