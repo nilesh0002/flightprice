@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "SkySense AI | Premium Flight Predictor",
+  title: "AeroMind | Premium Flight Predictor",
   description: "Predict flight prices instantly with AI",
 };
 

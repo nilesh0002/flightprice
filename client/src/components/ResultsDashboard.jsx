@@ -68,7 +68,7 @@ export default function ResultsDashboard({ result }) {
           <div className={`p-4 rounded-xl flex items-start gap-3 border ${isLow ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-rose-500/10 border-rose-500/20'}`}>
             {isLow ? <CheckCircle2 className="text-emerald-400 shrink-0" /> : <AlertCircle className="text-rose-400 shrink-0" />}
             <div>
-              <p className="font-medium text-slate-200">SkySense AI Guidance</p>
+              <p className="font-medium text-slate-200">AeroMind Guidance</p>
               <p className={`text-sm ${isLow ? 'text-emerald-300' : 'text-rose-300'}`}>{result.recommendation}</p>
             </div>
           </div>

@@ -42,7 +42,7 @@ export default function Hero({ onScrollToPredict }) {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
           </span>
-          SkySense AI 2.0 is Live
+          AeroMind is Live
         </motion.div>
 
         <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-primary/80 min-h-[80px]">

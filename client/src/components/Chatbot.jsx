@@ -7,7 +7,7 @@ import { useState, useRef, useEffect } from "react";
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { role: "ai", content: "Hi, I'm SkyBot ✈️ Ask me about flights, fares, or travel planning." }
+    { role: "ai", content: "Hi, I'm AeroBot ✈️ Ask me about flights, fares, or travel planning." }
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -82,7 +82,7 @@ export default function Chatbot() {
                   <Bot size={20} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-white flex items-center gap-2">SkyBot <Sparkles size={14} className="text-secondary" /></h3>
+                  <h3 className="font-bold text-white flex items-center gap-2">AeroBot <Sparkles size={14} className="text-secondary" /></h3>
                   <p className="text-xs text-emerald-400 flex items-center gap-1">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Online
                   </p>
