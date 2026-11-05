@@ -18,6 +18,7 @@ export default function Chatbot() {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isOnline, setIsOnline] = useState(true);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -28,24 +29,41 @@ export default function Chatbot() {
     scrollToBottom();
   }, [messages]);
 
+  // Monitor backend availability
+  useEffect(() => {
+    let isMounted = true;
+    const checkHealth = async () => {
+      const apiUrl = process.env.NEXT_PUBLIC_ML_API_URL || process.env.NEXT_PUBLIC_API_URL || "https://flightprice-sghf.onrender.com";
+      try {
+        const res = await fetch(`${apiUrl}/`, { method: "GET" });
+        if (isMounted) setIsOnline(res.ok);
+      } catch {
+        if (isMounted) setIsOnline(false);
+      }
+    };
+    checkHealth();
+    return () => { isMounted = false; };
+  }, [isOpen]);
+
+  // Keyboard accessibility: close on Escape
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" && isOpen) {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen]);
+
   const handleSend = async (e) => {
     e?.preventDefault();
-    if (!input.trim()) return;
+    if (isLoading || !input.trim()) return;
 
     const userMessage = input.trim();
     setMessages(prev => [...prev, { role: "user", content: userMessage }]);
     setInput("");
     setIsLoading(true);
-
-    // Build the prompt injection based on the selected model
-    let promptInjection = "";
-    if (activeModel === "general") {
-      promptInjection = "FORMAT YOUR ANSWER INTO EXACTLY TWO SECTIONS. First section title 'FROM GIVEN DATA:' followed by the prediction/market data. Second section title 'FROM OUTSIDE DATA:' followed by general travel/airline knowledge. Question: ";
-    } else if (activeModel === "data") {
-      promptInjection = "Answer this question ONLY using the provided flight prediction data. Do not use outside knowledge. Question: ";
-    } else if (activeModel === "outside") {
-      promptInjection = "Answer this question ONLY using outside knowledge (e.g., airline policies). Do not use flight prediction data. Question: ";
-    }
 
     const apiUrl = process.env.NEXT_PUBLIC_ML_API_URL || process.env.NEXT_PUBLIC_API_URL || "https://flightprice-sghf.onrender.com";
 
@@ -54,20 +72,55 @@ export default function Chatbot() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
-          message: promptInjection + userMessage,
+          message: userMessage,
           model: activeModel 
         })
       });
+
+      if (!res.ok) {
+        let errorDetail = "";
+        try {
+          const errorData = await res.json();
+          if (errorData.detail) {
+            errorDetail = typeof errorData.detail === "string"
+              ? errorData.detail
+              : Array.isArray(errorData.detail)
+                ? errorData.detail.map(d => d.msg || JSON.stringify(d)).join(", ")
+                : JSON.stringify(errorData.detail);
+          }
+        } catch {
+          // Response body not JSON
+        }
+
+        let displayMessage = "";
+        if (res.status === 429) {
+          displayMessage = errorDetail || "Rate limit exceeded (429). Please wait a minute before sending more messages.";
+        } else if (res.status === 500) {
+          displayMessage = errorDetail ? `Server Error (500): ${errorDetail}` : "Server Error (500): Failed to process chat response. Please try again shortly.";
+        } else if (res.status === 400 || res.status === 422) {
+          displayMessage = errorDetail || `Request Error (${res.status}): Please check your input.`;
+        } else {
+          displayMessage = errorDetail || `Error (${res.status}): Failed to receive a response from the server.`;
+        }
+
+        setMessages(prev => [...prev, { 
+          role: "ai", 
+          content: displayMessage 
+        }]);
+        return;
+      }
+
       const data = await res.json();
-      
+      setIsOnline(true);
       setMessages(prev => [...prev, { 
         role: "ai", 
-        content: data.reply || "I'm having trouble connecting to the network right now." 
+        content: data.reply || "No response received from the assistant." 
       }]);
     } catch (error) {
+      setIsOnline(false);
       setMessages(prev => [...prev, { 
         role: "ai", 
-        content: "Error: Unable to reach the AI server." 
+        content: "Connection Error: Unable to reach the AeroMind backend server. Please verify your connection." 
       }]);
     } finally {
       setIsLoading(false);
@@ -118,6 +171,8 @@ export default function Chatbot() {
     <>
       <motion.button
         id="chatbot-toggle"
+        aria-label="Open AeroBot flight assistant"
+        aria-expanded={isOpen}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(true)}
@@ -144,12 +199,22 @@ export default function Chatbot() {
                   </div>
                   <div>
                     <h3 className="font-bold text-white flex items-center gap-2 tracking-wide">AeroBot <Sparkles size={14} className="text-secondary" /></h3>
-                    <p className="text-[10px] text-emerald-400 flex items-center gap-1.5 uppercase tracking-wider font-medium mt-0.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span> Online
-                    </p>
+                    {isOnline ? (
+                      <p className="text-[10px] text-emerald-400 flex items-center gap-1.5 uppercase tracking-wider font-medium mt-0.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span> Online
+                      </p>
+                    ) : (
+                      <p className="text-[10px] text-amber-400 flex items-center gap-1.5 uppercase tracking-wider font-medium mt-0.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)]"></span> Offline
+                      </p>
+                    )}
                   </div>
                 </div>
-                <button onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-white/5 rounded-full">
+                <button 
+                  onClick={() => setIsOpen(false)} 
+                  aria-label="Close AeroBot flight assistant"
+                  className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-white/5 rounded-full"
+                >
                   <X size={20} />
                 </button>
               </div>
@@ -157,6 +222,8 @@ export default function Chatbot() {
               {/* Model Selector Dropdown */}
               <div className="relative group">
                 <select 
+                  id="model-selector"
+                  aria-label="Select AI model mode"
                   value={activeModel}
                   onChange={(e) => setActiveModel(e.target.value)}
                   className="w-full bg-[#0a0a0a] text-xs text-slate-300 border border-white/10 rounded-xl px-4 py-2.5 appearance-none focus:outline-none focus:ring-1 focus:ring-primary/50 shadow-inner transition-colors group-hover:border-white/20 font-medium"
@@ -170,7 +237,10 @@ export default function Chatbot() {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-5 space-y-5 scroll-smooth bg-gradient-to-b from-black/0 to-black/20">
+            <div 
+              aria-live="polite"
+              className="flex-1 overflow-y-auto p-5 space-y-5 scroll-smooth bg-gradient-to-b from-black/0 to-black/20"
+            >
               {messages.map((msg, i) => (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -223,12 +293,15 @@ export default function Chatbot() {
                   type="text"
                   value={input}
                   onChange={e => setInput(e.target.value)}
+                  disabled={isLoading}
                   placeholder="Ask about flights..."
-                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-full pl-5 pr-14 py-3.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-primary/50 shadow-inner transition-all group-hover:border-white/20"
+                  aria-label="Chat message input"
+                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-full pl-5 pr-14 py-3.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-primary/50 shadow-inner transition-all group-hover:border-white/20 disabled:opacity-50"
                 />
                 <button 
                   type="submit"
                   disabled={!input.trim() || isLoading}
+                  aria-label="Send message"
                   className="absolute right-2 top-2 bottom-2 w-10 bg-primary text-primary-foreground rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-500 transition-colors shadow-md"
                 >
                   <Send size={16} className="ml-0.5" />

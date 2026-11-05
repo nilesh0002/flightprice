@@ -14,7 +14,8 @@ try:
         SUPPORTED_SOURCES,
         SUPPORTED_DESTINATIONS,
         SUPPORTED_STOPS,
-        SUPPORTED_CABINS
+        SUPPORTED_CABINS,
+        SUPPORTED_CHAT_MODES,
     )
 except ImportError:
     from server.utils.predict import predict_price, load_model
@@ -24,7 +25,8 @@ except ImportError:
         SUPPORTED_SOURCES,
         SUPPORTED_DESTINATIONS,
         SUPPORTED_STOPS,
-        SUPPORTED_CABINS
+        SUPPORTED_CABINS,
+        SUPPORTED_CHAT_MODES,
     )
 
 app = FastAPI(title="AeroMind Flight Price Prediction API", version="1.0.0")
@@ -107,7 +109,8 @@ def get_categories():
         "sources": SUPPORTED_SOURCES,
         "destinations": SUPPORTED_DESTINATIONS,
         "stops": SUPPORTED_STOPS,
-        "cabins": SUPPORTED_CABINS
+        "cabins": SUPPORTED_CABINS,
+        "chat_modes": SUPPORTED_CHAT_MODES
     }
 
 @app.get("/metrics")
@@ -168,8 +171,16 @@ def predict(query: FlightQuery):
 
 @app.post("/chat")
 def chat(query: ChatQuery, _rate_limit: None = Depends(check_chat_rate_limit)):
+    clean_model = query.model.strip().lower()
+    if clean_model not in SUPPORTED_CHAT_MODES:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid chatbot mode '{query.model}'. Allowed modes: {', '.join(SUPPORTED_CHAT_MODES)}"
+        )
     try:
-        reply = get_chat_response(query.message, query.model)
+        reply = get_chat_response(query.message, clean_model)
         return {"reply": reply}
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
     except Exception as e:
         raise HTTPException(status_code=500, detail="Failed to process chat response.")
