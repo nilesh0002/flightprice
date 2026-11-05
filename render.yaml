@@ -8,5 +8,7 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9
-      - key: HF_TOKEN
+      - key: ALLOWED_ORIGINS
+        value: http://localhost:3000,http://127.0.0.1:3000,https://flightprice-sghf.onrender.com
+      - key: GROQ_API_KEY
         sync: false

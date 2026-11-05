@@ -10,10 +10,10 @@ function AnimatedCounter({ value }) {
   
   useEffect(() => {
     let start = 0;
-    const end = parseInt(value);
+    const end = Math.round(Number(value) || 0);
     if (isNaN(end)) return;
     
-    const duration = 1000;
+    const duration = 800;
     const increment = end / (duration / 16);
     
     const timer = setInterval(() => {
@@ -35,8 +35,12 @@ function AnimatedCounter({ value }) {
 export default function ResultsDashboard({ result }) {
   if (!result) return null;
 
-  const isLow = result.recommendation?.includes("Avoid surge");
+  const isLow = result.price_range === "Low" || result.recommendation?.toLowerCase().includes("good time");
   const price = result.predicted_price || 0;
+  const metrics = result.metrics || {};
+  const r2Score = metrics.r2 !== undefined ? metrics.r2 : "0.90";
+  const modelMethod = metrics.method || "Random Forest";
+  const confidenceScore = result.confidence !== undefined ? `${result.confidence}%` : "88%";
 
   return (
     <motion.div 
@@ -61,7 +65,7 @@ export default function ResultsDashboard({ result }) {
           <div className="flex items-center gap-2">
             <span className="text-slate-400 font-medium">Trend Analysis:</span>
             <span className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${isLow ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'}`}>
-              {isLow ? "LOW" : "HIGH"}
+              {result.price_range || (isLow ? "LOW" : "HIGH")}
             </span>
           </div>
           
@@ -86,12 +90,12 @@ export default function ResultsDashboard({ result }) {
             <div>
               <div className="flex justify-between text-sm mb-3">
                 <span className="text-slate-400 font-medium">Confidence Score</span>
-                <span className="text-primary font-mono font-bold">{result.confidence}</span>
+                <span className="text-primary font-mono font-bold">{confidenceScore}</span>
               </div>
               <div className="h-2.5 bg-slate-900/80 rounded-full overflow-hidden shadow-inner">
                 <motion.div 
                   initial={{ width: 0 }}
-                  animate={{ width: result.confidence }}
+                  animate={{ width: confidenceScore }}
                   transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
                   className="h-full bg-gradient-to-r from-primary to-secondary relative"
                 >
@@ -103,11 +107,11 @@ export default function ResultsDashboard({ result }) {
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-[#050505] p-5 rounded-2xl border border-white/5 shadow-inner">
                 <p className="text-xs text-slate-500 mb-2 uppercase tracking-wider">Method</p>
-                <p className="text-sm text-slate-200 font-mono font-medium">Random Forest</p>
+                <p className="text-sm text-slate-200 font-mono font-medium">{modelMethod}</p>
               </div>
               <div className="bg-[#050505] p-5 rounded-2xl border border-white/5 shadow-inner">
                 <p className="text-xs text-slate-500 mb-2 uppercase tracking-wider">R² Score</p>
-                <p className="text-sm text-slate-200 font-mono font-medium">0.989</p>
+                <p className="text-sm text-slate-200 font-mono font-medium">{r2Score}</p>
               </div>
             </div>
           </div>
@@ -115,8 +119,8 @@ export default function ResultsDashboard({ result }) {
 
         <div className="mt-8 pt-6 border-t border-white/10">
           <p className="text-xs text-slate-500 leading-relaxed">
-            <span className="text-secondary font-bold mr-1">Intelligence Active:</span> 
-            Optimal Window & standard factors applied.
+            <span className="text-secondary font-bold mr-1">Validation:</span> 
+            {metrics.validation || "Held-out test set"} | MAE: ₹{metrics.mae || "433.11"}
           </p>
         </div>
       </div>

@@ -47,7 +47,7 @@ export default function Chatbot() {
       promptInjection = "Answer this question ONLY using outside knowledge (e.g., airline policies). Do not use flight prediction data. Question: ";
     }
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://flightprice-sghf.onrender.com";
+    const apiUrl = process.env.NEXT_PUBLIC_ML_API_URL || process.env.NEXT_PUBLIC_API_URL || "https://flightprice-sghf.onrender.com";
 
     try {
       const res = await fetch(`${apiUrl}/chat`, {

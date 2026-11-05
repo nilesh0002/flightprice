@@ -1,21 +1,24 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { PlaneTakeoff, PlaneLanding, Calendar, Building2, Briefcase, GitCommit, Search, Users, Sparkles } from "lucide-react";
+import { PlaneTakeoff, PlaneLanding, Calendar, Building2, Briefcase, GitCommit, Search, Users } from "lucide-react";
 import { useState } from "react";
 
-const AIRPORTS = ["Delhi", "Mumbai", "Bangalore", "Kolkata", "Hyderabad", "Chennai"];
-const AIRLINES = ["Vistara", "IndiGo", "Air India", "SpiceJet", "GoFirst", "AirAsia"];
-const CABINS = ["Economy", "Premium Economy", "Business", "First"];
-const STOPS = ["0", "1", "2"];
-const PASSENGERS = ["1", "2", "3", "4", "5+"];
+// Synchronized with server supported categories
+export const SUPPORTED_AIRPORTS = ["Delhi", "Mumbai", "Bangalore", "Kolkata", "Chennai"];
+export const SUPPORTED_AIRLINES = ["IndiGo", "Air India", "Vistara", "SpiceJet", "Jet Airways"];
+export const SUPPORTED_CABINS = ["Economy", "Business"];
+export const SUPPORTED_STOPS = ["0", "1", "2"];
+export const SUPPORTED_PASSENGERS = ["1", "2", "3", "4", "5+"];
 
 export default function PredictionForm({ onPredict, isPredicting }) {
+  const todayStr = typeof window !== "undefined" ? new Date().toISOString().split("T")[0] : "";
+
   const [formData, setFormData] = useState({
     source: "Delhi",
     destination: "Mumbai",
-    date: "",
-    airline: "Vistara",
+    date: todayStr,
+    airline: "IndiGo",
     cabin: "Economy",
     total_stops: "0",
     passengers: "1"
@@ -28,7 +31,6 @@ export default function PredictionForm({ onPredict, isPredicting }) {
     onPredict(formData);
   };
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://flightprice-sghf.onrender.com";
   const inputClasses = "w-full bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 pl-11 text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary transition-all peer font-medium shadow-inner shadow-black/50";
   const labelClasses = "absolute left-11 -top-2.5 bg-[#050505] px-2 rounded text-xs text-primary font-medium transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-sm peer-placeholder-shown:text-slate-400 peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-primary peer-focus:bg-[#050505]";
 
@@ -59,7 +61,7 @@ export default function PredictionForm({ onPredict, isPredicting }) {
         <div className="relative group">
           <PlaneTakeoff size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
           <select name="source" value={formData.source} onChange={handleChange} className={inputClasses}>
-            {AIRPORTS.map(a => <option key={a} value={a} className="bg-slate-900">{a}</option>)}
+            {SUPPORTED_AIRPORTS.map(a => <option key={a} value={a} className="bg-slate-900">{a}</option>)}
           </select>
           <label className={labelClasses}>From</label>
         </div>
@@ -68,7 +70,7 @@ export default function PredictionForm({ onPredict, isPredicting }) {
         <div className="relative group">
           <PlaneLanding size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
           <select name="destination" value={formData.destination} onChange={handleChange} className={inputClasses}>
-            {AIRPORTS.map(a => <option key={a} value={a} className="bg-slate-900">{a}</option>)}
+            {SUPPORTED_AIRPORTS.map(a => <option key={a} value={a} className="bg-slate-900">{a}</option>)}
           </select>
           <label className={labelClasses}>To</label>
         </div>
@@ -76,7 +78,15 @@ export default function PredictionForm({ onPredict, isPredicting }) {
         {/* Date */}
         <div className="relative group">
           <Calendar size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
-          <input type="date" name="date" value={formData.date} onChange={handleChange} className={inputClasses} required />
+          <input 
+            type="date" 
+            name="date" 
+            value={formData.date} 
+            min={todayStr}
+            onChange={handleChange} 
+            className={inputClasses} 
+            required 
+          />
           <label className={labelClasses}>Departure Date</label>
         </div>
 
@@ -84,7 +94,7 @@ export default function PredictionForm({ onPredict, isPredicting }) {
         <div className="relative group">
           <Building2 size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
           <select name="airline" value={formData.airline} onChange={handleChange} className={inputClasses}>
-            {AIRLINES.map(a => <option key={a} value={a} className="bg-slate-900">{a}</option>)}
+            {SUPPORTED_AIRLINES.map(a => <option key={a} value={a} className="bg-slate-900">{a}</option>)}
           </select>
           <label className={labelClasses}>Airline</label>
         </div>
@@ -93,7 +103,7 @@ export default function PredictionForm({ onPredict, isPredicting }) {
         <div className="relative group">
           <Briefcase size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
           <select name="cabin" value={formData.cabin} onChange={handleChange} className={inputClasses}>
-            {CABINS.map(c => <option key={c} value={c} className="bg-slate-900">{c}</option>)}
+            {SUPPORTED_CABINS.map(c => <option key={c} value={c} className="bg-slate-900">{c}</option>)}
           </select>
           <label className={labelClasses}>Cabin Class</label>
         </div>
@@ -102,7 +112,7 @@ export default function PredictionForm({ onPredict, isPredicting }) {
         <div className="relative group">
           <GitCommit size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
           <select name="total_stops" value={formData.total_stops} onChange={handleChange} className={inputClasses}>
-            {STOPS.map(s => <option key={s} value={s} className="bg-slate-900">{s} Stops</option>)}
+            {SUPPORTED_STOPS.map(s => <option key={s} value={s} className="bg-slate-900">{s} Stops</option>)}
           </select>
           <label className={labelClasses}>Connections</label>
         </div>
@@ -111,7 +121,7 @@ export default function PredictionForm({ onPredict, isPredicting }) {
         <div className="relative group">
           <Users size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
           <select name="passengers" value={formData.passengers} onChange={handleChange} className={inputClasses}>
-            {PASSENGERS.map(p => <option key={p} value={p} className="bg-slate-900">{p} Passenger{p!=='1'?'s':''}</option>)}
+            {SUPPORTED_PASSENGERS.map(p => <option key={p} value={p} className="bg-slate-900">{p} Passenger{p!=='1'?'s':''}</option>)}
           </select>
           <label className={labelClasses}>Travelers</label>
         </div>

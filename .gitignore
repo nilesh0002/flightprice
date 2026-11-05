@@ -9,6 +9,6 @@ __pycache__/
 .env
 .env.local
 .env.*.local
-*.pyc
+.pytest_cache/
 scratch_out.txt
 scratch/

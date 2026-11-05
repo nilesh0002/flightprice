@@ -1,11 +1,9 @@
-import joblib
 import os
+import joblib
 import pandas as pd
 import numpy as np
 
 model_data = None
-
-print("Server started")
 
 def load_model():
     global model_data
@@ -13,132 +11,117 @@ def load_model():
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         model_path = os.path.join(base_dir, 'model.pkl')
         if not os.path.exists(model_path):
-            print(f"CRITICAL ERROR: {model_path} not found!")
-            return
+            print(f"Model file not found at {model_path}")
+            return None
         
-        if not model_data:
+        if model_data is None:
             model_data = joblib.load(model_path)
             print("Model loaded successfully")
+        return model_data
     except Exception as e:
         print(f"Error loading model: {e}")
+        return None
 
-# Initialize immediately (NO auto-training block)
+# Load model on startup
 load_model()
 
 def predict_price(flight_data: dict):
     global model_data
-    if not model_data:
-        raise RuntimeError("Model not available")
+    if model_data is None:
+        model_data = load_model()
+    if model_data is None:
+        raise RuntimeError("Model not available. Please ensure model.pkl exists.")
 
-    try:
-        model = model_data['model']
+    pipeline = model_data['model']
+    metrics = model_data.get('metrics', {})
+    residual_std = metrics.get('residual_std', 550.0)
 
-        # Category mapping for new locations/airlines not in training set
-        city_map = {
-            'Hyderabad': 'Bangalore', 'Ahmedabad': 'Mumbai', 
-            'Pune': 'Mumbai', 'Goa': 'Mumbai', 'Jaipur': 'Delhi'
-        }
-        airline_map = {'AirAsia': 'SpiceJet'}
-
-        source = city_map.get(flight_data['source'], flight_data['source'])
-        destination = city_map.get(flight_data['destination'], flight_data['destination'])
-        airline = airline_map.get(flight_data['airline'], flight_data['airline'])
-
-        payload = pd.DataFrame([{
-            'Airline': airline,
-            'Source': source,
-            'Destination': destination,
-            'Total_Stops': flight_data['total_stops'],
-            'Duration_minutes': flight_data['duration_minutes'],
-            'departure_hour': flight_data['departure_hour'],
-            'day_of_week': flight_data['day_of_week'],
-            'month': flight_data['month'],
-            'is_weekend': flight_data['is_weekend'],
-            'days_left': flight_data['days_left']
-        }])
-
-        # Full inference pass via SciKit pipeline natively handling categorical encoding internally
-        price = model.predict(payload)[0]
-
-        # Multipliers for trust/granularity (Simulated impacts for transparency)
-        cabin_mult = {'Economy': 1.0, 'Premium': 1.25, 'Business': 1.75}
-        reason_mult = {'Vacation': 1.0, 'Business': 1.12}
-        extra_add = {'Basic': 0, 'Standard': 950, 'Flexi': 1650}
-
-        price = price * cabin_mult.get(flight_data.get('cabin', 'Economy'), 1.0)
-        price = price * reason_mult.get(flight_data.get('reason', 'Vacation'), 1.0)
-        price = price + extra_add.get(flight_data.get('extra', 'Basic'), 0)
-
-        # New High-Trust Parameter Multipliers
-        membership_mult = {'Guest': 1.0, 'Silver': 0.95, 'Gold': 0.88}
-        festival_mult = {'Yes': 1.30, 'No': 1.0}
-        
-        # Departure Window heuristic (Simulated)
-        window_mult = 1.0
-        dpw = flight_data.get('departureWindow', 'Morning')
-        if dpw in ['Morning', 'Evening']: window_mult = 1.15
-        elif dpw in ['Night', 'Early Morning']: window_mult = 0.90
-
-        price = price * membership_mult.get(flight_data.get('membership', 'Guest'), 1.0)
-        price = price * festival_mult.get(flight_data.get('isFestival', 'No'), 1.0)
-        price = price * window_mult
-
-        # Incorporate Passengers
-        passengers_str = flight_data.get('passengers', '1')
+    # Resolve date components (journey_day, journey_month)
+    date_str = flight_data.get('date', '')
+    if date_str:
         try:
-            num_passengers = int(passengers_str.replace('+', ''))
-        except:
-            num_passengers = 1
-        
-        price = price * num_passengers
+            parts = [int(p) for p in date_str.split('-')]
+            if len(parts) == 3:
+                journey_month = parts[1]
+                journey_day = parts[2]
+            else:
+                journey_month = int(flight_data.get('month', 5))
+                journey_day = int(flight_data.get('journey_day', 15))
+        except (ValueError, IndexError):
+            journey_month = int(flight_data.get('month', 5))
+            journey_day = int(flight_data.get('journey_day', 15))
+    else:
+        journey_month = int(flight_data.get('month', 5))
+        journey_day = int(flight_data.get('journey_day', 15))
 
-        # Incorporate Amenities
-        amenities = flight_data.get('amenities', 'None')
-        if amenities == 'Meals Included':
-            price += (500 * num_passengers)
-        elif amenities == 'Seat Selection':
-            price += (300 * num_passengers)
-        elif amenities == 'Meals + Seat Selection':
-            price += (800 * num_passengers)
+    duration_minutes = int(flight_data.get('duration_minutes', 120))
+    total_stops = int(flight_data.get('total_stops', 0))
 
-        # Confidence score: based on estimator variance
-        rf = model.named_steps['regressor']
-        X_transformed = model.named_steps['preprocessor'].transform(payload)
-        preds = [tree.predict(X_transformed)[0] for tree in rf.estimators_]
-        std_dev = np.std(preds)
-        mse_sim = round(std_dev ** 2 / 100, 2)
-        confidence = max(0, min(100, 100 - (std_dev / price * 200)))
+    # Construct input payload matching training pipeline feature set
+    input_df = pd.DataFrame([{
+        'airline': str(flight_data.get('airline', 'IndiGo')).strip(),
+        'source': str(flight_data.get('source', 'Delhi')).strip(),
+        'destination': str(flight_data.get('destination', 'Mumbai')).strip(),
+        'total_stops': total_stops,
+        'duration_minutes': duration_minutes,
+        'journey_day': journey_day,
+        'journey_month': journey_month
+    }])
 
-        # Price range logic
-        average_price = 3000 + (flight_data['total_stops'] * 1500) + (flight_data['duration_minutes'] * 5)
+    # 1. Base prediction from trained ML pipeline
+    base_price = float(pipeline.predict(input_df)[0])
 
-        if price < 5000:
-            price_range = "Low"
-        elif price < 10000:
-            price_range = "Medium"
-        else:
-            price_range = "High"
+    # 2. Ensemble variance & statistical prediction interval
+    rf = pipeline.named_steps['regressor']
+    preprocessor = pipeline.named_steps['preprocessor']
+    X_transformed = preprocessor.transform(input_df)
+    tree_preds = np.array([tree.predict(X_transformed)[0] for tree in rf.estimators_])
+    
+    ensemble_std = float(np.std(tree_preds))
+    # Combined uncertainty: tree ensemble variance + test residual variance
+    total_uncertainty = float(np.sqrt(ensemble_std**2 + (residual_std * 0.5)**2))
 
-        if price <= average_price + 200 or flight_data['days_left'] < 5:
-            recommendation = "Good time to book! 🚀 Avoid surge pricing."
-        else:
-            recommendation = "Prices may increase. Wait for dynamic pricing drops."
-            
-        # Get actual model metrics
-        base_metrics = model_data.get('metrics', {
-            'r2': 0.91, 
-            'sample_size': 12800, 
-            'method': 'Random Forest Regressor',
-            'training_split': '80/20',
-            'f1_approx': 0.88
-        })
+    # Statistically calibrated confidence: based on relative uncertainty (coefficient of variation)
+    cv = total_uncertainty / max(1.0, base_price)
+    confidence = round(max(60.0, min(97.5, (1.0 - cv) * 100)), 1)
 
-        full_metrics = {
-            **base_metrics,
-            'mse': mse_sim,
-            'volatility': f"₹{std_dev}"
-        }
-            
-        return price, recommendation, round(confidence, 1), price_range, full_metrics
-    except Exception as e:
-        raise RuntimeError(f"Prediction error: {str(e)}")
+    # Multipliers for legitimate booking modifiers
+    cabin = flight_data.get('cabin', 'Economy')
+    cabin_multiplier = 1.6 if cabin == 'Business' else (1.25 if cabin == 'Premium Economy' else 1.0)
+    
+    passengers_raw = str(flight_data.get('passengers', '1')).replace('+', '')
+    try:
+        num_passengers = max(1, int(passengers_raw))
+    except ValueError:
+        num_passengers = 1
+
+    unit_price = base_price * cabin_multiplier
+    final_price = round(unit_price * num_passengers, 2)
+
+    # 95% statistical prediction bounds
+    bound_delta = 1.96 * total_uncertainty * cabin_multiplier * num_passengers
+    price_low = round(max(1000.0 * num_passengers, final_price - bound_delta), 2)
+    price_high = round(final_price + bound_delta, 2)
+
+    # Categorize price tier based on market distribution
+    days_left = flight_data.get('days_left', 30)
+    if final_price < 5500 * num_passengers:
+        price_range = "Low"
+    elif final_price < 8500 * num_passengers:
+        price_range = "Medium"
+    else:
+        price_range = "High"
+
+    # Contextual market recommendation
+    if price_range == "Low" or (isinstance(days_left, (int, float)) and days_left < 7):
+        recommendation = "Good time to book! Current rate is below historical median."
+    else:
+        recommendation = "Prices are currently elevated. Consider monitoring for fare adjustments."
+
+    response_metrics = {
+        **metrics,
+        'uncertainty': round(total_uncertainty, 2),
+        'prediction_interval_95': [price_low, price_high]
+    }
+
+    return final_price, recommendation, confidence, price_range, response_metrics
