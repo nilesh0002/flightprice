@@ -48,7 +48,7 @@ def train_and_evaluate():
 
     pipeline = Pipeline([
         ('preprocessor', preprocessor),
-        ('regressor', RandomForestRegressor(n_estimators=100, random_state=42, n_jobs=-1))
+        ('regressor', RandomForestRegressor(n_estimators=40, max_depth=10, random_state=42, n_jobs=1))
     ])
 
     print("Training Random Forest Regressor on training split...")
@@ -120,7 +120,7 @@ def train_and_evaluate():
     }
 
     model_output_path = os.path.join(base_dir, 'model.pkl')
-    joblib.dump(model_artifact, model_output_path)
+    joblib.dump(model_artifact, model_output_path, compress=3)
     print(f"Model saved successfully to {model_output_path}")
 
 if __name__ == "__main__":

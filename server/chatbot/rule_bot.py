@@ -386,11 +386,17 @@ def extract_flight_parameters(message: str) -> Dict[str, Any]:
     }
 
 
+_cached_llm_client = None
+_cached_llm_key = None
+
+
 def call_llm_api(system_prompt: str, user_content: str, model_choice: str) -> Optional[str]:
     """
-    Calls Groq LLM API with OpenAI-compatible client, timeout handling,
-    and safe fallback without exposing internal exceptions or credentials.
+    Calls Groq LLM API with OpenAI-compatible client, connection reuse,
+    timeout handling, and safe fallback without exposing internal exceptions or credentials.
     """
+    global _cached_llm_client, _cached_llm_key
+
     groq_api_key = os.environ.get("GROQ_API_KEY")
     if not groq_api_key or not groq_api_key.strip():
         return None
@@ -398,13 +404,27 @@ def call_llm_api(system_prompt: str, user_content: str, model_choice: str) -> Op
     if OpenAI is None:
         return None
 
+    clean_key = groq_api_key.strip()
+
     try:
-        client = OpenAI(
-            base_url="https://api.groq.com/openai/v1",
-            api_key=groq_api_key.strip(),
-            timeout=8.0,
-            max_retries=1,
-        )
+        # Reuse client in production for lower latency; allow unittest.mock patching in tests
+        if isinstance(OpenAI, type):
+            if _cached_llm_client is None or _cached_llm_key != clean_key:
+                _cached_llm_client = OpenAI(
+                    base_url="https://api.groq.com/openai/v1",
+                    api_key=clean_key,
+                    timeout=5.0,
+                    max_retries=0,
+                )
+                _cached_llm_key = clean_key
+            client = _cached_llm_client
+        else:
+            client = OpenAI(
+                base_url="https://api.groq.com/openai/v1",
+                api_key=clean_key,
+                timeout=5.0,
+                max_retries=0,
+            )
 
         model_name = (
             "llama-3.3-70b-versatile"

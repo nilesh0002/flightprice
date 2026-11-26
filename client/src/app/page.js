@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Hero from "@/components/Hero";
 import PredictionForm from "@/components/PredictionForm";
 import ResultsDashboard from "@/components/ResultsDashboard";
@@ -48,6 +48,12 @@ export default function Home() {
   
   const predictRef = useRef(null);
 
+  // Silently wake up backend (e.g., Render free-tier cold start) on page load
+  useEffect(() => {
+    const apiUrl = process.env.NEXT_PUBLIC_ML_API_URL || process.env.NEXT_PUBLIC_API_URL || "https://flightprice-sghf.onrender.com";
+    fetch(`${apiUrl}/health`, { method: "GET" }).catch(() => {});
+  }, []);
+
   const handleScrollToPredict = () => {
     predictRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -80,11 +86,20 @@ export default function Home() {
       }
       const resolvedApiUrl = apiUrl || "https://flightprice-sghf.onrender.com";
 
-      const res = await fetch(`${resolvedApiUrl}/predict`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 45000);
+
+      let res;
+      try {
+        res = await fetch(`${resolvedApiUrl}/predict`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+          signal: controller.signal
+        });
+      } finally {
+        clearTimeout(timeoutId);
+      }
       
       const data = await res.json().catch(() => null);
 
@@ -96,8 +111,10 @@ export default function Home() {
       setPredictionResult(data);
     } catch (err) {
       console.error("Prediction error:", err);
-      setErrorMessage(err.message || "Failed to connect to the backend prediction service.");
-      alert(err.message || "Failed to connect to the backend prediction service.");
+      const msg = err.name === "AbortError"
+        ? "Request timed out while waiting for the prediction server. Please try again."
+        : (err.message || "Failed to connect to the backend prediction service.");
+      setErrorMessage(msg);
     } finally {
       setIsPredicting(false);
     }

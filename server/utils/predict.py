@@ -1,31 +1,40 @@
 import os
-import joblib
-import pandas as pd
-import numpy as np
+import threading
 
 model_data = None
+_model_lock = threading.Lock()
+
 
 def load_model():
+    """Lazily load and cache the serialized ML pipeline artifact."""
     global model_data
-    try:
-        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        model_path = os.path.join(base_dir, 'model.pkl')
-        if not os.path.exists(model_path):
-            print(f"Model file not found at {model_path}")
-            return None
-        
-        if model_data is None:
+    if model_data is not None:
+        return model_data
+
+    with _model_lock:
+        if model_data is not None:
+            return model_data
+        try:
+            import joblib
+
+            base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            model_path = os.path.join(base_dir, 'model.pkl')
+            if not os.path.exists(model_path):
+                print(f"Model file not found at {model_path}")
+                return None
+
             model_data = joblib.load(model_path)
             print("Model loaded successfully")
-        return model_data
-    except Exception as e:
-        print(f"Error loading model: {e}")
-        return None
+            return model_data
+        except Exception as e:
+            print(f"Error loading model: {e}")
+            return None
 
-# Load model on startup
-load_model()
 
 def predict_price(flight_data: dict):
+    import numpy as np
+    import pandas as pd
+
     global model_data
     if model_data is None:
         model_data = load_model()

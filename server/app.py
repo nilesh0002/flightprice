@@ -1,8 +1,11 @@
 import os
+import threading
 import time
 from collections import defaultdict
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from pydantic import BaseModel, Field, field_validator
 from typing import Optional, Dict, Any, List
 
@@ -29,10 +32,24 @@ except ImportError:
         SUPPORTED_CHAT_MODES,
     )
 
-app = FastAPI(title="AeroMind Flight Price Prediction API", version="1.0.0")
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    # Warm up ML model in background so the server binds the port immediately
+    threading.Thread(target=load_model, daemon=True).start()
+    yield
+
+
+app = FastAPI(
+    title="AeroMind Flight Price Prediction API",
+    version="1.0.0",
+    lifespan=lifespan,
+)
 
 if os.environ.get("VERCEL"):
     app.root_path = "/api"
+
+# Compress JSON responses for faster transfer
+app.add_middleware(GZipMiddleware, minimum_size=500)
 
 # CORS configuration restricted via environment variable
 raw_origins = os.environ.get(
@@ -101,6 +118,10 @@ class ChatQuery(BaseModel):
 @app.get("/")
 def root():
     return {"status": "ok", "message": "AeroMind Flight Prediction API is operational."}
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
 
 @app.get("/categories")
 def get_categories():

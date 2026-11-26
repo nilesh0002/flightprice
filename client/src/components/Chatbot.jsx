@@ -29,20 +29,29 @@ export default function Chatbot() {
     scrollToBottom();
   }, [messages]);
 
-  // Monitor backend availability
+  // Monitor backend availability using lightweight /health endpoint
   useEffect(() => {
     let isMounted = true;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 35000);
+
     const checkHealth = async () => {
       const apiUrl = process.env.NEXT_PUBLIC_ML_API_URL || process.env.NEXT_PUBLIC_API_URL || "https://flightprice-sghf.onrender.com";
       try {
-        const res = await fetch(`${apiUrl}/`, { method: "GET" });
+        const res = await fetch(`${apiUrl}/health`, { method: "GET", signal: controller.signal });
         if (isMounted) setIsOnline(res.ok);
       } catch {
         if (isMounted) setIsOnline(false);
+      } finally {
+        clearTimeout(timeoutId);
       }
     };
     checkHealth();
-    return () => { isMounted = false; };
+    return () => {
+      isMounted = false;
+      controller.abort();
+      clearTimeout(timeoutId);
+    };
   }, [isOpen]);
 
   // Keyboard accessibility: close on Escape

@@ -129,6 +129,9 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## API Contract
 
+### `GET /` & `GET /health`
+Lightweight health-check endpoints returning `{"status": "ok"}` immediately on server startup without blocking on ML model loading.
+
 ### `GET /categories`
 Returns the single source of truth for supported airlines, sources, destinations, cabins, stops, and chat modes:
 ```json
@@ -146,10 +149,10 @@ Returns the single source of truth for supported airlines, sources, destinations
 Returns verified held-out test evaluation metrics from the trained model:
 ```json
 {
-  "r2": 0.8993,
-  "mae": 433.11,
-  "rmse": 551.02,
-  "residual_std": 550.08,
+  "r2": 0.9008,
+  "mae": 429.27,
+  "rmse": 546.87,
+  "residual_std": 545.83,
   "train_samples": 1200,
   "test_samples": 300,
   "method": "Random Forest Regressor",
@@ -221,17 +224,28 @@ npm --prefix client run build
 
 ---
 
+## Performance & Render Optimization
+
+To minimize cold-start delays and API response latency on Render's free tier:
+- **Compact Model Artifact**: `train_model.py` trains a `40`-tree, `max_depth=10` Random Forest Regressor (`R² = 0.9008`) saved with `joblib(..., compress=3)`, reducing `model.pkl` from `10.43 MB` to `~671 KB`.
+- **Non-Blocking Startup**: `utils/predict.py` loads `model.pkl` lazily with a thread lock while `app.py` warms the model in a background daemon thread during `lifespan` startup, allowing `/health` and `/` to respond immediately.
+- **Response Compression & Connection Reuse**: `GZipMiddleware` compresses JSON payloads, and `rule_bot.py` reuses a cached Groq `OpenAI` client with a `5.0s` timeout.
+- **Frontend Warm-Up**: The Next.js home page pings `GET /health` on mount so the Render instance wakes up before the user submits a prediction.
+
+---
+
 ## Deployment
 
 ### Deploy Backend to Render
 1. Connect repository to [Render](https://render.com).
-2. Use the provided [`render.yaml`](./render.yaml) blueprint or set:
+2. Use the provided [`render.yaml`](./render.yaml) blueprint (which configures `healthCheckPath: /health`) or set:
    - **Root Directory**: `server`
    - **Build Command**: `pip install -r requirements.txt`
-   - **Start Command**: `uvicorn app:app --host 0.0.0.0 --port $PORT`
+   - **Start Command**: `uvicorn app:app --host 0.0.0.0 --port $PORT --workers 1`
    - **Environment Variables**:
      - `ALLOWED_ORIGINS`: `https://your-frontend-domain.vercel.app`
      - `GROQ_API_KEY`: `<your-groq-key>`
+3. After pushing updates to `main`, trigger **Manual Deploy → Deploy latest commit** on Render if auto-deploy is disabled.
 
 ### Deploy Frontend to Vercel
 1. Import the repository into [Vercel](https://vercel.com).
