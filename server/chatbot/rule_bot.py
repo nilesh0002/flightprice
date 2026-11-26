@@ -529,7 +529,8 @@ def format_prediction_fallback(
 
 def fallback_general_qa(message: str, model_choice: str = "general") -> str:
     """
-    Provides clear, accurate travel assistance when Groq LLM is unavailable.
+    Provides clear, accurate travel assistance when Groq LLM is unavailable,
+    respecting the selected mode (general, data, outside).
     """
     msg = message.lower()
 
@@ -547,39 +548,62 @@ def fallback_general_qa(message: str, model_choice: str = "general") -> str:
             "and provide statistical prediction intervals, confidence ratings, and travel tips."
         )
 
-    if any(b in msg for b in ["baggage", "luggage"]):
+    supported_text = (
+        "Supported Airport Hubs: Bangalore (BLR), Chennai (MAA), Delhi (DEL), Kolkata (CCU), Mumbai (BOM).\n"
+        "Supported Airlines: Air India, IndiGo, Jet Airways, SpiceJet, Vistara."
+    )
+
+    if model_choice == "data":
+        if "supported" in msg or "cities" in msg or "routes" in msg or "airlines" in msg:
+            return supported_text
         return (
+            "I am in Internal Data Only mode, so I only answer using AeroMind's trained flight model and dataset.\n"
+            f"• {supported_text}\n"
+            "• Ask for a specific route and date (e.g., 'Flight from Delhi to Mumbai tomorrow') to get a fare estimate."
+        )
+
+    outside_answer = None
+    if any(b in msg for b in ["baggage", "luggage"]):
+        outside_answer = (
             "Standard domestic baggage allowances in India:\n"
             "• **IndiGo, SpiceJet, Air India (Economy):** 15 kg check-in baggage and 7 kg (1 piece) cabin baggage.\n"
             "• **Vistara (Economy):** 15 kg check-in (Standard/Flexi) and 7 kg cabin baggage.\n"
             "• **Business Class:** Usually 25–35 kg check-in baggage and up to 10–12 kg cabin baggage."
         )
-
-    if any(b in msg for b in ["when to book", "cheapest time", "booking tip", "best time to book"]):
-        return (
+    elif any(b in msg for b in ["when to book", "cheapest time", "booking tip", "best time to book"]):
+        outside_answer = (
             "Booking Insights:\n"
             "• Booking 2–4 weeks in advance generally offers the best balance of availability and fare.\n"
             "• Mid-week departures (Tuesday and Wednesday) typically feature lower fares than Friday or Sunday evenings.\n"
             "• Early morning (before 7:00 AM) and late evening flights are often more economical than prime business hours."
         )
+    elif "supported" in msg or "cities" in msg or "routes" in msg:
+        outside_answer = supported_text
 
-    if "supported" in msg or "cities" in msg or "routes" in msg:
-        return (
-            "Supported Airport Hubs:\n"
-            "• Bangalore (BLR)\n"
-            "• Chennai (MAA)\n"
-            "• Delhi (DEL)\n"
-            "• Kolkata (CCU)\n"
-            "• Mumbai (BOM)\n\n"
-            "Supported Airlines: Air India, IndiGo, Jet Airways, SpiceJet, Vistara."
-        )
+    if outside_answer:
+        if model_choice == "general":
+            return (
+                "FROM GIVEN DATA:\n"
+                "No specific route and travel date was provided for an ML fare prediction.\n"
+                f"{supported_text}\n\n"
+                "FROM OUTSIDE DATA:\n"
+                f"{outside_answer}"
+            )
+        return outside_answer
 
-    return (
-        "I'm here to assist with flight price predictions and travel planning! "
+    default_msg = (
         "Please specify your departure and destination cities along with your travel date "
         "(e.g., 'Predict flight from Delhi to Mumbai tomorrow on Vistara'). "
         "Supported cities: Bangalore, Chennai, Delhi, Kolkata, and Mumbai."
     )
+    if model_choice == "general":
+        return (
+            "FROM GIVEN DATA:\n"
+            f"{default_msg}\n\n"
+            "FROM OUTSIDE DATA:\n"
+            "You can also ask about airline baggage policies, best booking windows, or flight durations."
+        )
+    return default_msg
 
 
 def get_chat_response(message: str, model_choice: str = "general") -> str:

@@ -134,7 +134,7 @@ export default function Chatbot({ isOpen: controlledOpen, onToggle }) {
             errorDetail || `Error (${res.status}): Failed to receive a response from the server.`;
         }
 
-        setMessages((prev) => [...prev, { role: "ai", content: displayMessage }]);
+        setMessages((prev) => [...prev, { role: "ai", content: displayMessage, mode: activeModel }]);
         return;
       }
 
@@ -142,7 +142,11 @@ export default function Chatbot({ isOpen: controlledOpen, onToggle }) {
       setIsOnline(true);
       setMessages((prev) => [
         ...prev,
-        { role: "ai", content: data.reply || "No response received from the assistant." },
+        {
+          role: "ai",
+          content: data.reply || "No response received from the assistant.",
+          mode: activeModel,
+        },
       ]);
     } catch {
       setIsOnline(false);
@@ -152,6 +156,7 @@ export default function Chatbot({ isOpen: controlledOpen, onToggle }) {
           role: "ai",
           content:
             "Connection Error: Unable to reach the AeroMind backend server. Please verify your connection.",
+          mode: activeModel,
         },
       ]);
     } finally {
@@ -159,7 +164,7 @@ export default function Chatbot({ isOpen: controlledOpen, onToggle }) {
     }
   };
 
-  const renderMessageContent = (content) => {
+  const renderMessageContent = (content, msgMode) => {
     const parseMarkdown = (text) =>
       text.split(/(\*\*.*?\*\*)/g).map((part, index) => {
         if (part.startsWith("**") && part.endsWith("**")) {
@@ -202,6 +207,38 @@ export default function Chatbot({ isOpen: controlledOpen, onToggle }) {
             </div>
           </section>
         </div>
+      );
+    }
+
+    if (msgMode === "data") {
+      return (
+        <section
+          aria-label="Internal Model Data"
+          className="bg-[#3b82f6]/10 border border-[#3b82f6]/25 rounded-xl p-3 w-full"
+        >
+          <p className="text-[11px] font-semibold text-[#3b82f6] mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
+            <Settings2 size={12} /> Internal Model Data
+          </p>
+          <div className="text-slate-300 leading-relaxed text-[13px] whitespace-pre-line">
+            {parseMarkdown(content)}
+          </div>
+        </section>
+      );
+    }
+
+    if (msgMode === "outside") {
+      return (
+        <section
+          aria-label="Outside Knowledge"
+          className="bg-[#8b5cf6]/10 border border-[#8b5cf6]/25 rounded-xl p-3 w-full"
+        >
+          <p className="text-[11px] font-semibold text-[#8b5cf6] mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
+            <Sparkles size={12} /> Outside Knowledge
+          </p>
+          <div className="text-slate-300 leading-relaxed text-[13px] whitespace-pre-line">
+            {parseMarkdown(content)}
+          </div>
+        </section>
       );
     }
 
@@ -296,7 +333,7 @@ export default function Chatbot({ isOpen: controlledOpen, onToggle }) {
               {msg.role === "user" ? (
                 <p className="text-[13px] leading-relaxed">{msg.content}</p>
               ) : (
-                renderMessageContent(msg.content)
+                renderMessageContent(msg.content, msg.mode)
               )}
             </div>
           </motion.div>
