@@ -360,23 +360,15 @@ export default function Chatbot({ isOpen: controlledOpen, onToggle }) {
 
   return (
     <>
-      {/* Desktop Docked Side Panel (12-col Grid Right Column) */}
-      <aside
-        aria-label="AeroBot Travel Assistant"
-        className="hidden lg:flex lg:flex-col rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl overflow-hidden lg:sticky lg:top-20 shadow-[0_20px_50px_rgba(0,0,0,0.45)]"
-      >
-        {panelBody(false)}
-      </aside>
-
-      {/* Mobile Floating Action Button */}
+      {/* Floating AeroBot FAB (All Viewports) */}
       <motion.button
         id="chatbot-toggle"
-        aria-label="Open AeroBot flight assistant"
+        aria-label="Open AeroBot Travel Assistant"
         aria-expanded={isOpen}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        onClick={() => setIsOpen(true)}
-        className="lg:hidden fixed bottom-5 right-5 w-14 h-14 bg-gradient-to-r from-[#2573E6] to-[#6D3BD7] text-white rounded-full flex items-center justify-center shadow-[0_0_28px_rgba(59,130,246,0.55)] z-40 border border-white/20"
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed bottom-6 right-6 z-40 w-14 h-14 bg-gradient-to-br from-[#2573E6] to-[#6D3BD7] text-white rounded-full flex items-center justify-center shadow-[0_0_28px_rgba(59,130,246,0.55)] border border-white/20"
       >
         <MessageSquare size={22} />
         <span
@@ -387,15 +379,15 @@ export default function Chatbot({ isOpen: controlledOpen, onToggle }) {
         />
       </motion.button>
 
-      {/* Mobile Full-Screen Drawer */}
+      {/* Responsive Drawer: Full-Screen on Mobile, Floating Glass Card on Desktop */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 30 }}
-            transition={{ duration: 0.25 }}
-            className="lg:hidden fixed inset-0 z-50 bg-[#050505] flex flex-col"
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 24, scale: 0.98 }}
+            transition={{ duration: 0.22 }}
+            className="fixed inset-0 sm:inset-auto sm:bottom-24 sm:right-6 w-full sm:w-[420px] h-[100dvh] sm:h-[620px] sm:max-h-[calc(100vh-8rem)] z-50 bg-[#050505] sm:bg-[#0a0a0a]/95 sm:backdrop-blur-2xl sm:rounded-2xl sm:border sm:border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden"
           >
             {panelBody(true)}
           </motion.div>

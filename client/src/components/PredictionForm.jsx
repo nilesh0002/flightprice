@@ -5,7 +5,7 @@ import {
   PlaneTakeoff,
   PlaneLanding,
   Calendar,
-  Search,
+  Building2,
   ArrowLeftRight,
   AlertCircle,
   X,
@@ -13,7 +13,13 @@ import {
 import { useState } from "react";
 
 // Synchronized with server supported categories
-export const SUPPORTED_AIRPORTS = ["Delhi", "Mumbai", "Bangalore", "Kolkata", "Chennai"];
+export const SUPPORTED_AIRPORTS = [
+  { name: "Delhi", code: "DEL" },
+  { name: "Mumbai", code: "BOM" },
+  { name: "Bangalore", code: "BLR" },
+  { name: "Kolkata", code: "CCU" },
+  { name: "Chennai", code: "MAA" },
+];
 export const SUPPORTED_AIRLINES = ["IndiGo", "Air India", "Vistara", "SpiceJet", "Jet Airways"];
 export const SUPPORTED_CABINS = ["Economy", "Business"];
 export const SUPPORTED_STOPS = ["0", "1", "2"];
@@ -65,18 +71,11 @@ export default function PredictionForm({ onPredict, isPredicting, errorMessage, 
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
-      className="rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl p-5 sm:p-6 flex flex-col gap-4 shadow-[0_20px_50px_rgba(0,0,0,0.45)]"
+      className="rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl p-5 sm:p-6 flex flex-col gap-5 shadow-[0_20px_50px_rgba(0,0,0,0.45)]"
     >
-      <header className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-[#3b82f6]/15 border border-[#3b82f6]/30 flex items-center justify-center text-[#3b82f6] shrink-0">
-          <Search size={18} aria-hidden="true" />
-        </div>
-        <div className="flex flex-col">
-          <h2 className="text-lg font-semibold text-white tracking-tight">Market Forecast</h2>
-          <p className="text-xs sm:text-sm text-slate-400">
-            Configure your route parameters for real-time AI analysis
-          </p>
-        </div>
+      <header className="flex items-center justify-between gap-2">
+        <h2 className="text-lg font-semibold text-white tracking-tight">Market Forecast</h2>
+        <span className="font-mono text-xs text-slate-400 tabular-nums">INR (₹)</span>
       </header>
 
       {/* Inline Dismissible Error Banner */}
@@ -103,8 +102,8 @@ export default function PredictionForm({ onPredict, isPredicting, errorMessage, 
       )}
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
-        {/* Row 1: From + Quick Swap + To + Departure Date */}
-        <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr_1fr] items-end gap-2.5">
+        {/* Row 1: Origin & Destination with Swap Button */}
+        <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] items-end gap-2.5">
           <label className="flex flex-col gap-1">
             <span className="text-xs font-medium text-slate-400">From</span>
             <div className="relative flex items-center">
@@ -121,8 +120,8 @@ export default function PredictionForm({ onPredict, isPredicting, errorMessage, 
                 className={`${selectBase} pl-9 pr-2`}
               >
                 {SUPPORTED_AIRPORTS.map((a) => (
-                  <option key={a} value={a} className="bg-slate-900">
-                    {a}
+                  <option key={a.name} value={a.name} className="bg-slate-900">
+                    {a.name} ({a.code})
                   </option>
                 ))}
               </select>
@@ -157,16 +156,19 @@ export default function PredictionForm({ onPredict, isPredicting, errorMessage, 
                 className={`${selectBase} pl-9 pr-2`}
               >
                 {SUPPORTED_AIRPORTS.map((a) => (
-                  <option key={a} value={a} className="bg-slate-900">
-                    {a}
+                  <option key={a.name} value={a.name} className="bg-slate-900">
+                    {a.name} ({a.code})
                   </option>
                 ))}
               </select>
             </div>
           </label>
+        </div>
 
+        {/* Row 2: Departure Date & Airline */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <label className="flex flex-col gap-1">
-            <span className="text-xs font-medium text-slate-400">Departure</span>
+            <span className="text-xs font-medium text-slate-400">Departure Date</span>
             <div className="relative flex items-center">
               <Calendar
                 size={16}
@@ -180,32 +182,39 @@ export default function PredictionForm({ onPredict, isPredicting, errorMessage, 
                 value={formData.date}
                 min={todayStr}
                 onChange={handleChange}
-                className={`${selectBase} pl-9 pr-2 font-mono text-xs [color-scheme:dark]`}
+                className={`${selectBase} pl-9 pr-3 font-mono text-xs [color-scheme:dark]`}
                 required
               />
             </div>
           </label>
-        </div>
 
-        {/* Row 2: Balanced 2-col Mobile / 4-col Desktop Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
           <label className="flex flex-col gap-1">
             <span className="text-xs font-medium text-slate-400">Airline</span>
-            <select
-              aria-label="Airline"
-              name="airline"
-              value={formData.airline}
-              onChange={handleChange}
-              className={selectBase}
-            >
-              {SUPPORTED_AIRLINES.map((a) => (
-                <option key={a} value={a} className="bg-slate-900">
-                  {a}
-                </option>
-              ))}
-            </select>
+            <div className="relative flex items-center">
+              <Building2
+                size={16}
+                aria-hidden="true"
+                className="text-slate-400 absolute left-3 pointer-events-none"
+              />
+              <select
+                aria-label="Airline"
+                name="airline"
+                value={formData.airline}
+                onChange={handleChange}
+                className={`${selectBase} pl-9 pr-2`}
+              >
+                {SUPPORTED_AIRLINES.map((a) => (
+                  <option key={a} value={a} className="bg-slate-900">
+                    {a}
+                  </option>
+                ))}
+              </select>
+            </div>
           </label>
+        </div>
 
+        {/* Row 3: Cabin, Connections, Passengers */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           <label className="flex flex-col gap-1">
             <span className="text-xs font-medium text-slate-400">Cabin Class</span>
             <select
@@ -240,33 +249,38 @@ export default function PredictionForm({ onPredict, isPredicting, errorMessage, 
             </select>
           </label>
 
-          <label className="flex flex-col gap-1">
-            <span className="text-xs font-medium text-slate-400">Travelers</span>
+          <label className="flex flex-col gap-1 col-span-2 sm:col-span-1">
+            <span className="text-xs font-medium text-slate-400">Passengers</span>
             <select
-              aria-label="Number of travelers"
+              aria-label="Number of passengers"
               name="passengers"
               value={formData.passengers}
               onChange={handleChange}
-              className={`${selectBase} font-mono text-xs`}
+              className={`${selectBase} font-mono`}
             >
               {SUPPORTED_PASSENGERS.map((p) => (
                 <option key={p} value={p} className="bg-slate-900">
-                  {p} {p === "1" ? "Adult" : "Adults"}
+                  {p}
                 </option>
               ))}
             </select>
           </label>
         </div>
 
-        {/* Row 3: Full-Width Symmetrical Primary CTA */}
+        {/* Row 4: Full-Width Gradient Primary Button */}
         <footer className="pt-1">
           <button
             type="submit"
             disabled={isPredicting || isSameRoute}
             className="w-full min-h-[48px] px-6 py-3 rounded-xl bg-gradient-to-r from-[#2573E6] to-[#6D3BD7] text-white text-sm font-semibold inline-flex items-center justify-center gap-2 hover:opacity-95 active:scale-[0.99] transition-all disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3b82f6] shadow-lg shadow-blue-900/20"
           >
-            <Search size={17} className={isPredicting ? "animate-spin" : ""} aria-hidden="true" />
-            <span>{isPredicting ? "Analyzing Market..." : "Generate Market Forecast"}</span>
+            {isPredicting && (
+              <span
+                className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"
+                aria-hidden="true"
+              />
+            )}
+            <span>{isPredicting ? "Predicting Fare..." : "Predict Flight Fare"}</span>
           </button>
         </footer>
       </form>

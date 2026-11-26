@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Bot } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Bot, PlaneTakeoff } from "lucide-react";
 import PredictionForm from "@/components/PredictionForm";
 import ResultsDashboard from "@/components/ResultsDashboard";
 import Chatbot from "@/components/Chatbot";
@@ -44,11 +44,10 @@ function deriveDateFeatures(dateString) {
 export default function Home() {
   const [isPredicting, setIsPredicting] = useState(false);
   const [predictionResult, setPredictionResult] = useState(null);
+  const [queryMeta, setQueryMeta] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [apiOnline, setApiOnline] = useState(true);
   const [chatOpen, setChatOpen] = useState(false);
-
-  const predictRef = useRef(null);
 
   // Silently wake up backend (e.g., Render free-tier cold start) on page load
   useEffect(() => {
@@ -118,6 +117,7 @@ export default function Home() {
       }
 
       setApiOnline(true);
+      setQueryMeta(formData);
       setPredictionResult(data);
     } catch (err) {
       console.error("Prediction error:", err);
@@ -132,26 +132,26 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#050505] text-[#E5E2E1] relative flex flex-col selection:bg-[#3b82f6]/30 pb-20 lg:pb-8">
+    <div className="min-h-screen w-full bg-[#050505] text-[#E5E2E1] relative flex flex-col selection:bg-[#3b82f6]/30 pb-20">
       {/* Subtle ambient obsidian glow */}
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-x-0 top-0 h-80 bg-gradient-to-b from-[#3b82f6]/10 via-[#8b5cf6]/5 to-transparent"
       />
 
-      {/* Unobstructed Top Navigation Bar */}
+      {/* Top Navigation Bar */}
       <header className="sticky top-0 z-30 bg-[#050505]/85 backdrop-blur-xl border-b border-white/10">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#6D3BD7] flex items-center justify-center text-white font-bold text-sm shrink-0">
-              AM
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#2573E6] to-[#6D3BD7] flex items-center justify-center text-white shrink-0">
+              <PlaneTakeoff size={18} aria-hidden="true" />
             </div>
             <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-2">
               <span className="font-bold text-white tracking-tight text-base sm:text-lg">
                 AeroMind
               </span>
               <span className="text-xs text-slate-400 hidden sm:inline">
-                AI Flight Price Intelligence
+                Domestic Fare Intelligence
               </span>
             </div>
           </div>
@@ -175,49 +175,46 @@ export default function Home() {
             <button
               type="button"
               onClick={() => setChatOpen(true)}
-              className="lg:hidden min-h-[40px] px-3.5 rounded-full bg-white/5 border border-white/10 text-white text-xs font-medium inline-flex items-center gap-1.5 hover:bg-white/10"
+              className="min-h-[40px] px-4 rounded-full bg-white/5 border border-white/10 text-white text-xs font-medium inline-flex items-center gap-1.5 hover:bg-white/10 transition-colors"
             >
               <Bot size={15} className="text-[#3b82f6]" aria-hidden="true" />
-              AeroBot
+              <span>Ask AeroBot</span>
             </button>
           </div>
         </div>
       </header>
 
-      {/* Main Workspace: 12-Column Responsive Layout */}
-      <main className="relative z-10 flex-1 w-full max-w-[1200px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Left Column (7 cols): Hero + Market Forecast Form + Results */}
-        <section className="lg:col-span-7 flex flex-col gap-6" aria-labelledby="hero-heading">
-          <div className="flex flex-col gap-2">
-            <h1
-              id="hero-heading"
-              className="text-3xl sm:text-4xl font-bold text-white tracking-tight leading-tight"
-            >
-              Predict Domestic Flight Fares Instantly with AI
-            </h1>
-            <p className="text-sm text-slate-400 max-w-prose leading-relaxed">
-              Forecast airline pricing trends with statistical confidence intervals so you know
-              exactly when to book.
-            </p>
-          </div>
+      {/* Main Desktop & Mobile Container */}
+      <main className="relative z-10 flex-1 w-full max-w-[1200px] mx-auto px-4 sm:px-6 py-6 flex flex-col gap-6">
+        {/* Hero Header */}
+        <section className="flex flex-col gap-2 max-w-2xl">
+          <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight leading-tight">
+            Predict Domestic Flight Fares with Statistical Confidence
+          </h1>
+          <p className="text-sm text-slate-400 leading-relaxed">
+            Random Forest fare modeling across major Indian domestic corridors with 95% prediction
+            intervals and AI travel guidance.
+          </p>
+        </section>
 
-          <div ref={predictRef}>
+        {/* 12-Column Grid: 5-Col Forecast Form + 7-Col Results Dashboard */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <section className="lg:col-span-5" aria-label="Market Forecast Form">
             <PredictionForm
               onPredict={handlePredict}
               isPredicting={isPredicting}
               errorMessage={errorMessage}
               onDismissError={() => setErrorMessage(null)}
             />
-          </div>
+          </section>
 
-          <ResultsDashboard result={predictionResult} />
-        </section>
-
-        {/* Right Column (5 cols): Docked AeroBot on Desktop + Mobile Drawer */}
-        <div className="lg:col-span-5">
-          <Chatbot isOpen={chatOpen} onToggle={setChatOpen} />
+          <section className="lg:col-span-7" aria-label="Prediction Results">
+            <ResultsDashboard result={predictionResult} queryMeta={queryMeta} />
+          </section>
         </div>
       </main>
+
+      <Chatbot isOpen={chatOpen} onToggle={setChatOpen} />
     </div>
   );
 }
