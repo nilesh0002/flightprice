@@ -5,16 +5,26 @@ import { MessageSquare, X, Send, Bot, Sparkles, Loader2, Settings2 } from "lucid
 import { useState, useRef, useEffect } from "react";
 
 const MODELS = [
-  { id: "general", label: "Llama 3.3 (General / Split)" },
-  { id: "data", label: "Llama 3.1 (Internal Data Only)" },
-  { id: "outside", label: "Llama 3.1 (Outside Knowledge)" }
+  { id: "general", label: "general: Llama 3.3 (General / Split)" },
+  { id: "data", label: "data: Llama 3.1 (Internal Data Only)" },
+  { id: "outside", label: "outside: Llama 3.1 (Outside Knowledge)" },
 ];
 
-export default function Chatbot() {
-  const [isOpen, setIsOpen] = useState(false);
+export default function Chatbot({ isOpen: controlledOpen, onToggle }) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
+  const setIsOpen = (val) => {
+    if (onToggle) onToggle(val);
+    else setInternalOpen(val);
+  };
+
   const [activeModel, setActiveModel] = useState("general");
   const [messages, setMessages] = useState([
-    { role: "ai", content: "Hi, I'm AeroBot ✈️ Select a model mode above and ask me about flights, fares, or travel planning." }
+    {
+      role: "ai",
+      content:
+        "Hi, I'm AeroBot ✈️ Select a model mode above and ask me about domestic fares, booking windows, or baggage rules.",
+    },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +46,10 @@ export default function Chatbot() {
     const timeoutId = setTimeout(() => controller.abort(), 35000);
 
     const checkHealth = async () => {
-      const apiUrl = process.env.NEXT_PUBLIC_ML_API_URL || process.env.NEXT_PUBLIC_API_URL || "https://flightprice-sghf.onrender.com";
+      const apiUrl =
+        process.env.NEXT_PUBLIC_ML_API_URL ||
+        process.env.NEXT_PUBLIC_API_URL ||
+        "https://flightprice-sghf.onrender.com";
       try {
         const res = await fetch(`${apiUrl}/health`, { method: "GET", signal: controller.signal });
         if (isMounted) setIsOnline(res.ok);
@@ -54,7 +67,7 @@ export default function Chatbot() {
     };
   }, [isOpen]);
 
-  // Keyboard accessibility: close on Escape
+  // Keyboard accessibility: close mobile drawer on Escape
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape" && isOpen) {
@@ -63,27 +76,30 @@ export default function Chatbot() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen]);
+  });
 
   const handleSend = async (e) => {
     e?.preventDefault();
     if (isLoading || !input.trim()) return;
 
     const userMessage = input.trim();
-    setMessages(prev => [...prev, { role: "user", content: userMessage }]);
+    setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
     setInput("");
     setIsLoading(true);
 
-    const apiUrl = process.env.NEXT_PUBLIC_ML_API_URL || process.env.NEXT_PUBLIC_API_URL || "https://flightprice-sghf.onrender.com";
+    const apiUrl =
+      process.env.NEXT_PUBLIC_ML_API_URL ||
+      process.env.NEXT_PUBLIC_API_URL ||
+      "https://flightprice-sghf.onrender.com";
 
     try {
       const res = await fetch(`${apiUrl}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           message: userMessage,
-          model: activeModel 
-        })
+          model: activeModel,
+        }),
       });
 
       if (!res.ok) {
@@ -91,10 +107,11 @@ export default function Chatbot() {
         try {
           const errorData = await res.json();
           if (errorData.detail) {
-            errorDetail = typeof errorData.detail === "string"
-              ? errorData.detail
-              : Array.isArray(errorData.detail)
-                ? errorData.detail.map(d => d.msg || JSON.stringify(d)).join(", ")
+            errorDetail =
+              typeof errorData.detail === "string"
+                ? errorData.detail
+                : Array.isArray(errorData.detail)
+                ? errorData.detail.map((d) => d.msg || JSON.stringify(d)).join(", ")
                 : JSON.stringify(errorData.detail);
           }
         } catch {
@@ -103,49 +120,57 @@ export default function Chatbot() {
 
         let displayMessage = "";
         if (res.status === 429) {
-          displayMessage = errorDetail || "Rate limit exceeded (429). Please wait a minute before sending more messages.";
+          displayMessage =
+            errorDetail ||
+            "Rate limit exceeded (429). Please wait a minute before sending more messages.";
         } else if (res.status === 500) {
-          displayMessage = errorDetail ? `Server Error (500): ${errorDetail}` : "Server Error (500): Failed to process chat response. Please try again shortly.";
+          displayMessage = errorDetail
+            ? `Server Error (500): ${errorDetail}`
+            : "Server Error (500): Failed to process chat response. Please try again shortly.";
         } else if (res.status === 400 || res.status === 422) {
           displayMessage = errorDetail || `Request Error (${res.status}): Please check your input.`;
         } else {
-          displayMessage = errorDetail || `Error (${res.status}): Failed to receive a response from the server.`;
+          displayMessage =
+            errorDetail || `Error (${res.status}): Failed to receive a response from the server.`;
         }
 
-        setMessages(prev => [...prev, { 
-          role: "ai", 
-          content: displayMessage 
-        }]);
+        setMessages((prev) => [...prev, { role: "ai", content: displayMessage }]);
         return;
       }
 
       const data = await res.json();
       setIsOnline(true);
-      setMessages(prev => [...prev, { 
-        role: "ai", 
-        content: data.reply || "No response received from the assistant." 
-      }]);
-    } catch (error) {
+      setMessages((prev) => [
+        ...prev,
+        { role: "ai", content: data.reply || "No response received from the assistant." },
+      ]);
+    } catch {
       setIsOnline(false);
-      setMessages(prev => [...prev, { 
-        role: "ai", 
-        content: "Connection Error: Unable to reach the AeroMind backend server. Please verify your connection." 
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "ai",
+          content:
+            "Connection Error: Unable to reach the AeroMind backend server. Please verify your connection.",
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Helper function to render split sections beautifully
   const renderMessageContent = (content) => {
-    const parseMarkdown = (text) => {
-      return text.split(/(\*\*.*?\*\*)/g).map((part, index) => {
-        if (part.startsWith('**') && part.endsWith('**')) {
-          return <strong key={index} className="font-bold text-white drop-shadow-sm">{part.slice(2, -2)}</strong>;
+    const parseMarkdown = (text) =>
+      text.split(/(\*\*.*?\*\*)/g).map((part, index) => {
+        if (part.startsWith("**") && part.endsWith("**")) {
+          return (
+            <strong key={index} className="font-semibold text-white">
+              {part.slice(2, -2)}
+            </strong>
+          );
         }
         return part;
       });
-    };
 
     if (content.includes("FROM GIVEN DATA:") && content.includes("FROM OUTSIDE DATA:")) {
       const parts = content.split("FROM OUTSIDE DATA:");
@@ -153,31 +178,197 @@ export default function Chatbot() {
       const outsideData = parts[1].trim();
 
       return (
-        <div className="space-y-4 w-full">
-          <div className="bg-primary/10 border border-primary/20 rounded-xl p-4 shadow-inner">
-            <p className="text-[11px] font-bold text-primary mb-2 uppercase tracking-widest flex items-center gap-1.5">
+        <div className="space-y-2.5 w-full">
+          <section
+            aria-label="Internal Model Data"
+            className="bg-[#3b82f6]/10 border border-[#3b82f6]/25 rounded-xl p-3"
+          >
+            <p className="text-[11px] font-semibold text-[#3b82f6] mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
               <Settings2 size={12} /> Internal Model Data
             </p>
-            <div className="text-slate-300 leading-relaxed text-[13px]">{parseMarkdown(givenData)}</div>
-          </div>
-          <div className="bg-secondary/10 border border-secondary/20 rounded-xl p-4 shadow-inner">
-            <p className="text-[11px] font-bold text-secondary mb-2 uppercase tracking-widest flex items-center gap-1.5">
+            <div className="text-slate-300 leading-relaxed text-[13px] whitespace-pre-line">
+              {parseMarkdown(givenData)}
+            </div>
+          </section>
+          <section
+            aria-label="Outside Knowledge"
+            className="bg-[#8b5cf6]/10 border border-[#8b5cf6]/25 rounded-xl p-3"
+          >
+            <p className="text-[11px] font-semibold text-[#8b5cf6] mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
               <Sparkles size={12} /> Outside Knowledge
             </p>
-            <div className="text-slate-300 leading-relaxed text-[13px]">{parseMarkdown(outsideData)}</div>
-          </div>
+            <div className="text-slate-300 leading-relaxed text-[13px] whitespace-pre-line">
+              {parseMarkdown(outsideData)}
+            </div>
+          </section>
         </div>
       );
     }
 
-    // Default rendering for normal text
-    return content.split('\n').map((line, j) => (
-      <p key={j} className="mb-2 last:mb-0 leading-relaxed text-[13px]">{parseMarkdown(line)}</p>
+    return content.split("\n").map((line, j) => (
+      <p key={j} className="mb-1.5 last:mb-0 leading-relaxed text-[13px]">
+        {parseMarkdown(line)}
+      </p>
     ));
   };
 
+  const panelBody = (isMobileOverlay) => (
+    <div className="flex flex-col h-full">
+      {/* Header */}
+      <header className="p-4 bg-[#050505]/85 border-b border-white/10 flex flex-col gap-3 backdrop-blur-md">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-3">
+            <div className="relative w-10 h-10 rounded-full bg-gradient-to-br from-[#2573E6] to-[#6D3BD7] flex items-center justify-center text-white shrink-0">
+              <Bot size={20} aria-hidden="true" />
+              <span
+                aria-hidden="true"
+                className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-[#050505] ${
+                  isOnline ? "bg-emerald-400" : "bg-amber-400"
+                }`}
+              />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="font-semibold text-white text-base tracking-tight">AeroBot</h2>
+                <span
+                  role="status"
+                  className={`text-[11px] font-medium ${
+                    isOnline ? "text-emerald-400" : "text-amber-400"
+                  }`}
+                >
+                  {isOnline ? "Online" : "Offline"}
+                </span>
+              </div>
+              <p className="text-xs text-slate-400">AI Fare &amp; Travel Assistant</p>
+            </div>
+          </div>
+
+          {isMobileOverlay && (
+            <button
+              type="button"
+              onClick={() => setIsOpen(false)}
+              aria-label="Close AeroBot flight assistant"
+              className="w-11 h-11 rounded-full bg-white/5 border border-white/10 text-slate-300 hover:text-white hover:bg-white/10 inline-flex items-center justify-center"
+            >
+              <X size={18} />
+            </button>
+          )}
+        </div>
+
+        {/* Mode Selector */}
+        <label className="flex items-center gap-2">
+          <span className="text-xs font-medium text-slate-400 shrink-0">Mode</span>
+          <select
+            id={isMobileOverlay ? "model-selector-mobile" : "model-selector"}
+            aria-label="Select AI model mode"
+            value={activeModel}
+            onChange={(e) => setActiveModel(e.target.value)}
+            className="min-h-[42px] min-w-0 flex-1 bg-[#0a0a0a] text-xs text-slate-200 border border-white/10 rounded-xl px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#3b82f6]"
+          >
+            {MODELS.map((m) => (
+              <option key={m.id} value={m.id} className="bg-black">
+                {m.label}
+              </option>
+            ))}
+          </select>
+        </label>
+      </header>
+
+      {/* Messages */}
+      <div
+        aria-live="polite"
+        className="flex-1 overflow-y-auto p-4 space-y-3 scroll-smooth min-h-[260px] lg:max-h-[420px]"
+      >
+        {messages.map((msg, i) => (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            key={i}
+            className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+          >
+            <div
+              className={`max-w-[88%] p-3 rounded-2xl ${
+                msg.role === "user"
+                  ? "bg-gradient-to-r from-[#2573E6] to-[#6D3BD7] text-white rounded-br-sm"
+                  : "bg-white/5 border border-white/10 text-slate-200 rounded-bl-sm"
+              }`}
+            >
+              {msg.role === "user" ? (
+                <p className="text-[13px] leading-relaxed">{msg.content}</p>
+              ) : (
+                renderMessageContent(msg.content)
+              )}
+            </div>
+          </motion.div>
+        ))}
+
+        {isLoading && (
+          <div className="flex justify-start">
+            <div className="bg-white/5 px-3.5 py-2.5 rounded-2xl rounded-bl-sm border border-white/10 flex items-center gap-2 text-slate-400 text-xs">
+              <Loader2 size={14} className="animate-spin text-[#3b82f6]" /> Querying Model...
+            </div>
+          </div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Quick Prompts + Input */}
+      <footer className="bg-[#050505]/90 border-t border-white/10 p-3 flex flex-col gap-2.5">
+        <div
+          className="flex items-center gap-1.5 overflow-x-auto no-scrollbar"
+          role="list"
+          aria-label="Quick prompts"
+        >
+          {[
+            "Flight from Delhi to Mumbai tomorrow",
+            "When is the best time to book?",
+            "Vistara baggage policy?",
+          ].map((prompt) => (
+            <button
+              key={prompt}
+              type="button"
+              onClick={() => setInput(prompt)}
+              className="min-h-[34px] shrink-0 text-xs bg-white/5 border border-white/10 px-3 py-1 rounded-full text-slate-300 hover:bg-white/10 hover:text-white transition-colors"
+            >
+              {prompt}
+            </button>
+          ))}
+        </div>
+
+        <form onSubmit={handleSend} className="flex items-center gap-2">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            disabled={isLoading}
+            placeholder="Ask about flights, fares, or timing..."
+            aria-label="Chat message input"
+            className="min-h-[44px] flex-1 bg-[#0a0a0a] border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-[#3b82f6] disabled:opacity-50"
+          />
+          <button
+            type="submit"
+            disabled={!input.trim() || isLoading}
+            aria-label="Send message"
+            className="w-11 h-11 shrink-0 rounded-xl bg-gradient-to-r from-[#2573E6] to-[#6D3BD7] text-white inline-flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-95 transition-opacity"
+          >
+            <Send size={16} />
+          </button>
+        </form>
+      </footer>
+    </div>
+  );
+
   return (
     <>
+      {/* Desktop Docked Side Panel (12-col Grid Right Column) */}
+      <aside
+        aria-label="AeroBot Travel Assistant"
+        className="hidden lg:flex lg:flex-col rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl overflow-hidden lg:sticky lg:top-20 shadow-[0_20px_50px_rgba(0,0,0,0.45)]"
+      >
+        {panelBody(false)}
+      </aside>
+
+      {/* Mobile Floating Action Button */}
       <motion.button
         id="chatbot-toggle"
         aria-label="Open AeroBot flight assistant"
@@ -185,144 +376,28 @@ export default function Chatbot() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-primary to-secondary text-white rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(59,130,246,0.6)] z-50 hover:shadow-[0_0_40px_rgba(59,130,246,0.8)] transition-all border border-white/20"
+        className="lg:hidden fixed bottom-5 right-5 w-14 h-14 bg-gradient-to-r from-[#2573E6] to-[#6D3BD7] text-white rounded-full flex items-center justify-center shadow-[0_0_28px_rgba(59,130,246,0.55)] z-40 border border-white/20"
       >
-        <MessageSquare size={24} />
+        <MessageSquare size={22} />
         <span
           aria-hidden="true"
-          className={`absolute top-1 right-1 w-3 h-3 rounded-full border-2 border-[#050505] ${
+          className={`absolute top-0.5 right-0.5 w-3 h-3 rounded-full border-2 border-[#050505] ${
             isOnline ? "bg-emerald-400" : "bg-amber-400"
           }`}
         />
       </motion.button>
 
+      {/* Mobile Full-Screen Drawer */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 40, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 40, scale: 0.97 }}
-            transition={{ type: "spring", bounce: 0.15, duration: 0.45 }}
-            className="fixed inset-0 sm:inset-auto sm:bottom-26 sm:right-6 w-full sm:w-[420px] h-[100dvh] sm:h-[640px] sm:max-h-[calc(100vh-8rem)] glass rounded-none sm:rounded-3xl flex flex-col overflow-hidden z-50 shadow-[0_20px_60px_rgba(0,0,0,0.8)] border-0 sm:border sm:border-white/10 backdrop-blur-2xl"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 30 }}
+            transition={{ duration: 0.25 }}
+            className="lg:hidden fixed inset-0 z-50 bg-[#050505] flex flex-col"
           >
-            {/* Header */}
-            <div className="p-5 bg-black/40 border-b border-white/5 flex flex-col gap-4 backdrop-blur-md relative z-10">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/30 to-secondary/30 flex items-center justify-center text-primary border border-white/10 shadow-inner">
-                    <Bot size={20} />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-white flex items-center gap-2 tracking-wide">AeroBot <Sparkles size={14} className="text-secondary" /></h3>
-                    {isOnline ? (
-                      <p className="text-[10px] text-emerald-400 flex items-center gap-1.5 uppercase tracking-wider font-medium mt-0.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span> Online
-                      </p>
-                    ) : (
-                      <p className="text-[10px] text-amber-400 flex items-center gap-1.5 uppercase tracking-wider font-medium mt-0.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)]"></span> Offline
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <button 
-                  onClick={() => setIsOpen(false)} 
-                  aria-label="Close AeroBot flight assistant"
-                  className="text-slate-400 hover:text-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-white/5 rounded-full"
-                >
-                  <X size={20} />
-                </button>
-              </div>
-
-              {/* Model Selector Dropdown */}
-              <div className="relative group">
-                <select 
-                  id="model-selector"
-                  aria-label="Select AI model mode"
-                  value={activeModel}
-                  onChange={(e) => setActiveModel(e.target.value)}
-                  className="w-full bg-[#0a0a0a] text-xs text-slate-300 border border-white/10 rounded-xl px-4 py-2.5 appearance-none focus:outline-none focus:ring-1 focus:ring-primary/50 shadow-inner transition-colors group-hover:border-white/20 font-medium"
-                >
-                  {MODELS.map(m => (
-                    <option key={m.id} value={m.id} className="bg-black">{m.label}</option>
-                  ))}
-                </select>
-                <Settings2 size={14} className="absolute right-4 top-[11px] text-slate-400 pointer-events-none group-hover:text-primary transition-colors" />
-              </div>
-            </div>
-
-            {/* Messages */}
-            <div 
-              aria-live="polite"
-              className="flex-1 overflow-y-auto p-5 space-y-5 scroll-smooth bg-gradient-to-b from-black/0 to-black/20"
-            >
-              {messages.map((msg, i) => (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  key={i}
-                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div className={`max-w-[85%] p-4 rounded-2xl ${
-                    msg.role === 'user' 
-                      ? 'bg-gradient-to-br from-primary to-blue-600 text-white rounded-tr-sm shadow-[0_8px_20px_rgba(59,130,246,0.3)]' 
-                      : 'bg-white/5 border border-white/10 backdrop-blur-md text-slate-300 rounded-tl-sm shadow-inner shadow-white/5'
-                  }`}>
-                    {msg.role === 'user' ? (
-                      <p className="text-[13px] leading-relaxed">{msg.content}</p>
-                    ) : (
-                      renderMessageContent(msg.content)
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-              {isLoading && (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-start">
-                  <div className="bg-white/5 p-4 rounded-2xl rounded-tl-sm border border-white/10 flex items-center gap-3 text-slate-400 text-xs tracking-wider uppercase font-medium backdrop-blur-md shadow-inner shadow-white/5">
-                    <Loader2 size={16} className="animate-spin text-primary" /> Querying Model...
-                  </div>
-                </motion.div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
-
-            {/* Quick Prompts */}
-            {messages.length === 1 && (
-              <div className="px-5 pb-3 flex gap-2.5 overflow-x-auto whitespace-nowrap scrollbar-hide">
-                {["Cheapest route to Mumbai?", "When is the best time to book?", "Vistara baggage policy?"].map(prompt => (
-                  <button 
-                    key={prompt}
-                    onClick={() => { setInput(prompt); }}
-                    className="text-xs bg-black/40 border border-white/10 px-4 py-2 rounded-full text-slate-300 hover:bg-primary/20 hover:text-white hover:border-primary/50 transition-all whitespace-nowrap font-medium shadow-sm"
-                  >
-                    {prompt}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {/* Input */}
-            <form onSubmit={handleSend} className="p-4 bg-black/60 border-t border-white/10 backdrop-blur-xl relative z-10">
-              <div className="relative group">
-                <input
-                  type="text"
-                  value={input}
-                  onChange={e => setInput(e.target.value)}
-                  disabled={isLoading}
-                  placeholder="Ask about flights..."
-                  aria-label="Chat message input"
-                  className="w-full min-h-[48px] bg-[#0a0a0a] border border-white/10 rounded-full pl-5 pr-14 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-primary/50 shadow-inner transition-all group-hover:border-white/20 disabled:opacity-50"
-                />
-                <button 
-                  type="submit"
-                  disabled={!input.trim() || isLoading}
-                  aria-label="Send message"
-                  className="absolute right-1.5 top-1.5 bottom-1.5 w-11 bg-primary text-primary-foreground rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-500 transition-colors shadow-md"
-                >
-                  <Send size={16} className="ml-0.5" />
-                </button>
-              </div>
-            </form>
+            {panelBody(true)}
           </motion.div>
         )}
       </AnimatePresence>

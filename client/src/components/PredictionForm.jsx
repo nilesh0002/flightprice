@@ -1,7 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { PlaneTakeoff, PlaneLanding, Calendar, Building2, Briefcase, GitCommit, Search, Users, ArrowLeftRight } from "lucide-react";
+import {
+  PlaneTakeoff,
+  PlaneLanding,
+  Calendar,
+  Search,
+  ArrowLeftRight,
+  AlertCircle,
+  X,
+} from "lucide-react";
 import { useState } from "react";
 
 // Synchronized with server supported categories
@@ -11,7 +19,7 @@ export const SUPPORTED_CABINS = ["Economy", "Business"];
 export const SUPPORTED_STOPS = ["0", "1", "2"];
 export const SUPPORTED_PASSENGERS = ["1", "2", "3", "4", "5+"];
 
-export default function PredictionForm({ onPredict, isPredicting }) {
+export default function PredictionForm({ onPredict, isPredicting, errorMessage, onDismissError }) {
   const todayStr = typeof window !== "undefined" ? new Date().toISOString().split("T")[0] : "";
 
   const [formData, setFormData] = useState({
@@ -21,10 +29,15 @@ export default function PredictionForm({ onPredict, isPredicting }) {
     airline: "IndiGo",
     cabin: "Economy",
     total_stops: "0",
-    passengers: "1"
+    passengers: "1",
   });
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const isSameRoute = formData.source === formData.destination;
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if (onDismissError) onDismissError();
+  };
 
   const handleSwap = () => {
     setFormData((prev) => ({
@@ -32,6 +45,7 @@ export default function PredictionForm({ onPredict, isPredicting }) {
       source: prev.destination,
       destination: prev.source,
     }));
+    if (onDismissError) onDismissError();
   };
 
   const handleSubmit = (e) => {
@@ -39,148 +53,223 @@ export default function PredictionForm({ onPredict, isPredicting }) {
     onPredict(formData);
   };
 
-  const inputClasses = "w-full min-h-[44px] bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 pl-11 text-sm sm:text-base text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary transition-all peer font-medium shadow-inner shadow-black/50";
-  const labelClasses = "absolute left-11 -top-2.5 bg-[#050505] px-2 rounded text-xs text-primary font-medium transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-sm peer-placeholder-shown:text-slate-400 peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-primary peer-focus:bg-[#050505]";
+  const selectBase =
+    "min-h-[44px] w-full rounded-xl bg-[#0a0a0a] border border-white/10 px-3 py-2 text-sm text-white focus:border-[#3b82f6] focus:ring-1 focus:ring-[#3b82f6] focus:outline-none transition-colors";
+
+  const activeError = isSameRoute
+    ? "Origin and destination cities cannot be identical."
+    : errorMessage;
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="w-full max-w-5xl mx-auto -mt-8 sm:-mt-10 mb-14 sm:mb-20 relative z-20"
+    <motion.article
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35 }}
+      className="rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl p-5 sm:p-6 flex flex-col gap-4 shadow-[0_20px_50px_rgba(0,0,0,0.45)]"
     >
-      <div className="glass rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 relative overflow-hidden">
-        {/* Decorative inner glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
-        
-        <div className="flex items-center justify-between gap-3 mb-6 sm:mb-8">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-primary/10 rounded-xl border border-primary/20">
-              <Search size={22} className="text-primary" />
-            </div>
-            <div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">Market Forecast</h2>
-              <p className="text-xs sm:text-sm text-slate-400">Configure your route parameters for real-time AI analysis</p>
-            </div>
+      <header className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-xl bg-[#3b82f6]/15 border border-[#3b82f6]/30 flex items-center justify-center text-[#3b82f6] shrink-0">
+          <Search size={18} aria-hidden="true" />
+        </div>
+        <div className="flex flex-col">
+          <h2 className="text-lg font-semibold text-white tracking-tight">Market Forecast</h2>
+          <p className="text-xs sm:text-sm text-slate-400">
+            Configure your route parameters for real-time AI analysis
+          </p>
+        </div>
+      </header>
+
+      {/* Inline Dismissible Error Banner */}
+      {activeError && (
+        <div
+          role="alert"
+          className="rounded-xl bg-rose-500/15 border border-rose-500/30 px-3.5 py-2.5 flex items-start justify-between gap-2"
+        >
+          <div className="flex items-start gap-2">
+            <AlertCircle size={16} className="text-rose-400 shrink-0 mt-0.5" aria-hidden="true" />
+            <p className="text-xs sm:text-sm text-rose-300">{activeError}</p>
           </div>
+          {!isSameRoute && onDismissError && (
+            <button
+              type="button"
+              onClick={onDismissError}
+              aria-label="Dismiss error"
+              className="min-w-[32px] min-h-[32px] -mr-1 -mt-0.5 rounded-lg text-rose-300 hover:bg-rose-500/20 inline-flex items-center justify-center"
+            >
+              <X size={15} aria-hidden="true" />
+            </button>
+          )}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
+        {/* Row 1: From + Quick Swap + To + Departure Date */}
+        <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr_1fr] items-end gap-2.5">
+          <label className="flex flex-col gap-1">
+            <span className="text-xs font-medium text-slate-400">From</span>
+            <div className="relative flex items-center">
+              <PlaneTakeoff
+                size={16}
+                aria-hidden="true"
+                className="text-[#3b82f6] absolute left-3 pointer-events-none"
+              />
+              <select
+                aria-label="Origin city"
+                name="source"
+                value={formData.source}
+                onChange={handleChange}
+                className={`${selectBase} pl-9 pr-2`}
+              >
+                {SUPPORTED_AIRPORTS.map((a) => (
+                  <option key={a} value={a} className="bg-slate-900">
+                    {a}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </label>
+
+          <div className="flex justify-center sm:block">
+            <button
+              type="button"
+              onClick={handleSwap}
+              aria-label="Swap origin and destination cities"
+              title="Swap origin and destination"
+              className="w-11 h-11 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white inline-flex items-center justify-center hover:bg-white/10 active:scale-95 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3b82f6]"
+            >
+              <ArrowLeftRight size={17} className="text-[#3b82f6]" aria-hidden="true" />
+            </button>
+          </div>
+
+          <label className="flex flex-col gap-1">
+            <span className="text-xs font-medium text-slate-400">To</span>
+            <div className="relative flex items-center">
+              <PlaneLanding
+                size={16}
+                aria-hidden="true"
+                className="text-[#8b5cf6] absolute left-3 pointer-events-none"
+              />
+              <select
+                aria-label="Destination city"
+                name="destination"
+                value={formData.destination}
+                onChange={handleChange}
+                className={`${selectBase} pl-9 pr-2`}
+              >
+                {SUPPORTED_AIRPORTS.map((a) => (
+                  <option key={a} value={a} className="bg-slate-900">
+                    {a}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </label>
+
+          <label className="flex flex-col gap-1">
+            <span className="text-xs font-medium text-slate-400">Departure</span>
+            <div className="relative flex items-center">
+              <Calendar
+                size={16}
+                aria-hidden="true"
+                className="text-[#3b82f6] absolute left-3 pointer-events-none"
+              />
+              <input
+                aria-label="Departure date"
+                type="date"
+                name="date"
+                value={formData.date}
+                min={todayStr}
+                onChange={handleChange}
+                className={`${selectBase} pl-9 pr-2 font-mono text-xs [color-scheme:dark]`}
+                required
+              />
+            </div>
+          </label>
+        </div>
+
+        {/* Row 2: Balanced 2-col Mobile / 4-col Desktop Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <label className="flex flex-col gap-1">
+            <span className="text-xs font-medium text-slate-400">Airline</span>
+            <select
+              aria-label="Airline"
+              name="airline"
+              value={formData.airline}
+              onChange={handleChange}
+              className={selectBase}
+            >
+              {SUPPORTED_AIRLINES.map((a) => (
+                <option key={a} value={a} className="bg-slate-900">
+                  {a}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="flex flex-col gap-1">
+            <span className="text-xs font-medium text-slate-400">Cabin Class</span>
+            <select
+              aria-label="Cabin class"
+              name="cabin"
+              value={formData.cabin}
+              onChange={handleChange}
+              className={selectBase}
+            >
+              {SUPPORTED_CABINS.map((c) => (
+                <option key={c} value={c} className="bg-slate-900">
+                  {c}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="flex flex-col gap-1">
+            <span className="text-xs font-medium text-slate-400">Connections</span>
+            <select
+              aria-label="Connections or stops"
+              name="total_stops"
+              value={formData.total_stops}
+              onChange={handleChange}
+              className={selectBase}
+            >
+              {SUPPORTED_STOPS.map((s) => (
+                <option key={s} value={s} className="bg-slate-900">
+                  {s} {s === "1" ? "Stop" : "Stops"}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="flex flex-col gap-1">
+            <span className="text-xs font-medium text-slate-400">Travelers</span>
+            <select
+              aria-label="Number of travelers"
+              name="passengers"
+              value={formData.passengers}
+              onChange={handleChange}
+              className={`${selectBase} font-mono text-xs`}
+            >
+              {SUPPORTED_PASSENGERS.map((p) => (
+                <option key={p} value={p} className="bg-slate-900">
+                  {p} {p === "1" ? "Adult" : "Adults"}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+
+        {/* Row 3: Full-Width Symmetrical Primary CTA */}
+        <footer className="pt-1">
           <button
-            type="button"
-            onClick={handleSwap}
-            aria-label="Swap origin and destination cities"
-            title="Swap origin and destination"
-            className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-[#0a0a0a] border border-white/10 text-slate-300 hover:text-white hover:border-primary/50 transition-colors shrink-0"
-          >
-            <ArrowLeftRight size={18} />
-          </button>
-        </div>
-
-        <form onSubmit={handleSubmit} className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        
-        {/* Origin */}
-        <div className="relative group col-span-2 sm:col-span-1">
-          <PlaneTakeoff size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
-          <select aria-label="Origin city" name="source" value={formData.source} onChange={handleChange} className={inputClasses}>
-            {SUPPORTED_AIRPORTS.map(a => <option key={a} value={a} className="bg-slate-900">{a}</option>)}
-          </select>
-          <label className={labelClasses}>From</label>
-        </div>
-
-        {/* Destination */}
-        <div className="relative group col-span-2 sm:col-span-1">
-          <PlaneLanding size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
-          <select aria-label="Destination city" name="destination" value={formData.destination} onChange={handleChange} className={inputClasses}>
-            {SUPPORTED_AIRPORTS.map(a => <option key={a} value={a} className="bg-slate-900">{a}</option>)}
-          </select>
-          <label className={labelClasses}>To</label>
-        </div>
-
-        {/* Date */}
-        <div className="relative group col-span-2 sm:col-span-1">
-          <Calendar size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
-          <input 
-            aria-label="Departure date"
-            type="date" 
-            name="date" 
-            value={formData.date} 
-            min={todayStr}
-            onChange={handleChange} 
-            className={inputClasses} 
-            required 
-          />
-          <label className={labelClasses}>Departure Date</label>
-        </div>
-
-        {/* Airline */}
-        <div className="relative group col-span-2 sm:col-span-1">
-          <Building2 size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
-          <select aria-label="Airline" name="airline" value={formData.airline} onChange={handleChange} className={inputClasses}>
-            {SUPPORTED_AIRLINES.map(a => <option key={a} value={a} className="bg-slate-900">{a}</option>)}
-          </select>
-          <label className={labelClasses}>Airline</label>
-        </div>
-
-        {/* Cabin */}
-        <div className="relative group col-span-1">
-          <Briefcase size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
-          <select aria-label="Cabin class" name="cabin" value={formData.cabin} onChange={handleChange} className={inputClasses}>
-            {SUPPORTED_CABINS.map(c => <option key={c} value={c} className="bg-slate-900">{c}</option>)}
-          </select>
-          <label className={labelClasses}>Cabin Class</label>
-        </div>
-
-        {/* Stops */}
-        <div className="relative group col-span-1">
-          <GitCommit size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
-          <select aria-label="Connections or stops" name="total_stops" value={formData.total_stops} onChange={handleChange} className={inputClasses}>
-            {SUPPORTED_STOPS.map(s => <option key={s} value={s} className="bg-slate-900">{s} Stops</option>)}
-          </select>
-          <label className={labelClasses}>Connections</label>
-        </div>
-        
-        {/* Passengers */}
-        <div className="relative group col-span-2 lg:col-span-1">
-          <Users size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
-          <select aria-label="Number of passengers" name="passengers" value={formData.passengers} onChange={handleChange} className={inputClasses}>
-            {SUPPORTED_PASSENGERS.map(p => <option key={p} value={p} className="bg-slate-900">{p} Passenger{p!=='1'?'s':''}</option>)}
-          </select>
-          <label className={labelClasses}>Travelers</label>
-        </div>
-
-        {/* Submit Button */}
-        <div className="col-span-2 lg:col-span-2 flex items-end">
-          <motion.button
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.98 }}
             type="submit"
-            disabled={isPredicting}
-            className="w-full min-h-[48px] bg-gradient-to-r from-primary to-secondary text-white font-bold py-3 px-6 rounded-xl shadow-lg hover:shadow-primary/30 transition-all flex justify-center items-center gap-2 relative overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed"
+            disabled={isPredicting || isSameRoute}
+            className="w-full min-h-[48px] px-6 py-3 rounded-xl bg-gradient-to-r from-[#2573E6] to-[#6D3BD7] text-white text-sm font-semibold inline-flex items-center justify-center gap-2 hover:opacity-95 active:scale-[0.99] transition-all disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3b82f6] shadow-lg shadow-blue-900/20"
           >
-            {isPredicting ? (
-              <span className="flex items-center gap-2">
-                <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }}>
-                  <Search size={20} />
-                </motion.div>
-                Analyzing Market...
-              </span>
-            ) : (
-              <span className="flex items-center gap-2">
-                <Search size={20} />
-                Generate Market Forecast
-              </span>
-            )}
-            
-            {/* Shimmer effect */}
-            <motion.div 
-              initial={{ x: "-100%" }}
-              animate={{ x: "200%" }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
-              className="absolute inset-0 bg-white/20 skew-x-12 w-1/4 pointer-events-none"
-            />
-          </motion.button>
-        </div>
-
+            <Search size={17} className={isPredicting ? "animate-spin" : ""} aria-hidden="true" />
+            <span>{isPredicting ? "Analyzing Market..." : "Generate Market Forecast"}</span>
+          </button>
+        </footer>
       </form>
-      </div>
-    </motion.div>
+    </motion.article>
   );
 }
