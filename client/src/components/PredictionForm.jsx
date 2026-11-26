@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { PlaneTakeoff, PlaneLanding, Calendar, Building2, Briefcase, GitCommit, Search, Users } from "lucide-react";
+import { PlaneTakeoff, PlaneLanding, Calendar, Building2, Briefcase, GitCommit, Search, Users, ArrowLeftRight } from "lucide-react";
 import { useState } from "react";
 
 // Synchronized with server supported categories
@@ -26,12 +26,20 @@ export default function PredictionForm({ onPredict, isPredicting }) {
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  const handleSwap = () => {
+    setFormData((prev) => ({
+      ...prev,
+      source: prev.destination,
+      destination: prev.source,
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     onPredict(formData);
   };
 
-  const inputClasses = "w-full bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 pl-11 text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary transition-all peer font-medium shadow-inner shadow-black/50";
+  const inputClasses = "w-full min-h-[44px] bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 pl-11 text-sm sm:text-base text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary transition-all peer font-medium shadow-inner shadow-black/50";
   const labelClasses = "absolute left-11 -top-2.5 bg-[#050505] px-2 rounded text-xs text-primary font-medium transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-sm peer-placeholder-shown:text-slate-400 peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-primary peer-focus:bg-[#050505]";
 
   return (
@@ -39,46 +47,58 @@ export default function PredictionForm({ onPredict, isPredicting }) {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="w-full max-w-5xl mx-auto -mt-10 mb-20 relative z-20"
+      className="w-full max-w-5xl mx-auto -mt-8 sm:-mt-10 mb-14 sm:mb-20 relative z-20"
     >
-      <div className="glass rounded-3xl p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 relative overflow-hidden">
+      <div className="glass rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 relative overflow-hidden">
         {/* Decorative inner glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
         
-        <div className="flex items-center gap-3 mb-8">
-          <div className="p-2.5 bg-primary/10 rounded-xl border border-primary/20">
-            <Search size={24} className="text-primary" />
+        <div className="flex items-center justify-between gap-3 mb-6 sm:mb-8">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 bg-primary/10 rounded-xl border border-primary/20">
+              <Search size={22} className="text-primary" />
+            </div>
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">Market Forecast</h2>
+              <p className="text-xs sm:text-sm text-slate-400">Configure your route parameters for real-time AI analysis</p>
+            </div>
           </div>
-          <div>
-            <h2 className="text-2xl font-bold text-white tracking-tight">Market Forecast</h2>
-            <p className="text-sm text-slate-400">Configure your route parameters for real-time AI analysis</p>
-          </div>
+          <button
+            type="button"
+            onClick={handleSwap}
+            aria-label="Swap origin and destination cities"
+            title="Swap origin and destination"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-[#0a0a0a] border border-white/10 text-slate-300 hover:text-white hover:border-primary/50 transition-colors shrink-0"
+          >
+            <ArrowLeftRight size={18} />
+          </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <form onSubmit={handleSubmit} className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         
         {/* Origin */}
-        <div className="relative group">
+        <div className="relative group col-span-2 sm:col-span-1">
           <PlaneTakeoff size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
-          <select name="source" value={formData.source} onChange={handleChange} className={inputClasses}>
+          <select aria-label="Origin city" name="source" value={formData.source} onChange={handleChange} className={inputClasses}>
             {SUPPORTED_AIRPORTS.map(a => <option key={a} value={a} className="bg-slate-900">{a}</option>)}
           </select>
           <label className={labelClasses}>From</label>
         </div>
 
         {/* Destination */}
-        <div className="relative group">
+        <div className="relative group col-span-2 sm:col-span-1">
           <PlaneLanding size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
-          <select name="destination" value={formData.destination} onChange={handleChange} className={inputClasses}>
+          <select aria-label="Destination city" name="destination" value={formData.destination} onChange={handleChange} className={inputClasses}>
             {SUPPORTED_AIRPORTS.map(a => <option key={a} value={a} className="bg-slate-900">{a}</option>)}
           </select>
           <label className={labelClasses}>To</label>
         </div>
 
         {/* Date */}
-        <div className="relative group">
+        <div className="relative group col-span-2 sm:col-span-1">
           <Calendar size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
           <input 
+            aria-label="Departure date"
             type="date" 
             name="date" 
             value={formData.date} 
@@ -91,49 +111,49 @@ export default function PredictionForm({ onPredict, isPredicting }) {
         </div>
 
         {/* Airline */}
-        <div className="relative group">
+        <div className="relative group col-span-2 sm:col-span-1">
           <Building2 size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
-          <select name="airline" value={formData.airline} onChange={handleChange} className={inputClasses}>
+          <select aria-label="Airline" name="airline" value={formData.airline} onChange={handleChange} className={inputClasses}>
             {SUPPORTED_AIRLINES.map(a => <option key={a} value={a} className="bg-slate-900">{a}</option>)}
           </select>
           <label className={labelClasses}>Airline</label>
         </div>
 
         {/* Cabin */}
-        <div className="relative group">
+        <div className="relative group col-span-1">
           <Briefcase size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
-          <select name="cabin" value={formData.cabin} onChange={handleChange} className={inputClasses}>
+          <select aria-label="Cabin class" name="cabin" value={formData.cabin} onChange={handleChange} className={inputClasses}>
             {SUPPORTED_CABINS.map(c => <option key={c} value={c} className="bg-slate-900">{c}</option>)}
           </select>
           <label className={labelClasses}>Cabin Class</label>
         </div>
 
         {/* Stops */}
-        <div className="relative group">
+        <div className="relative group col-span-1">
           <GitCommit size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
-          <select name="total_stops" value={formData.total_stops} onChange={handleChange} className={inputClasses}>
+          <select aria-label="Connections or stops" name="total_stops" value={formData.total_stops} onChange={handleChange} className={inputClasses}>
             {SUPPORTED_STOPS.map(s => <option key={s} value={s} className="bg-slate-900">{s} Stops</option>)}
           </select>
           <label className={labelClasses}>Connections</label>
         </div>
         
         {/* Passengers */}
-        <div className="relative group">
+        <div className="relative group col-span-2 lg:col-span-1">
           <Users size={18} className="absolute left-4 top-3.5 text-slate-400 group-focus-within:text-primary transition-colors z-10" />
-          <select name="passengers" value={formData.passengers} onChange={handleChange} className={inputClasses}>
+          <select aria-label="Number of passengers" name="passengers" value={formData.passengers} onChange={handleChange} className={inputClasses}>
             {SUPPORTED_PASSENGERS.map(p => <option key={p} value={p} className="bg-slate-900">{p} Passenger{p!=='1'?'s':''}</option>)}
           </select>
           <label className={labelClasses}>Travelers</label>
         </div>
 
         {/* Submit Button */}
-        <div className="md:col-span-2 lg:col-span-2 flex items-end">
+        <div className="col-span-2 lg:col-span-2 flex items-end">
           <motion.button
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={isPredicting}
-            className="w-full bg-gradient-to-r from-primary to-secondary text-white font-bold py-3 px-6 rounded-xl shadow-lg hover:shadow-primary/30 transition-all flex justify-center items-center gap-2 relative overflow-hidden"
+            className="w-full min-h-[48px] bg-gradient-to-r from-primary to-secondary text-white font-bold py-3 px-6 rounded-xl shadow-lg hover:shadow-primary/30 transition-all flex justify-center items-center gap-2 relative overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed"
           >
             {isPredicting ? (
               <span className="flex items-center gap-2">

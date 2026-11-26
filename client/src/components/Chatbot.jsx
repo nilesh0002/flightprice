@@ -185,19 +185,25 @@ export default function Chatbot() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-r from-primary to-secondary text-white rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(59,130,246,0.6)] z-50 hover:shadow-[0_0_40px_rgba(59,130,246,0.8)] transition-all border border-white/20"
+        className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-primary to-secondary text-white rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(59,130,246,0.6)] z-50 hover:shadow-[0_0_40px_rgba(59,130,246,0.8)] transition-all border border-white/20"
       >
-        <MessageSquare size={26} />
+        <MessageSquare size={24} />
+        <span
+          aria-hidden="true"
+          className={`absolute top-1 right-1 w-3 h-3 rounded-full border-2 border-[#050505] ${
+            isOnline ? "bg-emerald-400" : "bg-amber-400"
+          }`}
+        />
       </motion.button>
 
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            initial={{ opacity: 0, y: 40, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 50, scale: 0.95 }}
-            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-            className="fixed bottom-28 right-6 w-[420px] max-w-[calc(100vw-3rem)] h-[650px] max-h-[calc(100vh-8rem)] glass rounded-3xl flex flex-col overflow-hidden z-50 shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 backdrop-blur-2xl"
+            exit={{ opacity: 0, y: 40, scale: 0.97 }}
+            transition={{ type: "spring", bounce: 0.15, duration: 0.45 }}
+            className="fixed inset-0 sm:inset-auto sm:bottom-26 sm:right-6 w-full sm:w-[420px] h-[100dvh] sm:h-[640px] sm:max-h-[calc(100vh-8rem)] glass rounded-none sm:rounded-3xl flex flex-col overflow-hidden z-50 shadow-[0_20px_60px_rgba(0,0,0,0.8)] border-0 sm:border sm:border-white/10 backdrop-blur-2xl"
           >
             {/* Header */}
             <div className="p-5 bg-black/40 border-b border-white/5 flex flex-col gap-4 backdrop-blur-md relative z-10">
@@ -222,7 +228,7 @@ export default function Chatbot() {
                 <button 
                   onClick={() => setIsOpen(false)} 
                   aria-label="Close AeroBot flight assistant"
-                  className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-white/5 rounded-full"
+                  className="text-slate-400 hover:text-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-white/5 rounded-full"
                 >
                   <X size={20} />
                 </button>
@@ -305,13 +311,13 @@ export default function Chatbot() {
                   disabled={isLoading}
                   placeholder="Ask about flights..."
                   aria-label="Chat message input"
-                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-full pl-5 pr-14 py-3.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-primary/50 shadow-inner transition-all group-hover:border-white/20 disabled:opacity-50"
+                  className="w-full min-h-[48px] bg-[#0a0a0a] border border-white/10 rounded-full pl-5 pr-14 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-primary/50 shadow-inner transition-all group-hover:border-white/20 disabled:opacity-50"
                 />
                 <button 
                   type="submit"
                   disabled={!input.trim() || isLoading}
                   aria-label="Send message"
-                  className="absolute right-2 top-2 bottom-2 w-10 bg-primary text-primary-foreground rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-500 transition-colors shadow-md"
+                  className="absolute right-1.5 top-1.5 bottom-1.5 w-11 bg-primary text-primary-foreground rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-500 transition-colors shadow-md"
                 >
                   <Send size={16} className="ml-0.5" />
                 </button>

@@ -45,13 +45,18 @@ export default function Home() {
   const [isPredicting, setIsPredicting] = useState(false);
   const [predictionResult, setPredictionResult] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [apiOnline, setApiOnline] = useState(true);
   
   const predictRef = useRef(null);
 
   // Silently wake up backend (e.g., Render free-tier cold start) on page load
   useEffect(() => {
+    let mounted = true;
     const apiUrl = process.env.NEXT_PUBLIC_ML_API_URL || process.env.NEXT_PUBLIC_API_URL || "https://flightprice-sghf.onrender.com";
-    fetch(`${apiUrl}/health`, { method: "GET" }).catch(() => {});
+    fetch(`${apiUrl}/health`, { method: "GET" })
+      .then((res) => { if (mounted) setApiOnline(res.ok); })
+      .catch(() => { if (mounted) setApiOnline(false); });
+    return () => { mounted = false; };
   }, []);
 
   const handleScrollToPredict = () => {
@@ -121,15 +126,47 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen relative selection:bg-primary/30">
+    <main className="min-h-screen relative selection:bg-primary/30 pb-20 sm:pb-10">
+      {/* Compact Sticky Top Bar */}
+      <header className="sticky top-0 z-40 w-full bg-[#050505]/80 backdrop-blur-xl border-b border-white/10">
+        <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-xs shadow-md">
+              AM
+            </div>
+            <span className="font-bold text-white tracking-tight text-sm sm:text-base">AeroMind</span>
+          </div>
+          <div className="flex items-center gap-2.5">
+            <span
+              role="status"
+              className={`px-2.5 py-1 rounded-full text-[11px] font-medium flex items-center gap-1.5 border ${
+                apiOnline
+                  ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
+                  : "bg-amber-500/10 text-amber-400 border-amber-500/30"
+              }`}
+            >
+              <span className={`w-1.5 h-1.5 rounded-full ${apiOnline ? "bg-emerald-400" : "bg-amber-400"}`} />
+              {apiOnline ? "Online" : "Offline"}
+            </span>
+            <button
+              type="button"
+              onClick={handleScrollToPredict}
+              className="min-h-[36px] px-3.5 py-1.5 rounded-full bg-primary/20 hover:bg-primary/30 text-primary border border-primary/30 text-xs font-semibold transition-colors"
+            >
+              Predict
+            </button>
+          </div>
+        </div>
+      </header>
+
       <Hero onScrollToPredict={handleScrollToPredict} />
       
       <div ref={predictRef} className="px-4 relative z-10">
         <PredictionForm onPredict={handlePredict} isPredicting={isPredicting} />
         {errorMessage && (
-          <div className="max-w-5xl mx-auto -mt-14 mb-8 p-4 bg-rose-500/10 border border-rose-500/30 rounded-2xl text-rose-300 text-sm flex items-center justify-between">
+          <div role="alert" className="max-w-5xl mx-auto -mt-8 sm:-mt-14 mb-8 p-4 bg-rose-500/10 border border-rose-500/30 rounded-2xl text-rose-300 text-sm flex items-center justify-between gap-4">
             <span>{errorMessage}</span>
-            <button onClick={() => setErrorMessage(null)} className="text-xs uppercase font-bold tracking-wider hover:text-white">Dismiss</button>
+            <button onClick={() => setErrorMessage(null)} className="text-xs uppercase font-bold tracking-wider hover:text-white shrink-0 min-h-[36px] px-2">Dismiss</button>
           </div>
         )}
         <ResultsDashboard result={predictionResult} />

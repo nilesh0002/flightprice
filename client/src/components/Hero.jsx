@@ -19,7 +19,7 @@ export default function Hero({ onScrollToPredict }) {
   }, []);
 
   return (
-    <section className="relative w-full min-h-[80vh] flex flex-col items-center justify-center overflow-hidden">
+    <section className="relative w-full min-h-[58vh] sm:min-h-[75vh] pt-20 pb-14 sm:py-0 flex flex-col items-center justify-center overflow-hidden">
       {/* Background Particles / Effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
@@ -45,25 +45,25 @@ export default function Hero({ onScrollToPredict }) {
           AeroMind Intelligence
         </motion.div>
 
-        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 min-h-[80px] text-gradient">
+        <h1 className="text-3xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-4 sm:mb-6 min-h-[64px] sm:min-h-[80px] text-gradient">
           {text}
           <motion.span 
             animate={{ opacity: [1, 0] }} 
             transition={{ repeat: Infinity, duration: 1, ease: "easeInOut" }}
-            className="inline-block w-1 h-10 md:h-14 bg-primary ml-2 align-middle opacity-80"
+            className="inline-block w-1 h-8 sm:h-10 md:h-14 bg-primary ml-2 align-middle opacity-80"
           />
         </h1>
         
-        <p className="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+        <p className="text-sm sm:text-lg md:text-xl text-slate-400 mb-8 sm:mb-10 max-w-2xl mx-auto font-light leading-relaxed">
           Leverage the power of advanced machine learning models to forecast airline pricing trends. Know exactly when to book your next flight to maximize savings.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={onScrollToPredict}
-            className="flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-full font-semibold hover:shadow-[0_0_24px_rgba(59,130,246,0.5)] transition-all"
+            className="w-full sm:w-auto min-h-[48px] flex items-center justify-center gap-2 px-8 py-3.5 bg-primary text-primary-foreground rounded-full font-semibold hover:shadow-[0_0_24px_rgba(59,130,246,0.5)] transition-all"
           >
             Predict Now <ChevronRight size={18} />
           </motion.button>
@@ -71,7 +71,7 @@ export default function Hero({ onScrollToPredict }) {
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="flex items-center gap-2 px-8 py-4 bg-white/5 border border-white/10 text-white rounded-full font-semibold hover:bg-white/10 transition-all backdrop-blur-md"
+            className="w-full sm:w-auto min-h-[48px] flex items-center justify-center gap-2 px-8 py-3.5 bg-white/5 border border-white/10 text-white rounded-full font-semibold hover:bg-white/10 transition-all backdrop-blur-md"
             onClick={() => document.getElementById("chatbot-toggle")?.click()}
           >
             <MessageSquare size={18} className="text-primary" />
