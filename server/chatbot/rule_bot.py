@@ -563,7 +563,14 @@ def fallback_general_qa(message: str, model_choice: str = "general") -> str:
         )
 
     outside_answer = None
-    if any(b in msg for b in ["baggage", "luggage"]):
+    if "pm of india" in msg or "prime minister of india" in msg or "prime minister" in msg:
+        outside_answer = "The Prime Minister of India is Narendra Modi."
+    elif ("today" in msg and "what" in msg) or ("day" in msg and "today" in msg) or "today's date" in msg:
+        td = datetime.datetime.now().strftime("%A, %B %d, %Y")
+        outside_answer = f"Today is {td}."
+    elif "capital of india" in msg:
+        outside_answer = "The capital of India is New Delhi."
+    elif any(b in msg for b in ["baggage", "luggage"]):
         outside_answer = (
             "Standard domestic baggage allowances in India:\n"
             "• **IndiGo, SpiceJet, Air India (Economy):** 15 kg check-in baggage and 7 kg (1 piece) cabin baggage.\n"
@@ -591,19 +598,24 @@ def fallback_general_qa(message: str, model_choice: str = "general") -> str:
             )
         return outside_answer
 
-    default_msg = (
+    default_given = (
         "Please specify your departure and destination cities along with your travel date "
         "(e.g., 'Predict flight from Delhi to Mumbai tomorrow on Vistara'). "
         "Supported cities: Bangalore, Chennai, Delhi, Kolkata, and Mumbai."
     )
+    default_outside = (
+        "Live AI (Groq LLM) is currently unavailable on the server (GROQ_API_KEY is not configured or unreachable), "
+        "so open-ended outside-knowledge questions cannot be answered right now. "
+        "I can still help with airline baggage rules, booking tips, and supported routes."
+    )
     if model_choice == "general":
         return (
             "FROM GIVEN DATA:\n"
-            f"{default_msg}\n\n"
+            f"{default_given}\n\n"
             "FROM OUTSIDE DATA:\n"
-            "You can also ask about airline baggage policies, best booking windows, or flight durations."
+            f"{default_outside}"
         )
-    return default_msg
+    return default_outside
 
 
 def get_chat_response(message: str, model_choice: str = "general") -> str:
